@@ -1,0 +1,4 @@
+# VERAin
+VERA common input processor
+
+CASL's modeling and simulation technology, the Virtual Environment for Reactor Applications (VERA), incorporates coupled physics and science-based models, state-of-the-art numerical methods, modern computational science, integrated uncertainty quantification (UQ) and validation against data from operating pressurized water reactors (PWRs), single-effect experiments, and integral tests. The computational simulation component of VERA is the VERA Core Simulator (VERA-CS). The core simulator is the specific collection of multi-physics computer codes used to model and deplete a LWR core over multiple cycles. The core simulator has a single common input file that drives all of the different physics codes. The parser code, VERAIn, converts VERA Input into an XML file that is used as input to different VERA codes.
