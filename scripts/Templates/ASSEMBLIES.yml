@@ -1,0 +1,181 @@
+ASSEMBLIES:
+  _pltype: list
+  _do:
+    - setdb MAIN_DB
+    - namesunique %ASSEMBLY/*/$/%axial
+    - isinmaps %ASSEMBLY/*/$/%axial,CORE/@assm_map
+
+  _tr:
+    _name: _loop
+    _content: %ASSEMBLY/*/$/%axial
+
+  _content:
+
+    Assembly_(_loop):
+      _pltype: list
+      _do:
+        - setdb MAIN_DB
+        - setvar _path,%ASSEMBLY/*/$/%axial/$(_loop),apply=>&findfirst
+        - getvar _path,apply=>&pathlevel,arg=>3
+        - cellsmaps %ASSEMBLY/$(_path)/%rodmap,%ASSEMBLY/$(_path)/%cell,%ASSEMBLY/$(_path)/$npin,%ASSEMBLY/$(_path)/%axial/$(_loop),matsearch=>%ASSEMBLY/$(_path)/%mat/*:%ASSEMBLY/$(_path)/%fuel/*:CORE/%mat/*
+      _content:
+
+        label:
+          _pltype: parameter
+          _type: string
+          _do:
+            - value (_loop)
+          _content:
+
+        axial_labels:
+          _pltype: array
+          _type: string
+          _do:
+            - copyarray %ASSEMBLY/$(_path)/%axial/$(_loop),select=>odd
+          _content:
+
+        axial_elevations:
+          _pltype: array
+          _type: double
+          _do:
+            - copyarray %ASSEMBLY/$(_path)/%axial/$(_loop),select=>even
+          _content:
+
+        Materials:
+          _pltype: list
+          _do:
+            - matmap Material_,%ASSEMBLY/$(_path)/%mat/*
+          _content:
+        Fuels:
+          _pltype: list
+          _do:
+            - fuelmap Fuel_,%ASSEMBLY/$(_path)/%fuel/*
+          _content:
+        title:
+          _pltype: parameter
+          _type: string
+          _do:
+            - copy %ASSEMBLY/$(_path)/$title
+          _content:
+        num_pins:
+          _pltype: parameter
+          _type: int
+          _do:
+            - copy %ASSEMBLY/$(_path)/$npin
+          _content:
+        ppitch:
+          _pltype: parameter
+          _type: double
+          _do:
+            - copy %ASSEMBLY/$(_path)/$ppitch
+          _content:
+
+        lower_nozzle_comp:
+          _pltype: parameter
+          _type: string
+          _do:
+            - copy %ASSEMBLY/$(_path)/@lower_nozzle:0
+          _content:
+
+        lower_nozzle_height:
+          _pltype: parameter
+          _type: double
+          _do:
+            - copy %ASSEMBLY/$(_path)/@lower_nozzle:1
+          _content:
+
+        lower_nozzle_mass:
+          _pltype: parameter
+          _type: double
+          _do:
+            - copy %ASSEMBLY/$(_path)/@lower_nozzle:2
+          _content:
+
+        upper_nozzle_comp:
+          _pltype: parameter
+          _type: string
+          _do:
+            - copy %ASSEMBLY/$(_path)/@upper_nozzle:0
+          _content:
+
+        upper_nozzle_height:
+          _pltype: parameter
+          _type: double
+          _do:
+            - copy %ASSEMBLY/$(_path)/@upper_nozzle:1
+          _content:
+
+        upper_nozzle_mass:
+          _pltype: parameter
+          _type: double
+          _do:
+            - copy %ASSEMBLY/$(_path)/@upper_nozzle:2
+          _content:
+
+        grid_elev:
+          _pltype: array
+          _type: double
+          _do:
+            - copyarray %ASSEMBLY/$(_path)/@grid_axial,select=>odd
+          _content:
+
+        grid_map:
+          _pltype: array
+          _type: string
+          _do:
+            - copyarray %ASSEMBLY/$(_path)/@grid_axial,select=>even
+          _content:
+
+        SpacerGrids:
+          _pltype: list
+          _do:
+            - gridmap Grid_,%ASSEMBLY/$(_path)/%grid/*
+          _content:
+
+        gapw:
+          _pltype: parameter
+          _type: double
+          _do:
+            - copy %ASSEMBLY/$(_path)/@gap:0
+          _content:
+        gapn:
+          _pltype: parameter
+          _type: double
+          _do:
+            - copy %ASSEMBLY/$(_path)/@gap:1
+          _content:
+
+        chanmat:
+          _pltype: parameter
+          _type: string
+          _do:
+            - copy %ASSEMBLY/$(_path)/@channel_box:0,existspath=>%ASSEMBLY/$(_path)/%mat/*:CORE/%mat/*
+          _content:
+        chanth:
+          _pltype: parameter
+          _type: double
+          _do:
+            - copy %ASSEMBLY/$(_path)/@channel_box:1
+          _content:
+        chanrad:
+          _pltype: parameter
+          _type: double
+          _do:
+            - copy %ASSEMBLY/$(_path)/@channel_box:2
+          _content:
+        cornerth:
+          _pltype: parameter
+          _type: double
+          _do:
+            - copy %ASSEMBLY/$(_path)/@channel_box:3
+          _content:
+        cornerlen:
+          _pltype: parameter
+          _type: double
+          _do:
+            - copy %ASSEMBLY/$(_path)/@channel_box:4
+          _content:
+
+
+
+

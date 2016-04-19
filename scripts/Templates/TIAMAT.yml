@@ -1,0 +1,53 @@
+TIAMAT:
+  _pltype: list
+  _do:
+    - setdb MAIN_DB
+  _content:
+    solver:
+      _pltype: parameter
+      _type: string
+      _do:
+        - copy TIAMAT/$solver
+      _content:
+
+    run_transient:
+      _pltype: parameter
+      _type: bool
+      _do:
+        - copy TIAMAT/$run_transient
+      _content:
+
+    two_level_solver:
+      _pltype: parameter
+      _type: bool
+      _do:
+        - copy TIAMAT/$two_level_solver
+      _content:
+
+    inner_solver:
+      _pltype: parameter
+      _type: string
+      _do:
+        - copy TIAMAT/$inner_solver
+      _content:
+
+    inner_evaluator:
+      _pltype: parameter
+      _type: string
+      _do:
+        - copy TIAMAT/$inner_evaluator
+      _content:
+
+    conserve_power_in_tiamat_transfer:
+      _pltype: parameter
+      _type: bool
+      _do:
+        - copy TIAMAT/$conserve_power_in_tiamat_transfer
+      _content:
+
+    num_subcycle_iterations_before_tiamat_ramping:
+      _pltype: parameter
+      _type: int
+      _do:
+        - copy TIAMAT/$num_subcycle_iterations_before_tiamat_ramping
+      _content:

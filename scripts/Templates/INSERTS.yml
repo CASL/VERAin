@@ -1,0 +1,64 @@
+INSERTS:
+  _pltype: list
+  _do:
+    - setdb MAIN_DB
+    - namesunique %INSERT/*/$/%axial
+    - isinmaps %INSERT/*/$/%axial,CORE/@insert_map
+
+  _tr:
+    _name: _loop
+    _content: %INSERT/*/$/%axial
+
+#    - rodmap INSERT/%axial,basename=>Insert_,coremap=>CORE/@insert_map,matsearch=>INSERT/%mat/*:CORE/%mat/*
+
+  _content:
+
+    Insert_(_loop):
+      _pltype: list
+      _do:
+        - setdb MAIN_DB
+        - setvar _path,%INSERT/*/$/%axial/$(_loop),apply=>&findfirst
+        - getvar _path,apply=>&pathlevel,arg=>3
+        - cellsmaps %INSERT/$(_path)/%rodmap,%INSERT/$(_path)/%cell,%INSERT/$(_path)/$npin,%INSERT/$(_path)/%axial/$(_loop),matsearch=>%INSERT/$(_path)/%mat/*:CORE/%mat/*
+
+      _content:
+
+        label:
+          _pltype: parameter
+          _type: string
+          _do:
+            - value (_loop)
+          _content:
+
+        axial_labels:
+          _pltype: array
+          _type: string
+          _do:
+            - copyarray %INSERT/$(_path)/%axial/$(_loop),select=>odd
+          _content:
+
+        axial_elevations:
+          _pltype: array
+          _type: double
+          _do:
+            - copyarray %INSERT/$(_path)/%axial/$(_loop),select=>even
+          _content:
+
+
+        Materials:
+          _pltype: list
+          _do:
+            - matmap Material_,%INSERT/$(_path)/%mat/*
+          _content:
+        title:
+          _pltype: parameter
+          _type: string
+          _do:
+            - copy %INSERT/$(_path)/$title
+          _content:
+        num_pins:
+          _pltype: parameter
+          _type: int
+          _do:
+            - copy %INSERT/$(_path)/$npin
+          _content:

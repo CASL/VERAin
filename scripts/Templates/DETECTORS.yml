@@ -1,0 +1,63 @@
+DETECTORS:
+  _pltype: list
+  _do:
+    - setdb MAIN_DB
+    - namesunique %DETECTOR/*/$/%axial
+    - isinmaps %DETECTOR/*/$/%axial,CORE/@det_map
+
+  _tr:
+    _name: _loop
+    _content: %DETECTOR/*/$/%axial
+
+#    - rodmap DETECTOR/%axial,basename=>Detector_,coremap=>CORE/@det_map,matsearch=>DETECTOR/%mat/*:CORE/%mat/*
+
+  _content:
+
+    Detector_(_loop):
+      _pltype: list
+      _do:
+        - setdb MAIN_DB
+        - setvar _path,%DETECTOR/*/$/%axial/$(_loop),apply=>&findfirst
+        - getvar _path,apply=>&pathlevel,arg=>3
+        - cellsmaps %DETECTOR/$(_path)/%rodmap,%DETECTOR/$(_path)/%cell,%DETECTOR/$(_path)/$npin,%DETECTOR/$(_path)/%axial/$(_loop),matsearch=>%DETECTOR/$(_path)/%mat/*:CORE/%mat/*
+
+      _content:
+
+        label:
+          _pltype: parameter
+          _type: string
+          _do:
+            - value (_loop)
+          _content:
+
+        axial_labels:
+          _pltype: array
+          _type: string
+          _do:
+            - copyarray %DETECTOR/$(_path)/%axial/$(_loop),select=>odd
+          _content:
+
+        axial_elevations:
+          _pltype: array
+          _type: double
+          _do:
+            - copyarray %DETECTOR/$(_path)/%axial/$(_loop),select=>even
+          _content:
+
+        Materials:
+          _pltype: list
+          _do:
+            - matmap Material_,%DETECTOR/$(_path)/%mat/*
+          _content:
+        title:
+          _pltype: parameter
+          _type: string
+          _do:
+            - copy %DETECTOR/$(_path)/$title
+          _content:
+        num_pins:
+          _pltype: parameter
+          _type: int
+          _do:
+            - copy %DETECTOR/$(_path)/$npin
+          _content:
