@@ -1,0 +1,342 @@
+[CASEID]
+  title 'CASL AMA Problem 4 - Nine 3x3 WEC Assemblies - Public'
+
+[STATE]
+  power    0.0
+  tinlet   565 K  
+  tfuel    565 K 
+  boron    1360         ! ppmB
+  modden   0.743        ! g/cc
+  rodbank  D 69         ! Bank D steps withdrawn
+  sym      qtr  
+  feedback off
+
+[CORE]
+  size   3              ! nine assemblies
+  apitch 21.5
+  rated  159.1 6.14     ! MW, Mlbs/hr 
+  height 406.337
+
+  core_shape
+    1 1 1
+    1 1 1
+    1 1 1
+  
+  assm_map
+    A21
+    A26 A21
+
+  insert_map
+    -  
+   PY TP
+
+  crd_map
+    1
+    - -
+ 
+  crd_bank
+    D
+    - -
+
+  lower_plate ss  5.0 0.5   ! mat, thickness, vol frac
+  upper_plate ss  7.6 0.5   ! mat, thickness, vol frac
+ !lower_ref  mod 20.0 1.0
+
+  xlabel  J H G
+  ylabel  7 8 9
+
+  bc_rad reflecting
+
+[ASSEMBLY]
+  title "Westinghouse 17x17"
+  npin 17 
+  ppitch 1.260
+  
+  fuel U21 10.257 94.5 / 2.110 u-234 0.017364
+  fuel U26 10.257 94.5 / 2.619 u-234 0.021947
+
+  cell 1     0.4096 0.418 0.475 / U21 he zirc4
+  cell 2     0.4096 0.418 0.475 / U26 he zirc4
+  cell 3            0.561 0.602 / mod    zirc4      ! guide/instrument tube
+  cell 4            0.418 0.475 /     he zirc4      ! plenum
+  cell 5                  0.475 /        zirc4      ! end plug
+  cell 6                  0.475 /        mod        ! gap     
+
+  lattice LAT21 
+       3
+       1 1
+       1 1 1
+       3 1 1 3
+       1 1 1 1 1
+       1 1 1 1 1 3
+       3 1 1 3 1 1 1
+       1 1 1 1 1 1 1 1
+       1 1 1 1 1 1 1 1 1
+
+  lattice LAT26  
+       3
+       2 2
+       2 2 2
+       3 2 2 3
+       2 2 2 2 2
+       2 2 2 2 2 3
+       3 2 2 3 2 2 2
+       2 2 2 2 2 2 2 2
+       2 2 2 2 2 2 2 2 2
+
+  lattice PLEN
+       3
+       4 4
+       4 4 4
+       3 4 4 3
+       4 4 4 4 4
+       4 4 4 4 4 3
+       3 4 4 3 4 4 4
+       4 4 4 4 4 4 4 4
+       4 4 4 4 4 4 4 4 4
+
+  lattice PLUG 
+       3
+       5 5
+       5 5 5
+       3 5 5 3
+       5 5 5 5 5
+       5 5 5 5 5 3
+       3 5 5 3 5 5 5
+       5 5 5 5 5 5 5 5
+       5 5 5 5 5 5 5 5 5
+
+  lattice GAP  
+       3
+       6 6
+       6 6 6
+       3 6 6 3
+       6 6 6 6 6
+       6 6 6 6 6 3
+       3 6 6 3 6 6 6
+       6 6 6 6 6 6 6 6
+       6 6 6 6 6 6 6 6 6
+
+  axial A21 6.053 GAP 10.281 PLUG 11.951 LAT21 377.711 PLEN 393.711 PLUG 395.381 GAP 397.51
+  axial A26 6.053 GAP 10.281 PLUG 11.951 LAT26 377.711 PLEN 393.711 PLUG 395.381 GAP 397.51
+
+  grid END inc   1017 3.866
+  grid MID zirc4 875  3.810
+
+  grid_axial
+      END  13.884
+      MID  75.2
+      MID 127.4
+      MID 179.6
+      MID 231.8
+      MID 284.0
+      MID 336.2
+      END 388.2
+
+  lower_nozzle  ss 6.053 6250.0  ! mat, height, mass (g)
+  upper_nozzle  ss 8.827 6250.0  ! mat, height, mass (g)
+
+[INSERT]
+  title "Pyrex"
+  npin 17
+
+  cell 1  0.214 0.231 0.241 0.427 0.437 0.484 / he ss he pyrex-vera he ss
+  cell 2                          0.437 0.484 /                     he ss    ! plenum
+  cell 3                                0.484 /                        ss    ! plug  
+  cell 4                                0.538 /                        ss    ! thimble plug
+
+  rodmap  PY20
+     -
+     - -
+     - - -
+     1 - - -
+     - - - - -
+     - - - - - 1
+     1 - - 1 - - -
+     - - - - - - - -
+     - - - - - - - - -
+
+  rodmap  PLEN20
+     -
+     - -
+     - - -
+     2 - - -
+     - - - - -
+     - - - - - 2
+     2 - - 2 - - -
+     - - - - - - - -
+     - - - - - - - - -
+
+  rodmap  PLENTP
+     -
+     - -
+     - - -
+     2 - - 4
+     - - - - -
+     - - - - - 2
+     2 - - 2 - - -
+     - - - - - - - -
+     - - - - - - - - -
+
+  rodmap  PLUG20
+     -
+     - -
+     - - -
+     3 - - -
+     - - - - -
+     - - - - - 3
+     3 - - 3 - - -
+     - - - - - - - -
+     - - - - - - - - -
+
+  rodmap  TPLUG 
+     -
+     - -
+     - - -
+     4 - - 4
+     - - - - -
+     - - - - - 4
+     4 - - 4 - - -
+     - - - - - - - -
+     - - - - - - - - -
+
+  axial PY     13.221 
+        PLUG20 15.761 
+          PY20 376.441 
+        PLEN20 383.31
+        PLENTP 398.64
+
+  axial TP     383.31
+         TPLUG 394.31
+
+[CONTROL]
+  title "B4C with AIC tips"
+  npin 17
+  stroke  365.125 230     ! approx for 1.5875 step sizes and 230 max stroke
+
+  cell 1  0.382 0.386 0.484 / aic he ss
+  cell 2  0.373 0.386 0.484 / b4c he ss
+  cell 3        0.386 0.484 /     he ss !plenum
+  cell 4              0.484 /        ss !plug
+
+  rodmap AIC
+     -
+     - -
+     - - -
+     1 - - 1
+     - - - - -
+     - - - - - 1
+     1 - - 1 - - -
+     - - - - - - - -
+     - - - - - - - - -
+
+  rodmap B4C
+     -
+     - -
+     - - -
+     2 - - 2
+     - - - - -
+     - - - - - 2
+     2 - - 2 - - -
+     - - - - - - - -
+     - - - - - - - - -
+
+  rodmap PLEN
+     -
+     - -
+     - - -
+     3 - - 3
+     - - - - -
+     - - - - - 3
+     3 - - 3 - - -
+     - - - - - - - -
+     - - - - - - - - -
+
+  rodmap PLUG
+     -
+     - -
+     - - -
+     4 - - 4
+     - - - - -
+     - - - - - 4
+     4 - - 4 - - -
+     - - - - - - - -
+     - - - - - - - - -
+
+  axial 1     15.131
+        PLUG  17.031
+         AIC 118.631
+         B4C 377.711
+        PLEN 388.411 
+
+[EDITS]
+  axial_edit_bounds 
+      11.951
+      15.817 
+      24.028 
+      32.239 
+      40.45 
+      48.662 
+      56.873 
+      65.084 
+      73.295 
+      77.105 
+      85.17 
+      93.235 
+      101.3 
+      109.365 
+      117.43 
+      125.495 
+      129.305 
+      137.37 
+      145.435 
+      153.5 
+      161.565 
+      169.63 
+      177.695 
+      181.505 
+      189.57 
+      197.635 
+      205.7 
+      213.765 
+      221.83 
+      229.895 
+      233.705 
+      241.77 
+      249.835 
+      257.9 
+      265.965 
+      274.03 
+      282.095 
+      285.905 
+      293.97 
+      302.035 
+      310.1 
+      318.165 
+      326.23 
+      334.295 
+      338.105 
+      346.0262 
+      353.9474 
+      361.8686 
+      369.7898 
+      377.711
+
+[MPACT]
+  num_space      522
+  num_angle      1
+  num_threads    1
+
+[COBRATF]
+  gridloss  END  0.9070
+  gridloss  MID  0.9065
+
+[SHIFT]
+  transport             ce_mc     
+  num_cycles            2000
+  num_inactive_cycles   500
+  Np                    50000000
+
+[INSILICO]
+  num_blocks_i   12
+  num_blocks_j   12

@@ -1,0 +1,134 @@
+[CASEID]
+  title 'CASL AMA Benchmark Problem 2E - Fuel Lattice - Public'
+
+[STATE]
+  power    0.0
+  tinlet   600 K 
+  tfuel    600 K
+  modden   0.743   ! g/cc
+  boron    1300    ! ppm
+  sym      qtr 
+  feedback off
+
+[CORE]
+  size   1
+  apitch 21.50 
+  height 1.0
+  rated  0.01 0.01
+
+  core_shape
+    1
+
+  assm_map
+    ASSY
+
+  insert_map
+    PY12
+
+  bc_rad reflecting
+  bc_top reflecting
+  bc_bot reflecting
+  
+[ASSEMBLY]
+  npin 17
+  ppitch 1.26
+  
+  fuel U31 10.257 94.5 / 3.1 u-234 0.026347
+
+  cell 1 0.4096 0.418 0.475 / U31 he zirc4
+  cell 2        0.561 0.602 /    mod zirc4
+
+  lattice LAT
+    2
+    1 1
+    1 1 1
+    2 1 1 2
+    1 1 1 1 1
+    1 1 1 1 1 2
+    2 1 1 2 1 1 1
+    1 1 1 1 1 1 1 1
+    1 1 1 1 1 1 1 1 1
+
+  axial ASSY 0.0 LAT 1.0 
+
+[INSERT]
+  title "Pyrex"
+  npin 17
+
+  cell 1  0.214 0.231 0.241 0.427 0.437 0.484 / he ss he pyrex-vera he ss
+
+  rodmap  LAT8 
+     -
+     - -
+     - - -
+     1 - - -
+     - - - - -
+     - - - - - 1
+     - - - - - - -
+     - - - - - - - -
+     - - - - - - - - -
+
+  rodmap  LAT12
+     -
+     - -
+     - - -
+     1 - - -
+     - - - - -
+     - - - - - -
+     - - - 1 - - -
+     - - - - - - - -
+     - - - - - - - - -
+
+  rodmap  LAT16
+     -
+     - -
+     - - -
+     1 - - -
+     - - - - -
+     - - - - - 1
+     - - - 1 - - -
+     - - - - - - - -
+     - - - - - - - - -
+
+  rodmap  LAT20
+     -
+     - -
+     - - -
+     1 - - -
+     - - - - -
+     - - - - - 1
+     1 - - 1 - - -
+     - - - - - - - -
+     - - - - - - - - -
+
+  rodmap  LAT24  
+     -
+     - -
+     - - -
+     1 - - 1
+     - - - - -
+     - - - - - 1
+     1 - - 1 - - -
+     - - - - - - - -
+     - - - - - - - - -
+
+  axial PY8   0.0 LAT8  1.0 
+  axial PY12  0.0 LAT12 1.0 
+  axial PY16  0.0 LAT16 1.0 
+  axial PY20  0.0 LAT20 1.0 
+  axial PY24  0.0 LAT24 1.0 
+
+[MPACT]
+  num_space      1 
+  num_angle     -8
+  num_threads    1
+
+[SHIFT]
+  transport            ce_mc       
+  num_cycles           1100
+  num_inactive_cycles  100
+  Np                   1000000  
+
+[INSILICO]
+  num_blocks_i   4
+  num_blocks_j   4

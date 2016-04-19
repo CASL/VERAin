@@ -1,0 +1,174 @@
+[CASEID]
+  title 'CASL AMA Benchmark Problem 2M - Fuel Lattice - Public'
+
+[STATE]
+  power    0.0
+  tinlet   600 K 
+  tfuel    600 K
+  modden   0.743       ! g/cc
+  boron    1300        ! ppm
+  sym      qtr  
+  feedback off
+
+[CORE]
+  size   1
+  apitch 21.50 
+  height 1.0
+  rated  0.01 0.01
+
+  core_shape
+    1
+
+  assm_map
+    128IFBA
+
+  insert_map
+    - 
+
+  bc_rad reflecting
+  bc_top reflecting
+  bc_bot reflecting
+  mat waba   3.65   b4c 0.0949 
+                  al2o3 0.9051 
+  
+[ASSEMBLY]
+  title 'ifba assemblies'
+  npin 17
+  ppitch 1.26
+  
+  fuel U31 10.257 94.5 / 3.1 u-234 0.026347
+
+  mat ifba 3.85 zr-90   4.12271E-01
+                zr-91   9.09074E-02
+                zr-92   1.40481E-01
+                zr-94   1.45465E-01
+                zr-96   2.39348E-02
+                b-10    0.09347 
+                b-11    0.09347
+
+  cell 1 0.4096        0.418 0.475 / U31      he zirc4
+  cell X 0.4096 0.4106 0.418 0.475 / U31 ifba he zirc4
+  cell O               0.561 0.602 /         mod zirc4
+
+  lattice LAT80 
+    O
+    X 1
+    1 1 X
+    O X 1 O
+    X 1 1 X 1
+    1 1 1 X X O
+    O X 1 O X 1 X
+    X 1 1 X 1 1 1 1
+    1 1 1 1 1 1 1 1 X 
+
+  lattice LAT104
+    O
+    X 1
+    X 1 1
+    O X X O
+    X 1 1 X 1
+    X 1 1 X X O
+    O X X O X X 1
+    X 1 1 X 1 1 1 1
+    1 1 1 1 1 1 1 1 X 
+
+  lattice LAT128
+    O
+    X 1
+    X 1 1
+    O X X O
+    X 1 1 X 1
+    X 1 1 X X O
+    O X X O X X 1
+    X 1 1 X 1 1 X 1
+    1 X 1 1 X 1 1 1 X 
+
+  axial  80IFBA  0.0 LAT80  1.0 
+  axial 104IFBA  0.0 LAT104 1.0 
+  axial 128IFBA  0.0 LAT128 1.0 
+
+[INSERT]
+  title "waba"
+  npin 17
+
+!  mat waba   3.65   b4c 0.0949 
+!                  al2o3 0.9051 
+
+  cell 1  0.286 0.339 0.353 0.404 0.418 0.484 / mod zirc4 he waba he zirc4
+
+  rodmap  LAT8 
+     -
+     - -
+     - - -
+     1 - - -
+     - - - - -
+     - - - - - 1
+     - - - - - - -
+     - - - - - - - -
+     - - - - - - - - -
+
+  rodmap  LAT12
+     -
+     - -
+     - - -
+     1 - - -
+     - - - - -
+     - - - - - -
+     - - - 1 - - -
+     - - - - - - - -
+     - - - - - - - - -
+
+  rodmap  LAT16
+     -
+     - -
+     - - -
+     1 - - -
+     - - - - -
+     - - - - - 1
+     - - - 1 - - -
+     - - - - - - - -
+     - - - - - - - - -
+
+  rodmap  LAT20
+     -
+     - -
+     - - -
+     1 - - -
+     - - - - -
+     - - - - - 1
+     1 - - 1 - - -
+     - - - - - - - -
+     - - - - - - - - -
+
+  rodmap  LAT24  
+     -
+     - -
+     - - -
+     1 - - 1
+     - - - - -
+     - - - - - 1
+     1 - - 1 - - -
+     - - - - - - - -
+     - - - - - - - - -
+
+  axial  8WABA  0.0 LAT8  1.0 
+  axial 12WABA  0.0 LAT12 1.0 
+  axial 16WABA  0.0 LAT16 1.0 
+  axial 20WABA  0.0 LAT20 1.0 
+  axial 24WABA  0.0 LAT24 1.0 
+
+[MPACT]
+  ray_spacing    0.005
+  num_space      1 
+  num_angle     -8
+  num_threads    1
+
+[SHIFT]
+  transport            ce_mc       
+  num_cycles           1100
+  num_inactive_cycles  100
+  Np                   1000000  
+
+[INSILICO]
+  num_blocks_i   4
+  num_blocks_j   4

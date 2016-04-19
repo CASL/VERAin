@@ -1,0 +1,79 @@
+[CASEID]
+  title 'CASL AMA Benchmark Problem 2P - Fuel Lattice - Public'
+
+[STATE]
+  power    0.0
+  tinlet   600 K
+  tfuel    600 K
+  modden   0.743    ! g/cc
+  boron    1300     ! ppm
+  sym      qtr  
+  feedback off
+
+[CORE]
+  size   1
+  apitch 21.50 
+  height 1.0
+  rated  0.01 0.01
+
+  core_shape
+    1
+
+  assm_map
+    24GAD
+
+  bc_rad reflecting
+  bc_top reflecting
+  bc_bot reflecting
+  
+[ASSEMBLY]
+  title '17x17 assemblies with gadolinia'
+  npin 17
+  ppitch 1.26
+  
+  fuel u31 10.257 94.5 / 3.1                 
+  fuel g18 10.111 94.5 / 1.8 / gad=5.0
+
+  cell 1 0.4096 0.418 0.475 / u31 he zirc4
+  cell X 0.4096 0.418 0.475 / g18 he zirc4  ! gad rod
+  cell 2        0.561 0.602 /    mod zirc4
+
+  lattice LAT12
+    2
+    1 1
+    1 1 1
+    2 1 1 2
+    1 1 X 1 1
+    1 1 1 1 1 2
+    2 1 1 2 1 1 X
+    1 1 1 1 1 1 1 1
+    1 1 1 1 1 1 1 1 1
+
+  lattice LAT24
+    2
+    1 1
+    1 1 X
+    2 1 1 2
+    1 1 1 1 X
+    X 1 1 1 1 2
+    2 1 1 2 1 1 X
+    1 1 1 X 1 1 1 1
+    1 1 1 1 1 1 1 1 1
+
+  axial 12GAD  0.0 LAT12 1.0 
+  axial 24GAD  0.0 LAT24 1.0 
+     
+[MPACT]
+  num_space      1 
+  num_angle     -8
+  num_threads    1
+
+[SHIFT]
+  transport            ce_mc       
+  num_cycles           1100
+  num_inactive_cycles  100
+  Np                   1000000  
+
+[INSILICO]
+  num_blocks_i   4
+  num_blocks_j   4

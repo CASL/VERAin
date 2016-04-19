@@ -1,0 +1,196 @@
+%*-------------------------------------------------------------------------*
+%*                 Copyright 2013-2015 Core Physics, Inc.                  *
+%*  Under terms of the contract to support CASL, there is a non-exclusive  *
+%*  license for use of this work by or on behalf of the U.S. Government.   *
+%*-------------------------------------------------------------------------*
+%
+% @version CVS $Id: example3.tex,v 1.6 2015/02/23 00:56:17 scott Exp $
+%
+% Lattice input
+%
+\begin{verbatim}
+
+  [CASEID]
+    title 'CASL AMA Benchmark Problem 2A - Fuel Lattice - Public'
+
+  [STATE]
+    power 0.0                 ! %
+    tinlet 557.33 F           !
+    tfuel  565 K              !
+    modden 0.743              ! g/cc
+    boron 1300                ! ppm
+    rodbank A 1               ! rod fully withdrawn
+    sym qtr
+
+  [CORE]
+    size 1
+    apitch 21.50
+    height 1.0
+    rated 0.01 0.01
+
+    core_shape
+      1
+
+    assm_map
+      ASSY
+
+    insert_map
+      -
+
+    crd_map
+      AIC
+
+    crd_bank
+      A
+
+    bc_rad reflecting
+    bc_top reflecting   ! specify top reflective boundary conditions
+    bc_bot reflecting   ! specify bottom reflective boundary conditions
+
+  [ASSEMBLY]
+    npin 17
+    ppitch 1.26
+
+  ! material definitions in an ASSEMBLY block only have scope in this block
+
+    fuel U31 10.257 94.5 / 3.1
+    mat he   0.000176
+    mat zirc 6.56 zirc4
+
+    cell 1 0.4096 0.418 0.475 / U31 he zirc
+    cell 2        0.561 0.602 / mod zirc
+
+    rodmap LAT
+      2
+      1 1
+      1 1 1
+      2 1 1 2
+      1 1 1 1 1
+      1 1 1 1 1 2
+      2 1 1 2 1 1 1
+      1 1 1 1 1 1 1 1
+      1 1 1 1 1 1 1 1 1
+
+    axial ASSY 0.0 LAT 1.0
+
+  [INSERT]
+    title "Pyrex"
+    npin 17
+
+  ! material definitions in an INSERT block only have scope in this block
+
+    mat he     0.0001786
+    mat pyrx1  2.25 pyrex-vera
+    mat ss     8.0
+
+    cell 1  0.214 0.231 0.241 0.427 0.437 0.484 / he ss he pyrx1 he ss
+
+    rodmap  LAT8
+       -
+       - -
+       - - -
+       1 - - -
+       - - - - -
+       - - - - - 1
+       - - - - - - -
+       - - - - - - - -
+       - - - - - - - - -
+
+    rodmap  LAT12
+       -
+       - -
+       - - -
+       1 - - -
+       - - - - -
+       - - - - - -
+       - - - 1 - - -
+       - - - - - - - -
+       - - - - - - - - -
+
+    rodmap  LAT16
+       -
+       - -
+       - - -
+       1 - - -
+       - - - - -
+       - - - - - 1
+       - - - 1 - - -
+       - - - - - - - -
+       - - - - - - - - -
+
+    rodmap  LAT20
+       -
+       - -
+       - - -
+       1 - - -
+       - - - - -
+       - - - - - 1
+       1 - - 1 - - -
+       - - - - - - - -
+       - - - - - - - - -
+
+    rodmap  LAT24
+       -
+       - -
+       - - -
+       1 - - 1
+       - - - - -
+       - - - - - 1
+       1 - - 1 - - -
+       - - - - - - - -
+       - - - - - - - - -
+
+  ! multiple INSERT types can be defined by defining separate axial cards
+
+    axial PY8   0.0 LAT8  1.0
+    axial PY12  0.0 LAT12 1.0
+    axial PY16  0.0 LAT16 1.0
+    axial PY20  0.0 LAT20 1.0
+    axial PY24  0.0 LAT24 1.0
+
+  [CONTROL]
+    title "B4C and AIC RCCAs"
+    npin 17
+    stroke  1.0 1           ! 1 step for in/out
+
+  ! material definitions in a CONTROL block only have scope in this block
+
+    mat he     0.0001786
+    mat ss     8.0
+    mat aic   10.2
+    mat b4c    1.76
+
+    cell 1  0.382 0.386 0.484 / aic he ss
+    cell 2  0.373 0.386 0.484 / b4c he ss
+
+    rodmap LAT_AIC
+       -
+       - -
+       - - -
+       1 - - 1
+       - - - - -
+       - - - - - 1
+       1 - - 1 - - -
+       - - - - - - - -
+       - - - - - - - - -
+
+    rodmap LAT_B4C
+       -
+       - -
+       - - -
+       2 - - 2
+       - - - - -
+       - - - - - 2
+       2 - - 2 - - -
+       - - - - - - - -
+       - - - - - - - - -
+
+    axial AIC  0.0 LAT_AIC 1.0
+    axial B4C  0.0 LAT_B4C 1.0
+
+  [MPACT]
+
+    ! include INSILICO and/or MPACT block here
+
+\end{verbatim}
+

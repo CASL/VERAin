@@ -1,0 +1,379 @@
+%*-------------------------------------------------------------------------*
+%*                 Copyright 2013-2015 Core Physics, Inc.                  *
+%*  Under terms of the contract to support CASL, there is a non-exclusive  *
+%*  license for use of this work by or on behalf of the U.S. Government.   *
+%*-------------------------------------------------------------------------*
+%
+% @version CVS $Id: example.tex,v 1.9 2015/02/23 01:48:13 scott Exp $
+%
+% Example file
+\begin{verbatim}
+  !
+  !  Sample Test case for Problem 7 (Full-Core HFP)
+  !
+  [CASEID]
+    title 'CASL Progression Problem 7 - Watts Bar Unit 1 Cycle 1 - Public'
+
+  [STATE]
+    power  100.0          ! % of rated power
+    flow   100.0          ! % of rated flow
+    pressure 2250.0
+    feedback on
+
+    tinlet 565.0 K        !
+    tfuel  900.0 K        ! (HFP value)
+    boron  1285           ! ppmB
+    modden 0.743          ! g/cc
+    sym qtr
+
+    rodbank SA 230
+            SB 230
+            SC 230
+            SD 230
+             A 230
+             B 230
+             C 230
+             D 167
+
+  [CORE]
+    size 15               ! assemblies across core
+    rated 3411 131.68     ! MW, Mlbs/hr
+    apitch 21.5
+    height 406.337
+
+    core_shape
+      0 0 0 0 1 1 1 1 1 1 1 0 0 0 0
+      0 0 1 1 1 1 1 1 1 1 1 1 1 0 0
+      0 1 1 1 1 1 1 1 1 1 1 1 1 1 0
+      0 1 1 1 1 1 1 1 1 1 1 1 1 1 0
+      1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+      1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+      1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+      1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+      1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+      1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+      1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+      0 1 1 1 1 1 1 1 1 1 1 1 1 1 0
+      0 1 1 1 1 1 1 1 1 1 1 1 1 1 0
+      0 0 1 1 1 1 1 1 1 1 1 1 1 0 0
+      0 0 0 0 1 1 1 1 1 1 1 0 0 0 0
+
+    assm_map
+      1
+      2 1
+      1 2 1
+      2 1 2 1
+      1 2 1 2 2
+      2 1 2 1 2 3
+      1 3 1 3 3 3
+      3 3 3 3
+
+    insert_map
+       -
+      20  -
+       - 24  -
+      20  - 20  -
+       - 20  - 20  -
+      20  - 16  - 24 12
+       - 24  - 16  -  -
+      12  -  8  -
+
+    crd_map
+      1
+      - -
+      1 - 1
+      - - - 1
+      1 - - - 1
+      - 1 - 1 - -
+      1 - 1 - 1 -
+      - - - -
+
+    crd_bank
+      D  -  A  -  D  -  C  -
+      -  -  -  -  - SB  -  -
+      A  -  C  -  -  -  B  -
+      -  -  -  A  - SC  -  -
+      D  -  -  -  D  - SA
+      - SB  - SD  -  -  -
+      C  -  B  - SA  -
+      -  -  -  -
+
+    det_map
+              1 - - 1 - - -
+          1 - - - 1 - - 1 - 1 -
+        - 1 - 1 - - 1 - - - - - 1
+        - - - - 1 - - 1 - - 1 - -
+      1 - - - 1 - - 1 - - 1 - - - 1
+      - - - - 1 - 1 - - - - 1 - - -
+      - 1 - - - - - - 1 - 1 - - - 1
+      1 - 1 - 1 - 1 - - 1 - 1 1 1 -
+      - - - 1 - - 1 - - 1 - - 1 - -
+      1 - 1 - - 1 - 1 - - - - - 1 -
+      - - - - 1 - - - 1 - 1 - 1 - -
+        1 1 - - - - 1 - - - - - -
+        - - - - - - 1 - 1 - 1 - 1
+          1 - - 1 - 1 - - - - -
+              - - 1 - - 1 -
+
+    baffle ss 0.19 2.85
+    vessel mod 219.71 cs 241.70
+
+    lower_plate ss  5.0 0.5   ! mat, thickness, vol frac
+    upper_plate ss  7.6 0.5   ! mat, thickness, vol frac
+
+    lower_ref  mod 20.0 1.0   ! mat, thickness, vol frac
+    upper_ref  mod 20.0 1.0   ! mat, thickness, vol frac
+
+    xlabel  R P N M L K J H G  F  E  D  C  B  A
+    ylabel  1 2 3 4 5 6 7 8 9 10 11 12 13 14 15
+
+    mat he     0.0001786
+    mat inc    8.19
+    mat ss     8.0
+    mat zirc   6.56 zirc4
+
+  [ASSEMBLY]
+    title "Westinghouse 17x17 Assembly"
+    npin 17
+    ppitch 1.260
+
+    fuel U21 10.257 94.5 / 2.110
+    fuel U26 10.257 94.5 / 2.619
+    fuel U31 10.257 94.5 / 3.100
+
+    cell 1     0.4096 0.418 0.475 / U21 he zirc
+    cell 2     0.4096 0.418 0.475 / U26 he zirc
+    cell 3     0.4096 0.418 0.475 / U31 he zirc
+    cell 4            0.561 0.602 / mod    zirc       ! guide/instrument tube
+    cell 5            0.418 0.475 /     he zirc       ! plenum
+
+    rodmap LAT21
+         4
+         1 1
+         1 1 1
+         4 1 1 4
+         1 1 1 1 1
+         1 1 1 1 1 4
+         4 1 1 4 1 1 1
+         1 1 1 1 1 1 1 1
+         1 1 1 1 1 1 1 1 1
+
+    rodmap LAT26
+         4
+         2 2
+         2 2 2
+         4 2 2 4
+         2 2 2 2 2
+         2 2 2 2 2 4
+         4 2 2 4 2 2 2
+         2 2 2 2 2 2 2 2
+         2 2 2 2 2 2 2 2 2
+
+    rodmap LAT31
+         4
+         3 3
+         3 3 3
+         4 3 3 4
+         3 3 3 3 3
+         3 3 3 3 3 4
+         4 3 3 4 3 3 3
+         3 3 3 3 3 3 3 3
+         3 3 3 3 3 3 3 3 3
+
+    rodmap PLEN
+         4
+         5 5
+         5 5 5
+         4 5 5 4
+         5 5 5 5 5
+         5 5 5 5 5 4
+         4 5 5 4 5 5 5
+         5 5 5 5 5 5 5 5
+         5 5 5 5 5 5 5 5 5
+
+    axial  1  11.951 LAT21 377.711 PLEN 393.711
+    axial  2  11.951 LAT26 377.711 PLEN 393.711
+    axial  3  11.951 LAT31 377.711 PLEN 393.711
+
+    grid END inc  1017 3.866
+    grid MID zirc 875  3.810
+
+    grid_axial
+        END  13.884
+        MID  75.2
+        MID 127.4
+        MID 179.6
+        MID 231.8
+        MID 284.0
+        MID 336.2
+        END 388.2
+
+    lower_nozzle  ss 6.053 6250.0  ! mat, height, mass (g)
+    upper_nozzle  ss 8.827 6250.0  ! mat, height, mass (g)
+
+  [INSERT]
+    title "Pyrex"
+    npin 17
+
+    mat pyrx1 2.25 pyrex-vera
+
+    cell 1  0.214 0.231 0.241 0.427 0.437 0.484 / he ss he pyrx1 he ss
+
+    rodmap  PY8
+       -
+       - -
+       - - -
+       1 - - -
+       - - - - -
+       - - - - - 1
+       - - - - - - -
+       - - - - - - - -
+       - - - - - - - - -
+
+    rodmap  PY12
+       -
+       - -
+       - - -
+       1 - - -
+       - - - - -
+       - - - - - -
+       - - - 1 - - -
+       - - - - - - - -
+       - - - - - - - - -
+
+    rodmap  PY16
+       -
+       - -
+       - - -
+       1 - - -
+       - - - - -
+       - - - - - 1
+       - - - 1 - - -
+       - - - - - - - -
+       - - - - - - - - -
+
+    rodmap  PY20
+       -
+       - -
+       - - -
+       1 - - -
+       - - - - -
+       - - - - - 1
+       1 - - 1 - - -
+       - - - - - - - -
+       - - - - - - - - -
+
+    rodmap  PY24
+       -
+       - -
+       - - -
+       1 - - 1
+       - - - - -
+       - - - - - 1
+       1 - - 1 - - -
+       - - - - - - - -
+       - - - - - - - - -
+
+    axial   8  15.761 PY8  376.441
+    axial  12  15.761 PY12 376.441
+    axial  16  15.761 PY16 376.441
+    axial  20  15.761 PY20 376.441
+    axial  24  15.761 PY24 376.441
+
+  [CONTROL]
+    title "B4C with AIC tips"
+    npin 17
+    stroke  365.125 230     ! approx for 1.5875 step sizes and 230 max stroke
+
+    mat aic 10.2
+    mat b4c 1.76
+
+    cell 1  0.382 0.386 0.484 / aic he ss
+    cell 2  0.373 0.386 0.484 / b4c he ss
+
+    rodmap AIC
+       -
+       - -
+       - - -
+       1 - - 1
+       - - - - -
+       - - - - - 1
+       1 - - 1 - - -
+       - - - - - - - -
+       - - - - - - - - -
+
+    rodmap B4C
+       -
+       - -
+       - - -
+       2 - - 2
+       - - - - -
+       - - - - - 2
+       2 - - 2 - - -
+       - - - - - - - -
+       - - - - - - - - -
+
+    axial  1    17.031
+           AIC 118.631
+           B4C 377.711
+
+  [DETECTOR]
+    title "Incore instrument thimble"
+    npin 17
+
+    mat he 0.0001786
+    mat ss 8.0
+
+    cell 1  0.258 0.382 / he ss
+
+    rodmap  LAT
+       1
+       - -
+       - - -
+       - - - -
+       - - - - -
+       - - - - - -
+       - - - - - - -
+       - - - - - - - -
+       - - - - - - - - -
+
+    axial 1  0.0 LAT 406.337
+
+  [EDITS]
+    axial_edit_bounds
+         11.951   15.817   24.028   32.239   40.45
+         48.662   56.873   65.084   73.295   77.105
+         85.17    93.235  101.3    109.365  117.43
+        125.495  129.305  137.37   145.435  153.5
+        161.565  169.63   177.695  181.505  189.57
+        197.635  205.7    213.765  221.83   229.895
+        233.705  241.77   249.835  257.9    265.965
+        274.03   282.095  285.905  293.97   302.035
+        310.1    318.165  326.23   334.295  338.105
+        346.0262 353.9474 361.8686 369.7898 377.711
+
+  [COBRATF]
+    nfuel   10            ! number of fuel rings in conduction model
+    nc      1             ! conduction option - radial conduction
+    irfc    2             ! friction factor correlation default=2
+    dhfrac  0.02          ! fraction of power deposited directly into coolant
+    hgap    5678.3        ! gap conductance
+    gridloss END 0.9070   ! spacer grid loss coefficient
+    gridloss MID 0.9065   ! spacer grid loss coefficient
+    dtmin   0.000001
+    dtmax   0.1
+    tend    0.1
+    rtwfp   1000.0
+    maxits  10000
+    courant 0.8
+
+  [COUPLING]
+    epsk        5.0  ! pcm
+    epsp        1.0e-4
+    rlx_power   0.6
+    rlx_tfuel   1.0
+    rlx_den     1.0
+    maxiter     100
+
+\end{verbatim}
+
