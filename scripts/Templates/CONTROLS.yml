@@ -1,0 +1,126 @@
+CONTROLS:
+  _pltype: list
+  _do:
+    - setdb MAIN_DB
+    - namesunique %CONTROL/*/$/%axial
+    - isinmaps %CONTROL/*/$/%axial,CORE/@crd_map
+
+  _tr:
+    _name: _loop
+    _content: %CONTROL/*/$/%axial
+
+#    - rodmap CONTROL/%axial,basename=>Control_,coremap=>CORE/@crd_map,matsearch=>CONTROL/%mat/*:CORE/%mat/*
+
+  _content:
+
+    Control_(_loop):
+      _pltype: list
+      _do:
+        - setdb MAIN_DB
+        - setvar _path,%CONTROL/*/$/%axial/$(_loop),apply=>&findfirst
+        - getvar _path,apply=>&pathlevel,arg=>3
+        - cellsmaps %CONTROL/$(_path)/%rodmap,%CONTROL/$(_path)/%cell,%CONTROL/$(_path)/$npin,%CONTROL/$(_path)/%axial/$(_loop),matsearch=>%CONTROL/$(_path)/%mat/*:CORE/%mat/*
+
+      _content:
+
+        label:
+          _pltype: parameter
+          _type: string
+          _do:
+            - value (_loop)
+          _content:
+
+        axial_labels:
+          _pltype: array
+          _type: string
+          _do:
+            - copyarray %CONTROL/$(_path)/%axial/$(_loop),select=>odd
+          _content:
+
+        axial_elevations:
+          _pltype: array
+          _type: double
+          _do:
+            - copyarray %CONTROL/$(_path)/%axial/$(_loop),select=>even
+          _content:
+
+
+        Materials:
+          _pltype: list
+          _do:
+            - matmap Material_,%CONTROL/$(_path)/%mat/*
+          _content:
+        title:
+          _pltype: parameter
+          _type: string
+          _do:
+            - copy %CONTROL/$(_path)/$title
+          _content:
+        num_pins:
+          _pltype: parameter
+          _type: int
+          _do:
+            - copy %CONTROL/$(_path)/$npin
+          _content:
+        stroke:
+          _pltype: parameter
+          _type: double
+          _do:
+            - copy %CONTROL/$(_path)/@stroke:0
+          _content:
+        maxstep:
+          _pltype: parameter
+          _type: int
+          _do:
+            - copy %CONTROL/$(_path)/@stroke:1
+          _content:
+
+        ntube:
+          _pltype: parameter
+          _type: int
+          _do:
+            - copy %CONTROL/$(_path)/@blade:0
+          _content:
+        tubecell:
+          _pltype: parameter
+          _type: string
+          _do:
+            - copy %CONTROL/$(_path)/@blade:1,existspath=>%CONTROL/$(_path)/%cell/*
+          _content:
+        bladespan:
+          _pltype: parameter
+          _type: double
+          _do:
+            - copy %CONTROL/$(_path)/@blade:2
+          _content:
+        bladeth:
+          _pltype: parameter
+          _type: double
+          _do:
+            - copy %CONTROL/$(_path)/@blade:3
+          _content:
+        bladerad:
+          _pltype: parameter
+          _type: double
+          _do:
+            - copy %CONTROL/$(_path)/@blade:4
+          _content:
+        bladesheath:
+          _pltype: parameter
+          _type: double
+          _do:
+            - copy %CONTROL/$(_path)/@blade:5
+          _content:
+        bladewing:
+          _pltype: parameter
+          _type: double
+          _do:
+            - copy %CONTROL/$(_path)/@blade:6
+          _content:
+        blademat:
+          _pltype: parameter
+          _type: string
+          _do:
+            - copy %CONTROL/$(_path)/@blade:7,existspath=>%CONTROL/$(_path)/%mat/*:CORE/%mat/*
+          _content:
+

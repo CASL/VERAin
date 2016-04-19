@@ -1,0 +1,72 @@
+SHIFT: 
+  _pltype: list
+  _do:
+    - setdb MAIN_DB
+  _content:
+    transport:
+      _pltype: parameter
+      _type: string
+      _do:
+        - copy SHIFT/$transport
+      _content:
+
+    celib_file:
+      _pltype: parameter
+      _type: string
+      _do:
+        - copy SHIFT/$celib_file
+      _content:
+
+    mesh:
+      _pltype: parameter
+      _type: int
+      _do:
+        - copy SHIFT/$mesh
+      _content:
+
+    do_transport:
+      _pltype: parameter
+      _type: bool
+      _do:
+        - copy SHIFT/$do_transport
+      _content:
+
+    output_geometry:
+      _pltype: parameter
+      _type: bool
+      _do:
+        - copy SHIFT/$output_geometry
+      _content:
+
+    thermal_energy_cutoff:
+      _pltype: parameter
+      _type: double
+      _do:
+        - copy SHIFT/$thermal_energy_cutoff
+      _content:
+
+    kcode_db:
+      _pltype: list
+      _content:
+
+        Np:
+          _pltype: parameter
+          _type: int
+          _do:
+            - copy SHIFT/$Np
+          _content:
+
+        num_cycles:
+          _pltype: parameter
+          _type: int
+          _do:
+            - copy SHIFT/$num_cycles
+          _content:
+
+        num_inactive_cycles:
+          _pltype: parameter
+          _type: int
+          _do:
+            - copy SHIFT/$num_inactive_cycles
+          _content:
+

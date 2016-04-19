@@ -1,0 +1,777 @@
+MPACT:
+  _pltype: list
+  _do:
+    - setdb MAIN_DB
+  _content:
+
+    ray_spacing:
+      _pltype: parameter
+      _type: double
+      _do:
+        - copy MPACT/$ray_spacing
+      _content:
+
+    shield_ray_spacing:
+      _pltype: parameter
+      _type: double
+      _do:
+        - copy MPACT/$shield_ray_spacing
+      _content:
+
+    moc_kernel:
+      _pltype: parameter
+      _type: string
+      _do:
+        - copy MPACT/$moc_kernel
+      _content:
+
+    shield_moc_kernel:
+      _pltype: parameter
+      _type: string
+      _do:
+        - copy MPACT/$shield_moc_kernel
+      _content:
+
+    power_edit:
+      _pltype: parameter
+      _type: string
+      _do:
+        - copy MPACT/$power_edit
+      _content:
+
+    valid_on:
+      _pltype: parameter
+      _type: bool
+      _do:
+        - copy MPACT/$valid_on
+      _content:
+
+    valid_delim:
+      _pltype: parameter
+      _type: string
+      _do:
+        - copy MPACT/$valid_delim
+      _content:
+
+    checkpoint_mode:
+      _pltype: parameter
+      _type: string
+      _do:
+        - copy MPACT/$checkpoint_mode
+      _content:
+
+    checkpoint_file:
+      _pltype: parameter
+      _type: string
+      _do:
+        - copy MPACT/$checkpoint_file
+      _content:
+
+    vis_edits:
+      _pltype: parameter
+      _type: string
+      _do:
+        - copy MPACT/$vis_edits
+      _content:
+
+    rod_treatment:
+      _pltype: parameter
+      _type: bool
+      _do:
+        - copy MPACT/$rod_treatment
+      _content:
+
+    jagged:
+      _pltype: parameter
+      _type: bool
+      _do:
+        - copy MPACT/$jagged
+      _content:
+
+    grid_treatment:
+      _pltype: parameter
+      _type: string
+      _do:
+        - copy MPACT/$grid_treatment
+      _content:
+
+    axial_buckling:
+      _pltype: parameter
+      _type: double
+      _do:
+        - copy MPACT/$axial_buckling
+      _content:
+
+    uniform_crud:
+      _pltype:  list
+      _content:
+        crud_thickness:
+          _pltype: parameter
+          _type: double
+          _do:
+            - copy MPACT/@uniform_crud:0
+          _content:
+
+        crud_mass:
+          _pltype: parameter
+          _type: double
+          _do:
+            - copy MPACT/@uniform_crud:1
+          _content:
+
+        boron_mass:
+          _pltype: parameter
+          _type: double
+          _do:
+            - copy MPACT/@uniform_crud:2
+          _content:
+
+    crud_depletion:
+      _pltype:  list
+      _content:
+        flag:
+          _pltype: parameter
+          _type: bool
+          _do:
+            - copy MPACT/@crud_depletion:0
+          _content:
+
+        crud_depfrac:
+          _pltype: parameter
+          _type: double
+          _do:
+            - copy MPACT/@crud_depletion:1
+          _content:
+
+    db_entry:
+      _pltype: list
+      _do:
+        - mpact_db db_entry_,MPACT/%db_entry/*
+      _content:
+
+    quad_set:
+      _pltype: list
+      _content:
+        quad_type:
+          _pltype: parameter
+          _type: string
+          _do:
+            - copy MPACT/$quad_type
+          _content:
+
+        shield_quad_type:
+          _pltype: parameter
+          _type: string
+          _do:
+            - copy MPACT/$shield_quad_type
+          _content:
+
+        polars_octant:
+          _pltype: parameter
+          _type: int
+          _do:
+            - copy MPACT/$polars_octant
+          _content:
+
+        azimuthals_octant:
+          _pltype: parameter
+          _type: int
+          _do:
+            - copy MPACT/$azimuthals_octant
+          _content:
+
+        shield_azimuthals_octant:
+          _pltype: parameter
+          _type: int
+          _do:
+            - copy MPACT/$shield_azimuthals_octant
+          _content:
+
+        shield_polars_octant:
+          _pltype: parameter
+          _type: int
+          _do:
+            - copy MPACT/$shield_polars_octant
+          _content:
+
+    mesh:
+      _pltype: list
+      _content:
+
+        pinmesh:
+          _pltype: list
+          _do:
+            - mpact_mesh pinmesh_,MPACT/%mesh/*
+          _content:
+
+        automesh_bounds_min:
+          _pltype: parameter
+          _type: double
+          _do:
+            - copy MPACT/$automesh_bounds:0
+          _content:
+
+        automesh_bounds_max:
+          _pltype: parameter
+          _type: double
+          _do:
+            - copy MPACT/$automesh_bounds:1
+          _content:
+
+        meshing_method:
+          _pltype: parameter
+          _type: string
+          _do:
+            - copy MPACT/$meshing_method
+          _content:
+
+        axial_mesh:
+          _pltype: array
+          _type: double
+          _do:
+            - copy MPACT/$axial_mesh
+          _content:
+
+        crud_mesh_thickness:
+          _pltype: parameter
+          _type: double
+          _do:
+            - copy MPACT/@crud_mesh:0
+          _content:
+
+        crud_mesh_div:
+          _pltype: parameter
+          _type: int
+          _do:
+            - copy MPACT/@crud_mesh:1
+          _content:
+
+    parallel_env:
+      _pltype: list
+      _content:
+
+        num_space:
+          _pltype: parameter
+          _type: int
+          _do:
+            - copy MPACT/$num_space
+          _content:
+
+        num_angle:
+          _pltype: parameter
+          _type: int
+          _do:
+            - copy MPACT/$num_angle
+          _content:
+
+        num_energy:
+          _pltype: parameter
+          _type: int
+          _do:
+            - copy MPACT/$num_energy
+          _content:
+
+        num_threads:
+          _pltype: parameter
+          _type: int
+          _do:
+            - copy MPACT/$num_threads
+          _content:
+
+        method:
+          _pltype: parameter
+          _type: string
+          _do:
+            - copy MPACT/$par_method
+          _content:
+
+        filename:
+          _pltype: parameter
+          _type: string
+          _do:
+            - copy MPACT/$par_file
+          _content:
+
+    iteration_control:
+      _pltype: list
+      _content:
+
+        k_tolerance:
+          _pltype: parameter
+          _type: double
+          _do:
+            - copy MPACT/$k_tolerance
+          _content:
+
+        flux_tolerance:
+          _pltype: parameter
+          _type: double
+          _do:
+            - copy MPACT/$flux_tolerance
+          _content:
+
+        num_outers:
+          _pltype: parameter
+          _type: int
+          _do:
+            - copy MPACT/$num_outers
+          _content:
+
+        num_inners:
+          _pltype: parameter
+          _type: int
+          _do:
+            - copy MPACT/$num_inners
+          _content:
+
+        up_scatter:
+          _pltype: parameter
+          _type: int
+          _do:
+            - copy MPACT/$up_scatter
+          _content:
+
+        scattering:
+          _pltype: parameter
+          _type: string
+          _do:
+            - copy MPACT/$scattering
+          _content:
+
+        boundary_update:
+          _pltype: parameter
+          _type: string
+          _do:
+            - copy MPACT/$boundary_update
+          _content:
+
+    depletion:
+      _pltype: list
+      _content:
+
+        dep_filename:
+          _pltype: parameter
+          _type: string
+          _do:
+            - copy MPACT/$dep_filename
+          _content:
+
+        dep_edit:
+          _pltype: parameter
+          _type: string
+          _do:
+            - copy MPACT/$dep_edit
+          _content:
+
+        dep_substep:
+          _pltype: parameter
+          _type: int
+          _do:
+            - copy MPACT/$dep_substep
+          _content:
+
+        dep_kernel:
+          _pltype: parameter
+          _type: string
+          _do:
+            - copy MPACT/$dep_kernel
+          _content:
+
+        depl_time_method:
+          _pltype: parameter
+          _type: string
+          _do:
+            - copy MPACT/$depl_time_method
+          _content:
+
+        include_depl_mats:
+          _pltype: array
+          _type: string
+          _do:
+            - copy MPACT/$include_depl_mats
+          _content:
+
+        exclude_depl_mats:
+          _pltype: array
+          _type: string
+          _do:
+            - copy MPACT/$exclude_depl_mats
+          _content:
+    TH:
+      _pltype: list
+      _content:
+
+        coupling_method:
+          _pltype: parameter
+          _type: string
+          _do:
+            - copy MPACT/$coupling_method
+          _content:
+
+        average_ftemp:
+          _pltype: parameter
+          _type: bool
+          _do:
+            - copy MPACT/$average_ftemp
+          _content:
+
+        shield_max_outers:
+          _pltype: parameter
+          _type: int
+          _do:
+            - copy MPACT/$shielder_th:0
+          _content:
+
+        shield_min_dT:
+          _pltype: parameter
+          _type: double
+          _do:
+            - copy MPACT/$shielder_th:1
+          _content:
+
+        shield_min_drho:
+          _pltype: parameter
+          _type: double
+          _do:
+            - copy MPACT/$shielder_th:2
+          _content:
+
+        outers_per_TH:
+          _pltype: parameter
+          _type: int
+          _do:
+            - copy MPACT/$outers_per_TH
+          _content:
+
+        ctf_basename:
+          _pltype: parameter
+          _type: string
+          _do:
+            - copy MPACT/$ctf_basename
+          _content:
+
+        sth_dhfrac:
+          _pltype: parameter
+          _type: double
+          _do:
+            - copy MPACT/$sth_dhfrac
+          _content:
+
+        sth_hgap:
+          _pltype: parameter
+          _type: double
+          _do:
+            - copy MPACT/$sth_hgap
+          _content:
+
+        sth_channeltype:
+          _pltype: parameter
+          _type: string
+          _do:
+            - copy MPACT/$sth_channeltype
+          _content:
+
+        sth_tabletype:
+          _pltype: parameter
+          _type: string
+          _do:
+            - copy MPACT/$sth_tabletype
+          _content:
+
+        sth_avgpin:
+          _pltype: parameter
+          _type: bool
+          _do:
+            - copy MPACT/$sth_avgpin
+          _content:
+
+        temptable_filename:
+          _pltype: parameter
+          _type: string
+          _do:
+            - copy MPACT/$temptable_filename
+          _content:
+
+    cmfd:
+      _pltype: list
+      _content:
+
+        cmfd:
+          _pltype: parameter
+          _type: string
+          _do:
+            - copy MPACT/$cmfd
+          _content:
+
+        prolongation:
+          _pltype: parameter
+          _type: string
+          _do:
+            - copy MPACT/$prolongation
+          _content:
+
+        solver:
+          _pltype: parameter
+          _type: string
+          _do:
+            - copy MPACT/$cmfd_solver
+          _content:
+
+        eigen_solver:
+          _pltype: parameter
+          _type: string
+          _do:
+            - copy MPACT/$cmfd_eigen_solver
+          _content:
+
+        k_shift:
+          _pltype: parameter
+          _type: double
+          _do:
+            - copy MPACT/$k_shift
+          _content:
+
+        num_outers:
+          _pltype: parameter
+          _type: int
+          _do:
+            - copy MPACT/$cmfd_num_outers
+          _content:
+
+        num_inners:
+          _pltype: parameter
+          _type: int
+          _do:
+            - copy MPACT/$cmfd_num_inners
+          _content:
+
+        up_scatter:
+          _pltype: parameter
+          _type: int
+          _do:
+            - copy MPACT/$cmfd_up_scatter
+          _content:
+
+        angle_decomp:
+          _pltype: parameter
+          _type: string
+          _do:
+            - copy MPACT/$cmfd_angle_decomp
+          content:
+
+        cmfd_ur:
+          _pltype: parameter
+          _type: double
+          _do:
+            - copy MPACT/$cmfd_ur
+          _content:
+
+        subplane_target:
+          _pltype: parameter
+          _type: double
+          _do:
+            - copy MPACT/$subplane_target
+          _content:
+
+        subplane_max:
+          _pltype: parameter
+          _type: double
+          _do:
+            - copy MPACT/$subplane_max
+          _content:
+
+    2d1d:
+      _pltype: list
+      _content:
+
+        splitTL:
+          _pltype: parameter
+          _type: bool
+          _do:
+            - copy MPACT/$split_TL
+          _content:
+
+        TLtreatment:
+          _pltype: parameter
+          _type: string
+          _do:
+            - copy MPACT/$TL_treatment
+          _content:
+
+        nodal_method:
+          _pltype: parameter
+          _type: string
+          _do:
+            - copy MPACT/$nodal_method
+          _content:
+
+        under_relax:
+          _pltype: parameter
+          _type: double
+          _do:
+            - copy MPACT/$under_relax
+          _content:
+
+    xs_library:
+      _pltype: list
+      _content:
+
+        xs_type:
+          _pltype: parameter
+          _type: string
+          _do:
+            - copy MPACT/$xs_type
+          _content:
+
+        xs_filename:
+          _pltype: parameter
+          _type: string
+          _do:
+            - copy MPACT/$xs_filename
+          _content:
+
+        ce_filename:
+          _pltype: parameter
+          _type: string
+          _do:
+            - copy MPACT/$ce_filename
+          _content:
+
+        shield_method:
+          _pltype: parameter
+          _type: string
+          _do:
+            - copy MPACT/$shield_method
+          _content:
+
+        shield_nbatch:
+          _pltype: parameter
+          _type: int
+          _do:
+            - copy MPACT/$shield_nbatch
+          _content:
+
+        xsshielder:
+          _pltype: parameter
+          _type: string
+          _do:
+            - copy MPACT/$xs_shielder
+          _content:
+
+        quasi_1D:
+          _pltype: parameter
+          _type: string
+          _do:
+            - copy MPACT/$quasi_1D
+          _content:
+
+        mats_file:
+          _pltype: parameter
+          _type: string
+          _do:
+            - copy MPACT/$mats_file
+          _content:
+
+        subgroup_set:
+          _pltype: parameter
+          _type: int
+          _do:
+            - copy MPACT/$subgroup_set
+          _content:
+
+        mod_mat:
+          _pltype: parameter
+          _type: string
+          _do:
+            - copy MPACT/$mod_mat
+          _content:
+
+    transient:
+      _pltype: list
+      _content:
+
+        perturb_time_start:
+          _pltype: array
+          _type: double
+          _do:
+            - copyarray MPACT/@perturb,start=>0,stride=>6
+          _content:
+        perturb_time_stop:
+          _pltype: array
+          _type: double
+          _do:
+            - copyarray MPACT/@perturb,start=>1,stride=>6
+          _content:
+        perturb_type:
+          _pltype: array
+          _type: string
+          _do:
+            - copyarray MPACT/@perturb,start=>2,stride=>6
+          _content:
+        perturb_mat_init:
+          _pltype: array
+          _type: string
+          _do:
+            - copyarray MPACT/@perturb,start=>3,stride=>6
+          _content:
+        perturb_mat_start:
+          _pltype: array
+          _type: string
+          _do:
+            - copyarray MPACT/@perturb,start=>4,stride=>6
+          _content:
+        perturb_mat_stop:
+          _pltype: array
+          _type: string
+          _do:
+            - copyarray MPACT/@perturb,start=>5,stride=>6
+          _content:
+
+        timestep_dt:
+          _pltype: parameter
+          _type: double
+          _do:
+            - copy MPACT/$timestep:0
+          _content:
+        timestep_dt_min:
+          _pltype: parameter
+          _type: double
+          _do:
+            - copy MPACT/$timestep:1
+          _content:
+        timestep_dt_max:
+          _pltype: parameter
+          _type: double
+          _do:
+            - copy MPACT/$timestep:2
+          _content:
+
+        prompt:
+          _pltype: parameter
+          _type: bool
+          _do:
+            - copy MPACT/$prompt
+          _content:
+
+        accel:
+          _pltype: parameter
+          _type: bool
+          _do:
+            - copy MPACT/$accel
+          _content:
+
+        transmethod:
+          _pltype: parameter
+          _type: string
+          _do:
+            - copy MPACT/$transmethod:0
+          _content:
+
+        theta_order:
+          _pltype: parameter
+          _type: double
+          _do:
+            - copy MPACT/$transmethod:1
+          _content:
+
+

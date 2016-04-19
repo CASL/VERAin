@@ -1,0 +1,301 @@
+STATES:
+  _pltype: list
+  _do:
+    - setdb MAIN_DB
+#    - setvar _path,%STATE/*/$/@rodbank,apply=>&pathfind
+#    - getvar _path,apply=>'my @value=split(/\//,shift @_); splice(@value,2,1)';
+#    - getvar _path,apply=>&pathlevel,arg=>3
+
+  _tr:
+    _name: _loop
+    _content: %STATE
+
+  _content:
+
+    State_(_loop):
+      _pltype: list
+      _do:
+        - setdb MAIN_DB
+
+      _content:
+
+        id:
+          _pltype: parameter
+          _type: string
+          _do:
+            - copy %STATE/$(_loop)/$id
+          _content:
+
+        title:
+          _pltype: parameter
+          _type: string
+          _do:
+            - copy %STATE/$(_loop)/$title
+          _content:
+
+        power:
+          _pltype: parameter
+          _type: double
+          _do:
+            - copy %STATE/$(_loop)/$power
+          _content:
+
+        flow:
+          _pltype: parameter
+          _type: double
+          _do:
+            - copy %STATE/$(_loop)/$flow
+          _content:
+
+        bypass:
+          _pltype: parameter
+          _type: double
+          _do:
+            - copy %STATE/$(_loop)/$bypass
+          _content:
+
+        xenopt:
+          _pltype: parameter
+          _type: string
+          _do:
+            - copy %STATE/$(_loop)/$xenon
+          _content:
+
+        samopt:
+          _pltype: parameter
+          _type: string
+          _do:
+            - copy %STATE/$(_loop)/$samar
+          _content:
+
+        bank_labels:
+          _pltype: array
+          _type: string
+          _do:
+            - copyarray %STATE/$(_loop)/@rodbank,select=>even
+          _content:
+
+        bank_pos:
+          _pltype: array
+          _type: int
+          _do:
+            - copyarray %STATE/$(_loop)/@rodbank,select=>odd
+          _content:
+
+        boron:
+          _pltype: parameter
+          _type: double
+          _do:
+            - copy %STATE/$(_loop)/$boron
+          _content:
+
+        b10:
+          _pltype: parameter
+          _type: double
+          _do:
+            - copy %STATE/$(_loop)/$b10:0
+          _content:
+
+        b10_depl:
+          _pltype: parameter
+          _type: bool
+          _do:
+            - copy %STATE/$(_loop)/$b10:1
+          _content:
+
+        tinlet:
+          _pltype: parameter
+          _type: double
+          _do:
+            - tocelsius %STATE/$(_loop)/@tinlet
+          _content:
+
+        pressure:
+          _pltype: parameter
+          _type: double
+          _do:
+            - copy %STATE/$(_loop)/$pressure,apply=>($_[0])*0.00689475729
+          _content:
+
+        search:
+          _pltype: parameter
+          _type: string
+          _do:
+            - copy %STATE/$(_loop)/$search
+          _content:
+
+        kcrit:
+          _pltype: parameter
+          _type: double
+          _do:
+            - copy %STATE/$(_loop)/$kcrit
+          _content:
+
+        deplete:
+          _pltype: array
+          _type: double
+          _do:
+            - copyarray %STATE/$(_loop)/@deplete,start=>1
+          _content:
+
+        deplete_units:
+          _pltype: parameter
+          _type: string
+          _do:
+            - copy %STATE/$(_loop)/@deplete:0
+          _content:
+
+        edit:
+          _pltype: array
+          _type: string
+          _do:
+            - copyarray %STATE/$(_loop)/$edit
+          _content:
+
+        tfuel:
+          _pltype: parameter
+          _type: double
+          _do:
+            - tocelsius %STATE/$(_loop)/@tfuel,apply=>($_[0]+273.15)
+          _content:
+
+        modden:
+          _pltype: parameter
+          _type: double
+          _do:
+            - copy %STATE/$(_loop)/$modden
+          _content:
+
+        feedback:
+          _pltype: parameter
+          _type: string
+          _do:
+            - copy %STATE/$(_loop)/$feedback
+          _content:
+
+        sym:
+          _pltype: parameter
+          _type: string
+          _do:
+            - copy %STATE/$(_loop)/$sym
+          _content:
+
+        reset_sol:
+          _pltype: parameter
+          _type: bool
+          _do:
+            - copy %STATE/$(_loop)/$reset_sol
+          _content:
+
+        op_date:
+          _pltype: parameter
+          _type: string
+          _do:
+            - copy %STATE/$(_loop)/$op_date
+          _content:
+
+        restart_shuffle_file:
+          _pltype: array
+          _type: string
+          _do:
+            - copyarray %STATE/$(_loop)/@restart_shuffle,select=>even
+          _content:
+
+        restart_shuffle_label:
+          _pltype: array
+          _type: string
+          _do:
+            - copyarray %STATE/$(_loop)/@restart_shuffle,select=>odd
+          _content:
+
+        restart_write_file:
+          _pltype: parameter
+          _type: string
+          _do:
+            - copy %STATE/$(_loop)/@restart_write:0
+          _content:
+
+        restart_write_label:
+          _pltype: parameter
+          _type: string
+          _do:
+            - copy %STATE/$(_loop)/@restart_write:1
+          _content:
+
+        restart_read_file:
+          _pltype: parameter
+          _type: string
+          _do:
+            - copy %STATE/$(_loop)/@restart_read:0
+          _content:
+
+        restart_read_label:
+          _pltype: parameter
+          _type: string
+          _do:
+            - copy %STATE/$(_loop)/@restart_read:1
+          _content:
+
+        shuffle_label:
+          _pltype: array
+          _type: string
+          _do:
+            - coremapmap CORE/$size,CORE/@core_shape,%STATE/$(_loop)/@shuffle_label,CORE/$bc_sym,expand=>0,ignore=>'-'
+          _content:
+
+        tinlet_dist:
+          _pltype: array
+          _type: double
+          _do:
+            - coremapmap CORE/$size,CORE/@core_shape,%STATE/$(_loop)/@tinlet_dist,CORE/$bc_sym
+          _content:
+
+        void_map:
+          _pltype: array
+          _type: double
+          _do:
+            - coremapmap CORE/$size,CORE/@core_shape,%STATE/$(_loop)/@void,CORE/$bc_sym
+          _content:
+
+        flow_dist:
+          _pltype: array
+          _type: double
+          _do:
+            - coremapmap CORE/$size,CORE/@core_shape,%STATE/$(_loop)/@flow_dist,CORE/$bc_sym
+          _content:
+
+        h_conc:
+          _pltype: parameter
+          _type: double
+          _do:
+            - copy %STATE/$(_loop)/$cool_chem:0
+          _content:
+
+        li_conc:
+          _pltype: parameter
+          _type: double
+          _do:
+            - copy %STATE/$(_loop)/$cool_chem:1
+          _content:
+
+        ni_sol:
+          _pltype: parameter
+          _type: double
+          _do:
+            - copy %STATE/$(_loop)/$cool_chem:2
+          _content:
+
+        ni_par:
+          _pltype: parameter
+          _type: double
+          _do:
+            - copy %STATE/$(_loop)/$cool_chem:3
+          _content:
+
+        fe_sol:
+          _pltype: parameter
+          _type: double
+          _do:
+            - copy %STATE/$(_loop)/$cool_chem:4
+          _content:
+

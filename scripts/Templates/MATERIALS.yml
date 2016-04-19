@@ -1,0 +1,10 @@
+MATERIALS:
+  _pltype: list
+  _content:
+    uo2:
+      _pltype: map
+      _keyon: parent
+      _name:
+      
+        _do:
+          - paths CORE/%vacuum,CORE/%mod,CORE/%uo2,CORE/%zirc,CORE/%pyrex,CORE/%aic,CORE/%he,CORE/%b4c,CORE/%inc,CORE/%ss

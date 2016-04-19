@@ -1,0 +1,424 @@
+COBRATF:
+  _pltype: list
+  _do:
+    - setdb MAIN_DB
+  _content:
+    nfuel:
+      _pltype: parameter
+      _type: int
+      _do:
+        - copy COBRATF/$nfuel
+      _content:
+
+    nc:
+      _pltype: parameter
+      _type: int
+      _do:
+        - copy COBRATF/$nc
+      _content:
+
+    chf:
+      _pltype: parameter
+      _type: int
+      _do:
+        - copy COBRATF/$chf
+      _content:
+
+    debug:
+      _pltype: parameter
+      _type: int
+      _do:
+        - copy COBRATF/$debug
+      _content:
+
+    irfc:
+      _pltype: parameter
+      _type: int
+      _do:
+        - copy COBRATF/$irfc
+      _content:
+
+    dhfrac:
+      _pltype: parameter
+      _type: double
+      _do:
+        - copy COBRATF/$dhfrac
+      _content:
+
+    hgap:
+      _pltype: parameter
+      _type: double
+      _do:
+        - copy COBRATF/$hgap
+      _content:
+
+    gridlabel:
+      _pltype: array
+      _type: string
+      _do:
+        - copyhash COBRATF/%gridloss,select=>keys,sort=>name_reverse
+      _content:
+
+    gridloss:
+      _pltype: array
+      _type: double
+      _do:
+        - copyhash COBRATF/%gridloss,select=>values,sort=>name_reverse
+      _content:
+
+    gridbloclabel:
+      _pltype: array
+      _type: string
+      _do:
+        - copyhash COBRATF/%gridbloc,select=>keys,sort=>name_reverse
+      _content:
+
+    gridbloc:
+      _pltype: array
+      _type: double
+      _do:
+        - copyhash COBRATF/%gridbloc,select=>values,sort=>name_reverse
+      _content:
+
+    epso:
+      _pltype: parameter
+      _type: double
+      _do:
+        - copy COBRATF/$epso
+      _content:
+
+    oitmax:
+      _pltype: parameter
+      _type: int
+      _do:
+        - copy COBRATF/$oitmax
+      _content:
+
+    iitmax:
+      _pltype: parameter
+      _type: int
+      _do:
+        - copy COBRATF/$iitmax
+      _content:
+
+    dtmin:
+      _pltype: parameter
+      _type: double
+      _do:
+        - copy COBRATF/$dtmin
+      _content:
+
+    dtmax:
+      _pltype: parameter
+      _type: double
+      _do:
+        - copy COBRATF/$dtmax
+      _content:
+
+    tend:
+      _pltype: parameter
+      _type: double
+      _do:
+        - copy COBRATF/$tend
+      _content:
+
+    rtwfp:
+      _pltype: parameter
+      _type: double
+      _do:
+        - copy COBRATF/$rtwfp
+      _content:
+
+    maxits:
+      _pltype: parameter
+      _type: int
+      _do:
+        - copy COBRATF/$maxits
+      _content:
+
+    courant:
+      _pltype: parameter
+      _type: double
+      _do:
+        - copy COBRATF/$courant
+      _content:
+
+    maps_filename:
+      _pltype: parameter
+      _type: string
+      _do:
+        - copy COBRATF/$maps_filename
+      _content:
+
+    heated_elements_type:
+      _pltype: parameter
+      _type: int
+      _do:
+        - copy COBRATF/$heated_elements_type
+      _content:
+
+    heater_tube_id:
+      _pltype: parameter
+      _type: double
+      _do:
+        - copy COBRATF/$heater_tube_id
+      _content:
+
+    heater_tube_od:
+      _pltype: parameter
+      _type: double
+      _do:
+        - copy COBRATF/$heater_tube_od
+      _content:
+
+    heater_tube_pitch:
+      _pltype: parameter
+      _type: double
+      _do:
+        - copy COBRATF/$heater_tube_pitch
+      _content:
+
+    solver:
+      _pltype: parameter
+      _type: int
+      _do:
+        - copy COBRATF/$solver
+      _content:
+
+    parallel:
+      _pltype: parameter
+      _type: int
+      _do:
+        - copy COBRATF/$parallel
+      _content:
+
+    global_energy_balance:
+      _pltype: parameter
+      _type: double
+      _do:
+        - copy COBRATF/$global_energy_balance
+      _content:
+
+    global_mass_balance:
+      _pltype: parameter
+      _type: double
+      _do:
+        - copy COBRATF/$global_mass_balance
+      _content:
+
+    fluid_energy_storage:
+      _pltype: parameter
+      _type: double
+      _do:
+        - copy COBRATF/$fluid_energy_storage
+      _content:
+
+    solid_energy_storage:
+      _pltype: parameter
+      _type: double
+      _do:
+        - copy COBRATF/$solid_energy_storage
+      _content:
+
+    mass_storage:
+      _pltype: parameter
+      _type: double
+      _do:
+        - copy COBRATF/$mass_storage
+      _content:
+
+    Tcool_criteria:
+      _pltype: parameter
+      _type: double
+      _do:
+        - copy COBRATF/$Tcool_criteria
+      _content:
+
+    Tsolid_criteria:
+      _pltype: parameter
+      _type: double
+      _do:
+        - copy COBRATF/$Tsolid_criteria
+      _content:
+
+    void_criteria:
+      _pltype: parameter
+      _type: double
+      _do:
+        - copy COBRATF/$void_criteria
+      _content:
+
+    pressure_criteria:
+      _pltype: parameter
+      _type: double
+      _do:
+        - copy COBRATF/$pressure_criteria
+      _content:
+
+    vliq_criteria:
+      _pltype: parameter
+      _type: double
+      _do:
+        - copy COBRATF/$vliq_criteria
+      _content:
+
+    vvap_criteria:
+      _pltype: parameter
+      _type: double
+      _do:
+        - copy COBRATF/$vvap_criteria
+      _content:
+
+    vdrop_criteria:
+      _pltype: parameter
+      _type: double
+      _do:
+        - copy COBRATF/$vdrop_criteria
+      _content:
+
+    Tcoola_criteria:
+      _pltype: parameter
+      _type: double
+      _do:
+        - copy COBRATF/$Tcoola_criteria
+      _content:
+
+    Tsolida_criteria:
+      _pltype: parameter
+      _type: double
+      _do:
+        - copy COBRATF/$Tsolida_criteria
+      _content:
+
+    pressurea_criteria:
+      _pltype: parameter
+      _type: double
+      _do:
+        - copy COBRATF/$pressurea_criteria
+      _content:
+
+    vliqa_criteria:
+      _pltype: parameter
+      _type: double
+      _do:
+        - copy COBRATF/$vliqa_criteria
+      _content:
+
+    vvapa_criteria:
+      _pltype: parameter
+      _type: double
+      _do:
+        - copy COBRATF/$vvapa_criteria
+      _content:
+
+    vdropa_criteria:
+      _pltype: parameter
+      _type: double
+      _do:
+        - copy COBRATF/$vdropa_criteria
+      _content:
+
+    use_sol_stop_crit:
+      _pltype: parameter
+      _type: int
+      _do:
+        - copy COBRATF/$use_sol_stop_crit
+      _content:
+
+    edit_gaps:
+      _pltype: parameter
+      _type: int
+      _do:
+        - copy COBRATF/$edit_gaps
+      _content:
+
+    edit_channels:
+      _pltype: parameter
+      _type: int
+      _do:
+        - copy COBRATF/$edit_channels
+      _content:
+
+    edit_rods:
+      _pltype: parameter
+      _type: int
+      _do:
+        - copy COBRATF/$edit_rods
+      _content:
+
+    edit_dnb:
+      _pltype: parameter
+      _type: int
+      _do:
+        - copy COBRATF/$edit_dnb
+      _content:
+
+    edit_convergence:
+      _pltype: parameter
+      _type: int
+      _do:
+        - copy COBRATF/$edit_convergence
+      _content:
+
+    edit_hdf5:
+      _pltype: parameter
+      _type: int
+      _do:
+        - copy COBRATF/$edit_hdf5
+      _content:
+
+    edit_fluid_vtk:
+      _pltype: parameter
+      _type: int
+      _do:
+        - copy COBRATF/$edit_fluid_vtk
+      _content:
+
+    edit_rod_vtk:
+      _pltype: parameter
+      _type: int
+      _do:
+        - copy COBRATF/$edit_rod_vtk
+      _content:
+
+    proc_per_assem:
+      _pltype: parameter
+      _type: int
+      _do:
+        - copy COBRATF/$proc_per_assem
+      _content:
+
+    boil_ht_cor:
+      _pltype: parameter
+      _type: string
+      _do:
+        - copy COBRATF/$boil_ht_cor
+      _content:
+
+    property_evaluations:
+      _pltype: parameter
+      _type: string
+      _do:
+        - copy COBRATF/$property_evaluations
+      _content:
+
+    k_void_drift:
+      _pltype: parameter
+      _type: double
+      _do:
+        - copy COBRATF/$k_void_drift
+      _content:
+
+    beta_sp:
+      _pltype: parameter
+      _type: double
+      _do:
+        - copy COBRATF/$beta_sp
+      _content:
+
+    crud:
+      _pltype: parameter
+      _type: string
+      _do:
+        - copy COBRATF/$crud
+      _content:

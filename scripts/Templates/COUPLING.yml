@@ -1,0 +1,82 @@
+COUPLING:
+  _pltype: list
+  _do:
+    - setdb MAIN_DB
+  _content:
+    epsk:
+      _pltype: parameter
+      _type: double
+      _do:
+        - copy COUPLING/$epsk
+      _content:
+
+    epsp:
+      _pltype: parameter
+      _type: double
+      _do:
+        - copy COUPLING/$epsp
+      _content:
+
+    eps_boron:
+      _pltype: parameter
+      _type: double
+      _do:
+        - copy COUPLING/$eps_boron
+      _content:
+
+    eps_temp:
+      _pltype: parameter
+      _type: double
+      _do:
+        - copy COUPLING/$eps_temp
+      _content:
+
+    ctf_iters_max:
+      _pltype: parameter
+      _type: int
+      _do:
+        - copy COUPLING/$ctf_iters_max
+      _content:
+
+    ctf_iters_growth:
+      _pltype: parameter
+      _type: double
+      _do:
+        - copy COUPLING/$ctf_iters_growth
+      _content:
+
+    rlx_power:
+      _pltype: parameter
+      _type: double
+      _do:
+        - copy COUPLING/$rlx_power
+      _content:
+
+    rlx_tfuel:
+      _pltype: parameter
+      _type: double
+      _do:
+        - copy COUPLING/$rlx_tfuel
+      _content:
+
+    rlx_den:
+      _pltype: parameter
+      _type: double
+      _do:
+        - copy COUPLING/$rlx_den
+      _content:
+
+    maxiter:
+      _pltype: parameter
+      _type: int
+      _do:
+        - copy COUPLING/$maxiter
+      _content:
+
+    read_restart:
+      _pltype: parameter
+      _type: string
+      _do:
+        - copy COUPLING/$read_restart
+      _content:
+

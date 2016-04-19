@@ -1,0 +1,243 @@
+MAMBA2D:
+  _pltype: list
+  _do:
+    - setdb MAIN_DB
+  _content:
+    problem_name:
+      _pltype: parameter
+      _type: string
+      _do:
+        - copy MAMBA2D/$problem_name
+      _content:
+
+    Nx:
+      _pltype: parameter
+      _type: int
+      _do:
+        - copy MAMBA2D/$Nx
+      _content:
+
+    Ny:
+      _pltype: parameter
+      _type: int
+      _do:
+        - copy MAMBA2D/$Ny
+      _content:
+
+    deltaX:
+      _pltype: parameter
+      _type: double
+      _do:
+        - copy MAMBA2D/$deltaX
+      _content:
+
+    deltaY:
+      _pltype: parameter
+      _type: double
+      _do:
+        - copy MAMBA2D/$deltaY
+      _content:
+
+    deltat:
+      _pltype: parameter
+      _type: double
+      _do:
+        - copy MAMBA2D/$deltat
+      _content:
+
+    tmax:
+      _pltype: parameter
+      _type: double
+      _do:
+        - copy MAMBA2D/$tmax
+      _content:
+
+    imod:
+      _pltype: parameter
+      _type: int
+      _do:
+        - copy MAMBA2D/$imod
+      _content:
+
+    HFprod:
+      _pltype: parameter
+      _type: double
+      _do:
+        - copy MAMBA2D/$HFprod
+      _content:
+
+    Tsat:
+      _pltype: parameter
+      _type: double
+      _do:
+        - copy MAMBA2D/$Tsat
+      _content:
+
+    C_por:
+      _pltype: parameter
+      _type: double
+      _do:
+        - copy MAMBA2D/$C_por
+      _content:
+
+    C_den:
+      _pltype: parameter
+      _type: double
+      _do:
+        - copy MAMBA2D/$C_den
+      _content:
+
+    Cp:
+      _pltype: parameter
+      _type: double
+      _do:
+        - copy MAMBA2D/$Cp
+      _content:
+
+    C_k:
+      _pltype: parameter
+      _type: double
+      _do:
+        - copy MAMBA2D/$C_k
+      _content:
+
+    Hc:
+      _pltype: parameter
+      _type: double
+      _do:
+        - copy MAMBA2D/$Hc
+      _content:
+
+    Nc:
+      _pltype: parameter
+      _type: double
+      _do:
+        - copy MAMBA2D/$Nc
+      _content:
+
+    rc:
+      _pltype: parameter
+      _type: double
+      _do:
+        - copy MAMBA2D/$rc
+      _content:
+
+    Db:
+      _pltype: parameter
+      _type: double
+      _do:
+        - copy MAMBA2D/$Db
+      _content:
+
+    jm:
+      _pltype: parameter
+      _type: int
+      _do:
+        - copy MAMBA2D/$jm
+      _content:
+
+    Wden:
+      _pltype: parameter
+      _type: double
+      _do:
+        - copy MAMBA2D/$Wden
+      _content:
+
+    ksnb:
+      _pltype: parameter
+      _type: double
+      _do:
+        - copy MAMBA2D/$ksnb
+      _content:
+
+    ksnbp:
+      _pltype: parameter
+      _type: double
+      _do:
+        - copy MAMBA2D/$ksnbp
+      _content:
+
+    npar:
+      _pltype: parameter
+      _type: int
+      _do:
+        - copy MAMBA2D/$npar
+      _content:
+    
+    AFe:
+      _pltype: parameter
+      _type: double
+      _do:
+        - copy MAMBA2D/$AFe
+      _content:
+    
+    EFe:
+      _pltype: parameter
+      _type: double
+      _do:
+        - copy MAMBA2D/$EFe
+      _content:
+    
+    nsol:
+      _pltype: parameter
+      _type: int
+      _do:
+        - copy MAMBA2D/$nsol
+      _content:
+    
+    AB:
+      _pltype: parameter
+      _type: double
+      _do:
+        - copy MAMBA2D/$AB
+      _content:
+    
+    EB:
+      _pltype: parameter
+      _type: double
+      _do:
+        - copy MAMBA2D/$EB
+      _content:
+    
+    nbnd:
+      _pltype: parameter
+      _type: int
+      _do:
+        - copy MAMBA2D/$nbnd
+      _content:
+    
+    C_NiFe2O4c:
+      _pltype: parameter
+      _type: double
+      _do:
+        - copy MAMBA2D/$C_NiFe2O4c
+      _content:
+    
+    C_NiFe2O4s:
+      _pltype: array
+      _type: double
+      _do:
+        - copy MAMBA2D/@C_NiFe2O4s
+      _content:
+    
+    nint:
+      _pltype: parameter
+      _type: int
+      _do:
+        - copy MAMBA2D/$nint
+      _content:
+    
+    C_Bc:
+      _pltype: parameter
+      _type: double
+      _do:
+        - copy MAMBA2D/$C_Bc
+      _content:
+    
+    C_Bs:
+      _pltype: array
+      _type: double
+      _do:
+        - copy MAMBA2D/@C_Bs
+      _content:
+    
