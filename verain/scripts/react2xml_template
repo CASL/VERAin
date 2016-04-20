@@ -7,6 +7,8 @@
 #
 my ($filename, $directory) = GetPaths();
 eval "use lib qw(${directory}Packages);
+use YAML;
+use YAMLUtil;
 use KeyTree;
 use REACTOR;
 use REACTORBlock;
@@ -153,9 +155,9 @@ if($INIT){
 # 
 # Initiate output blocks
 #
-# foreach $iblock (@BLOCKS){
-#    $SCHEMA_PL{$iblock} = "${directory}Templates/$iblock.yml";
-# }
+foreach $iblock (@BLOCKS){
+    $SCHEMA_PL{$iblock} = "${directory}Templates/$iblock.yml";
+}
 
 
 my ($ifile,$ofile)=@ARGV;
@@ -170,16 +172,18 @@ if(-e $ofile){
 #
 # Initiate configuration template for data structures
 #
-# $YAML::UseAliases=0;    # minimize references
-# ($INPUT_DB) = YAML::LoadFile( $SCHEMA );
+
+$INPUT_DB = (
+#include pyml/Directory.pyml
+)[0];
+
+unless ( $INPUT_DB ){    
+    $YAML::UseAliases=0;    # minimize references
+    ($INPUT_DB) = YAML::LoadFile( $SCHEMA );
 # Clean up the inner references in the tree
 # Need to fix in YAML package
-# mergekeys_loop( $INPUT_DB );
-
-$INPUT_DB =
-#include pyml/Directory.pyml
-;
-    
+    mergekeys_loop( $INPUT_DB );
+}
 #
 # Initiate main directory tree for storage of input data
 #
@@ -224,61 +228,62 @@ PL->set_sourcedb($MAIN_DB);
 # PL->dispatch($_UPDATE);        # hidden updates
 PL->dispatch();
 
-$SCH_PL{ 'CASEID' } =
+$SCH_PL{ 'CASEID' } = (
 #include pyml/CASEID.pyml
-;
-$SCH_PL{ 'STATES' } =
+)[0];
+$SCH_PL{ 'STATES' } = (
 #include pyml/STATES.pyml
-;
-$SCH_PL{ 'CORE' } =
+)[0];
+$SCH_PL{ 'CORE' } = (
 #include pyml/CORE.pyml
-;
-$SCH_PL{ 'ASSEMBLIES' } =
+)[0];
+$SCH_PL{ 'ASSEMBLIES' } = (
 #include pyml/ASSEMBLIES.pyml
-;
-$SCH_PL{ 'CONTROLS' } =
+)[0];
+$SCH_PL{ 'CONTROLS' } = (
 #include pyml/CONTROLS.pyml
-;
-$SCH_PL{ 'DETECTORS' } =
+)[0];
+$SCH_PL{ 'DETECTORS' } = (
 #include pyml/DETECTORS.pyml
-;
-$SCH_PL{ 'INSERTS' } =
+)[0];
+$SCH_PL{ 'INSERTS' } = (
 #include pyml/INSERTS.pyml
-;
-$SCH_PL{ 'INSILICO' } =
+)[0];
+$SCH_PL{ 'INSILICO' } = (
 #include pyml/INSILICO.pyml
-;
-$SCH_PL{ 'SHIFT' } =
+)[0];
+$SCH_PL{ 'SHIFT' } = (
 #include pyml/SHIFT.pyml
-;
-$SCH_PL{ 'EDITS' } =
+)[0];
+$SCH_PL{ 'EDITS' } = (
 #include pyml/EDITS.pyml
-;
-$SCH_PL{ 'COBRATF' } =
+)[0];
+$SCH_PL{ 'COBRATF' } = (
 #include pyml/COBRATF.pyml
-;
-$SCH_PL{ 'COUPLING' } =
+)[0];
+$SCH_PL{ 'COUPLING' } = (
 #include pyml/COUPLING.pyml
-;
-$SCH_PL{ 'MPACT' } =
+)[0];
+$SCH_PL{ 'MPACT' } = (
 #include pyml/MPACT.pyml
-;
-$SCH_PL{ 'MAMBA2D' } =
+)[0];
+$SCH_PL{ 'MAMBA2D' } = (
 #include pyml/MAMBA2D.pyml
-;
-$SCH_PL{ 'BISON' } =
+)[0];
+$SCH_PL{ 'BISON' } = (
 #include pyml/BISON.pyml
-;
-$SCH_PL{ 'TIAMAT' } =
+)[0];
+$SCH_PL{ 'TIAMAT' } = (
 #include pyml/TIAMAT.pyml
-;
+)[0];
 
-#$YAML::UseAliases=0;    # minimize references
+$YAML::UseAliases=0;    # minimize references
 foreach $iblock (@BLOCKS){
     # Initiate each block
-#    ($SCH_PL{$iblock}) = YAML::LoadFile( $SCHEMA_PL{$iblock} );
-#    mergekeys_loop( $SCH_PL{$iblock} );   # needs fix in YAML package
-
+    unless( $SCH_PL{$iblock} ){
+	($SCH_PL{$iblock}) = YAML::LoadFile( $SCHEMA_PL{$iblock} );
+	mergekeys_loop( $SCH_PL{$iblock} );   # needs fix in YAML package
+    }
     # Process the block using commands in the block templates
     PLlist($SCH_PL{$iblock}->{$iblock});
     YAML::DumpFile("$iblock.dbg.yml",$SCH_PL{$iblock}) if $DEBUG;
