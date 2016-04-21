@@ -64,24 +64,72 @@ my @BLOCKS;
 #
 # REGULAR DEVELOPER SECTION
 #
-# Data trees, default
-# To add new INPUT block, add new block section in FILE Templates/Directory.yml
+# Data trees, default To add new INPUT block, add new block section in
+# FILE Templates/Directory.yml
+#
 # To add new OUTPUT block, add new block YAML file in DIRECTORY
 # Templates/ that has the same basename as the block. Then add the
-# block name to array @BLOCKS below.
+# block name to array @BLOCKS below. Also add entry to $SCH_PL hash
+# below with #include line and follow syntax of other entries.
 #
 $SCHEMA="${directory}Templates/Directory.yml";
 @BLOCKS=('CASEID','STATES','CORE','ASSEMBLIES',
 	 'CONTROLS','DETECTORS','INSERTS',
 	 'INSILICO','SHIFT','EDITS','COBRATF','COUPLING',
 	 'MPACT','MAMBA2D','BISON','TIAMAT');
+
+$SCH_PL{ 'CASEID' } = (
+#include pyml/CASEID.pyml
+)[0];
+$SCH_PL{ 'STATES' } = (
+#include pyml/STATES.pyml
+)[0];
+$SCH_PL{ 'CORE' } = (
+#include pyml/CORE.pyml
+)[0];
+$SCH_PL{ 'ASSEMBLIES' } = (
+#include pyml/ASSEMBLIES.pyml
+)[0];
+$SCH_PL{ 'CONTROLS' } = (
+#include pyml/CONTROLS.pyml
+)[0];
+$SCH_PL{ 'DETECTORS' } = (
+#include pyml/DETECTORS.pyml
+)[0];
+$SCH_PL{ 'INSERTS' } = (
+#include pyml/INSERTS.pyml
+)[0];
+$SCH_PL{ 'INSILICO' } = (
+#include pyml/INSILICO.pyml
+)[0];
+$SCH_PL{ 'SHIFT' } = (
+#include pyml/SHIFT.pyml
+)[0];
+$SCH_PL{ 'EDITS' } = (
+#include pyml/EDITS.pyml
+)[0];
+$SCH_PL{ 'COBRATF' } = (
+#include pyml/COBRATF.pyml
+)[0];
+$SCH_PL{ 'COUPLING' } = (
+#include pyml/COUPLING.pyml
+)[0];
+$SCH_PL{ 'MPACT' } = (
+#include pyml/MPACT.pyml
+)[0];
+$SCH_PL{ 'MAMBA2D' } = (
+#include pyml/MAMBA2D.pyml
+)[0];
+$SCH_PL{ 'BISON' } = (
+#include pyml/BISON.pyml
+)[0];
+$SCH_PL{ 'TIAMAT' } = (
+#include pyml/TIAMAT.pyml
+)[0];
 #
 # END REGULAR DEVELOPER SECTION
 # Regular developers should not edit below.
 #
-
-# Rethreads
-# Now done in yml output templates
 
 # To have a bona fide XML file
 my $XML_HEADER='<?xml version="1.0" encoding="UTF-8"?>';
@@ -172,12 +220,18 @@ if(-e $ofile){
 #
 # Initiate configuration template for data structures
 #
-$YAML::UseAliases=0;    # minimize references
-($INPUT_DB) = YAML::LoadFile( $SCHEMA );
+
+$INPUT_DB = (
+#include pyml/Directory.pyml
+)[0];
+
+unless ( $INPUT_DB ){    
+    $YAML::UseAliases=0;    # minimize references
+    ($INPUT_DB) = YAML::LoadFile( $SCHEMA );
 # Clean up the inner references in the tree
 # Need to fix in YAML package
-mergekeys_loop( $INPUT_DB );
-
+    mergekeys_loop( $INPUT_DB );
+}
 #
 # Initiate main directory tree for storage of input data
 #
@@ -225,9 +279,10 @@ PL->dispatch();
 $YAML::UseAliases=0;    # minimize references
 foreach $iblock (@BLOCKS){
     # Initiate each block
-    ($SCH_PL{$iblock}) = YAML::LoadFile( $SCHEMA_PL{$iblock} );
-    mergekeys_loop( $SCH_PL{$iblock} );   # needs fix in YAML package
-
+    unless( $SCH_PL{$iblock} ){
+	($SCH_PL{$iblock}) = YAML::LoadFile( $SCHEMA_PL{$iblock} );
+	mergekeys_loop( $SCH_PL{$iblock} );   # needs fix in YAML package
+    }
     # Process the block using commands in the block templates
     PLlist($SCH_PL{$iblock}->{$iblock});
     YAML::DumpFile("$iblock.dbg.yml",$SCH_PL{$iblock}) if $DEBUG;

@@ -21,6 +21,6 @@ clean :
 ${OUTDIR}/%.pyml : ${INDIR}/%.yml
 	utils/yml2pl.pl $< $@
 
-exec: ${pyml_files} react2xml_template
-	utils/ple.pl react2xml_template r.exec
+exec: ${pyml_files} react2xml.pl
+	utils/ple.pl react2xml.pl r.exec
 	chmod +x ./r.exec
