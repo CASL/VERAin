@@ -170,7 +170,7 @@ if($VERSION){
 
 
 # For formatted display of XML file in a browser.
-my $XSLT_FILE='PL9.xsl';
+my $XSLT_FILE='https://raw.githubusercontent.com/CASL/VERAin/master/verain/scripts/PL9.xsl';
 if($XSLT ne 'on' && $XSLT ne 'off'){
    $XSLT_FILE=$XSLT; 
 }
