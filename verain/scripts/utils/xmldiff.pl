@@ -1,4 +1,4 @@
-#!/usr/local/bin/perl
+#!/usr/bin/env perl
 #
 #  Copyright (c) 2002, DecisionSoft Limited All rights reserved.
 #  Please see: 

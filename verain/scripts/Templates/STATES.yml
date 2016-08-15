@@ -173,6 +173,34 @@ STATES:
             - copy %STATE/$(_loop)/$feedback
           _content:
 
+        thexp:
+          _pltype: parameter
+          _type: string
+          _do:
+            - copy %STATE/$(_loop)/$thexp
+          _content:
+
+        thexp_tfuel:
+          _pltype: parameter
+          _type: double
+          _do:
+            - tocelsius %STATE/$(_loop)/@thexp_tfuel,apply=>($_[0]+273.15)
+          _content:
+
+        thexp_tclad:
+          _pltype: parameter
+          _type: double
+          _do:
+            - tocelsius %STATE/$(_loop)/@thexp_tclad,apply=>($_[0]+273.15)
+          _content:
+
+        thexp_tmod:
+          _pltype: parameter
+          _type: double
+          _do:
+            - tocelsius %STATE/$(_loop)/@thexp_tmod,apply=>($_[0]+273.15)
+          _content:
+
         sym:
           _pltype: parameter
           _type: string

@@ -138,7 +138,6 @@ sub dispatch {
 	makemap    => \&makemap,
 	echos      => \&echos,
 	rename     => \&dbcopy,
-	gridmap    => \&gridmap,
 	coremapmap => \&coremapmap,
 	mpact_mesh => \&mpact_mesh,
 	mpact_db   => \&mpact_db,
@@ -429,6 +428,10 @@ sub PLlist{
 	print "PLlist trsub: @{$OPTIONS{trsub}}\n" if get_verbose();;
     }
 
+# TODO: Need a major rewrite.
+# must be fully recursive with inheriting _tr varaibles.    
+# problem is using array pairs instead of trees
+
 # applying actions:
 # needs to be done with modified commands, but only modified by the arguments
 # that are passed through the function call
@@ -436,6 +439,9 @@ sub PLlist{
     my @trsubin=@{ $OPTIONS{'trsub'} };
     my @trvarin=@{ $OPTIONS{'trvar'} };
 
+    # first resolve _do and then _tr
+    # TODO: should I do it other way around
+    
     my $val;
     if(my $todo=PLdo($ref)){
 	foreach my $ido (@{ $todo }){
@@ -461,6 +467,9 @@ sub PLlist{
 	}
     }
 
+    # now do _tr
+    # _tr increases tree space.
+
     my $trref = key_exists($ref,'_tr');
     my $trname;
     my @trsubs=();
@@ -468,6 +477,26 @@ sub PLlist{
 	$trname=read_off_label($trref,'_name');
 	my $trcont=read_off_label($trref,'_content');
 
+	print "PLlist found _tr: $trname,$trcont\n" if get_verbose();;
+	print "PLlist current subs: @trsubin\n" if get_verbose();;
+	print "PLlist current vars: @trvarin\n" if get_verbose();;
+
+	# previous _tr get substituted, but variables are missed
+	# apply varaibles
+	$trcont=subvar($trcont);
+	print "PLlist subvar: $trcont\n" if get_verbose();;
+
+# Uncomment block below for syntax that includes previous _tr
+#	for(my $i; $i<@trsubin; $i++){
+#	    my $trsub=$trsubin[$i];
+#	    my $trvar=$trvarin[$i];
+#	    $trsub=quotemeta($trsub);
+#	    $trvar=quotemeta($trvar);
+#	    print "PLlist trcont: $trvar,$trsub\n" if get_verbose();;
+#	    $trcont =~ s/\($trvar\)/$trsub/g;
+#	    print "PLlist trcont new $trcont\n" if get_verbose();;
+#	}
+	
 	my @trpath=find_keys($SOURCE_DB,$trcont);
 	return unless(@trpath);  # to avoid empty loops
 	foreach my $ipath ( @trpath ){
@@ -488,7 +517,7 @@ sub PLlist{
     my %DIR=PLkeys($ref);
 
 
-    print STDERR "PLlist: @PLcontent\n" if get_verbose();
+    print  "PLlist: @PLcontent\n" if get_verbose();
 
     do {
 
@@ -531,7 +560,7 @@ sub PLlist{
 		&PLlist($crref, trsub=>$trsub_arg, trvar=>$trvar_arg);
 	    }
 	    if($typ eq 'map'){
-		print STDERR "type map\n" if get_verbose();
+		print  "type map\n" if get_verbose();
 		&PLlist($crref, trsub=>$trsub_arg, trvar=>$trvar_arg);
 	    }
 	}
@@ -557,8 +586,8 @@ sub rethread {
 	}
     }
 
-    print STDERR "parents: @parents\n" if get_verbose();
-    print STDERR "children: @children\n" if get_verbose();
+    print  "parents: @parents\n" if get_verbose();
+    print  "children: @children\n" if get_verbose();
 
     my %clones;
     my $ichild;
@@ -581,7 +610,7 @@ sub PLtrim{
 
     my @PLcontent = keys %{ $ref->{_content} };
 
-    print STDERR "PLtrim: @PLcontent\n" if get_verbose();
+    print  "PLtrim: @PLcontent\n" if get_verbose();
     my $empty=0;
 
     $indent++;
@@ -683,7 +712,7 @@ sub dbcopy2{
     my $_search;
     if(defined $OPTIONS{ existspath }){
 	$_search=$OPTIONS{ existspath } ;
-	print STDERR "dbcopy2 search: $_search\n" if get_verbose();
+	print  "dbcopy2 search: $_search\n" if get_verbose();
 	my @_array=split(':',$_search);
 	print "dbcopy2 array @_array\n" if get_verbose();
 	foreach my $imat (@_array){
@@ -807,7 +836,12 @@ sub copyarray{
 	    return undef;
 	}
     }
-    return \@result;
+    if(@result == 0){
+	return undef;
+    }
+    else{
+	return \@result;
+    }
 }
 
 sub copyhash{
@@ -870,7 +904,7 @@ sub copyhash{
 
 sub echos{
     my ($home,@args)=@_;
-    print STDERR "echos: @args\n";
+    print  "echos: @args\n";
     return;
 }
 
@@ -1085,7 +1119,7 @@ sub rodmap{
     return unless $axial_ref;
     my @axial_available = keys_at($axial_ref);
     return unless @axial_available;
-    print STDERR "available axials: @axial_available\n" if get_verbose();
+    print  "available axials: @axial_available\n" if get_verbose();
     my @axial_common=@axial_available;
 
     if(exists($OPTIONS{coremap})){
@@ -1094,21 +1128,21 @@ sub rodmap{
 	my @coremap_path=parse_path($coremap_path);
 	my $coremap_ref=key_defined($SOURCE_DB,@coremap_path);
 	my @axials=unique(@{ $coremap_ref });    # labels of all unique axials
-	print STDERR "axials w/path: [@axials] [@coremap_path]\n" if get_verbose();  # debug
+	print  "axials w/path: [@axials] [@coremap_path]\n" if get_verbose();  # debug
 	@axials=nonstring('0',@axials);
 	@axials=nonstring('-',@axials);
-	print STDERR "axials: @axials\n" if get_verbose();  # debug
+	print  "axials: @axials\n" if get_verbose();  # debug
 
 	my @axial_common=intersection(\@axials,\@axial_available);
 
 	unless($#axial_common == $#axials){
-	    print STDERR "axial labels needed   : @axials\n";
-	    print STDERR "axial labels available: @axial_available\n";
+	    print  "axial labels needed   : @axials\n";
+	    print  "axial labels available: @axial_available\n";
 	    die   "rodmap: missing axial definitions in $axial_path\n";
 	}
     }
 
-    print STDERR "axial_rpath: @axial_rpath\n" if get_verbose();
+    print  "axial_rpath: @axial_rpath\n" if get_verbose();
     foreach (@axial_available){
 	$AXIAL_DEFS{$_} = key_exists($axial_ref,$_);
 	$AXIAL_CONTENT{$_}=[@{ $AXIAL_DEFS{$_}->{_content} }];
@@ -1120,21 +1154,21 @@ sub rodmap{
 	@c=odd(\@a);
 	$AXIAL_ELEVATIONS{$_}=[@b];
 	$AXIAL_LABELS{$_}=[@c];
-	print STDERR "  AXIAL_DEFS{$_}: $AXIAL_DEFS{$_}\n" if get_verbose();
-	print STDERR "         content: @{ $AXIAL_CONTENT{$_} }\n" if get_verbose();
-	print STDERR "         heights: @b\n" if get_verbose();
-	print STDERR "         labels : @c\n" if get_verbose();
+	print  "  AXIAL_DEFS{$_}: $AXIAL_DEFS{$_}\n" if get_verbose();
+	print  "         content: @{ $AXIAL_CONTENT{$_} }\n" if get_verbose();
+	print  "         heights: @b\n" if get_verbose();
+	print  "         labels : @c\n" if get_verbose();
     }
 
     # get material paths
     my @block_rpath=@axial_rpath;
     pop @block_rpath;
     pop @block_rpath;
-    print STDERR "block_path: @block_rpath\n" if get_verbose();
+    print  "block_path: @block_rpath\n" if get_verbose();
     my %MATS_DB;
     if(defined $OPTIONS{ matsearch }){
 	my $mat_search=$OPTIONS{ matsearch } ;
-	print STDERR "mat_search: $mat_search\n" if get_verbose();
+	print  "mat_search: $mat_search\n" if get_verbose();
 	my @mat_array=split(':',$mat_search);
 	print "mat_array @mat_array\n" if get_verbose();
 	foreach my $imat (@mat_array){
@@ -1173,20 +1207,20 @@ sub rodmap{
     my @npin_rpath=@axial_rpath;
     $npin_rpath[$#cell_rpath-1]='npin';
     $npin_rpath[$#cell_rpath]='_content';
-    print STDERR "npin_rpath: @npin_rpath\n" if get_verbose();
+    print  "npin_rpath: @npin_rpath\n" if get_verbose();
     my $npin=key_defined($SOURCE_DB,@npin_rpath);
-    print STDERR "npin: $npin\n" if get_verbose();
+    print  "npin: $npin\n" if get_verbose();
 
     # create hash of all rodmap ids and their values
     my @cellmap_rpath=@axial_rpath;
     $cellmap_rpath[$#cellmap_rpath-1]=$OPTIONS{mapname};
     my $cellmap_ref=key_defined($SOURCE_DB,@cellmap_rpath);
     my @cellmap_available = keys_at($cellmap_ref);
-    print STDERR "cellmap_rpath: @cellmap_rpath\n" if get_verbose();
+    print  "cellmap_rpath: @cellmap_rpath\n" if get_verbose();
     foreach (@cellmap_available){
 	$CELLMAP_DEFS{$_} = key_exists($cellmap_ref,$_);
 	$CELLMAP_CONTENT{$_}=[@{ $CELLMAP_DEFS{$_}->{_content} }];
-	print STDERR "  CELLMAP_DEFS{$_}: $CELLMAP_DEFS{$_}\n" if get_verbose();
+	print  "  CELLMAP_DEFS{$_}: $CELLMAP_DEFS{$_}\n" if get_verbose();
 
 	@a=@{ $CELLMAP_CONTENT{$_} };
 	@b=();
@@ -1194,7 +1228,7 @@ sub rodmap{
 #	@c=nonzero(@c);  # why?
 	@c=nonstring('-',@c);
 	$CELLMAP_CELLS{$_}=[@c];
-	print STDERR "  CELLMAP_CELLS{$_}: @c\n" if get_verbose();
+	print  "  CELLMAP_CELLS{$_}: @c\n" if get_verbose();
 
 	@b=fullcellmap($npin,\@a);
 	$CELLMAP_CONTENT{$_}=[@b];
@@ -1205,12 +1239,12 @@ sub rodmap{
     $cell_rpath[$#cell_rpath-1]='cell';
     my $cell_ref=key_defined($SOURCE_DB,@cell_rpath);
     my @cell_available = keys_at($cell_ref);
-    print STDERR "cell_rpath: @cell_rpath\n" if get_verbose();
+    print  "cell_rpath: @cell_rpath\n" if get_verbose();
     foreach (@cell_available){
 	$CELL_DEFS{$_} = key_exists($cell_ref,$_);
 	$CELL_CONTENT{$_}=[@{ $CELL_DEFS{$_}->{_content} }];
-	print STDERR "  CELL_DEFS{$_}: $CELL_DEFS{$_}\n" if get_verbose();
-	print STDERR "        content: @{ $CELL_CONTENT{$_} }\n" if get_verbose();
+	print  "  CELL_DEFS{$_}: $CELL_DEFS{$_}\n" if get_verbose();
+	print  "        content: @{ $CELL_CONTENT{$_} }\n" if get_verbose();
 
 	@a=@{$CELL_CONTENT{$_}};
 	if(@a==1){
@@ -1253,7 +1287,7 @@ sub rodmap{
 
 	    if(defined $OPTIONS{ matsearch }){
 		foreach my $imat (@cmats){
-		    print STDERR "    CELL mat $imat\n" if get_verbose();
+		    print  "    CELL mat $imat\n" if get_verbose();
 
 		    next if in_dictionary($imat, @MATS_RESERVED);
 
@@ -1262,7 +1296,7 @@ sub rodmap{
 			    die "rodmap: cell $_ @a type is $CELL_TYPE{$_} but it has fuel $imat\n"
 				if exists( $CELL_TYPES_POSSIBLE{ $CELL_TYPE{$_} } );
 			    $CELL_TYPE{$_}='fuel';
-			    print STDERR "    \tCELL mat $imat is fuel\n" if get_verbose();
+			    print  "    \tCELL mat $imat is fuel\n" if get_verbose();
 			}
 		    }
 		    else{
@@ -1272,9 +1306,9 @@ sub rodmap{
 	    }
 
 	    $CELL_mats{$_} =[@cmats];
-	    print STDERR "    CELL radii @{ $CELL_radii{$_} }\n" if get_verbose();
-	    print STDERR "    CELL mats  @{ $CELL_mats{$_} }\n" if get_verbose();
-	    print STDERR "    CELL type  $CELL_TYPE{$_}\n" if get_verbose();
+	    print  "    CELL radii @{ $CELL_radii{$_} }\n" if get_verbose();
+	    print  "    CELL mats  @{ $CELL_mats{$_} }\n" if get_verbose();
+	    print  "    CELL type  $CELL_TYPE{$_}\n" if get_verbose();
 	}
     }
 
@@ -1292,8 +1326,8 @@ sub rodmap{
 	@b=unique( @{ $AXIAL_LABELS{$i} } );
 	my @cellmap_common=intersection(\@b,\@cellmap_available);
 	unless($#cellmap_common == $#b){
-	    print STDERR "$OPTIONS{mapname} labels needed   : [@b]\n";
-	    print STDERR "$OPTIONS{mapname} labels available: [@cellmap_available]\n";
+	    print  "$OPTIONS{mapname} labels needed   : [@b]\n";
+	    print  "$OPTIONS{mapname} labels available: [@cellmap_available]\n";
 	    die   "missing $OPTIONS{mapname} definitions in $axial_path\n";
 	}
 
@@ -1314,8 +1348,8 @@ sub rodmap{
 	# see if we have all cells needed
 	my @cell_common=intersection(\@b,\@cell_available);
 	unless($#cell_common == $#b){
-	    print STDERR "cell labels needed   : [@b]\n";
-	    print STDERR "cell labels available: [@cell_available]\n";
+	    print  "cell labels needed   : [@b]\n";
+	    print  "cell labels available: [@cell_available]\n";
 	    die   "rodmap: missing cell definitions in $axial_path\n";
 	}
 
@@ -1663,7 +1697,7 @@ sub cellsmaps{
 
     # get axial id and content
     my @axial_rpath = parse_path($axial_path);
-    print STDERR "axial_rpath: @axial_rpath\n" if get_verbose();
+    print  "axial_rpath: @axial_rpath\n" if get_verbose();
     my $axial_ref=key_defined($SOURCE_DB,@axial_rpath);
     return unless $axial_ref;
     my $axial_name=$axial_rpath[-2];
@@ -1675,15 +1709,15 @@ sub cellsmaps{
     @b=even(\@a);
     @c=odd(\@a);
     my @AXIAL_LABELS = @c;
-    print STDERR "         content: @AXIAL_CONTENT\n" if get_verbose();
-    print STDERR "         heights: @b\n" if get_verbose();
-    print STDERR "         labels : @c\n" if get_verbose();
+    print  "         content: @AXIAL_CONTENT\n" if get_verbose();
+    print  "         heights: @b\n" if get_verbose();
+    print  "         labels : @c\n" if get_verbose();
 
     # get material paths
     my %MATS_DB;
     if(defined $OPTIONS{ matsearch }){
 	my $mat_search=$OPTIONS{ matsearch } ;
-	print STDERR "mat_search: $mat_search\n" if get_verbose();
+	print  "mat_search: $mat_search\n" if get_verbose();
 	my @mat_array=split(':',$mat_search);
 	print "mat_array @mat_array\n" if get_verbose();
 	foreach my $imat (@mat_array){
@@ -1719,14 +1753,14 @@ sub cellsmaps{
 
     # get npin for setting the maps
     my @npin_rpath=parse_path($npin_path);
-    print STDERR "npin_rpath: @npin_rpath\n" if get_verbose();
+    print  "npin_rpath: @npin_rpath\n" if get_verbose();
     my $npin=key_defined($SOURCE_DB,@npin_rpath);
-    print STDERR "npin: $npin\n" if get_verbose();
+    print  "npin: $npin\n" if get_verbose();
     return unless $npin;
 
     # create hash of all cellmap ids and their values
     my @cellmap_rpath = parse_path($cellmap_path);
-    print STDERR "cellmap_rpath: @cellmap_rpath\n" if get_verbose();
+    print  "cellmap_rpath: @cellmap_rpath\n" if get_verbose();
     my $cellmap_ref=key_defined($SOURCE_DB,@cellmap_rpath);
     return unless $cellmap_ref;
     my @cellmap_available = keys_at($cellmap_ref);
@@ -1737,7 +1771,7 @@ sub cellsmaps{
     foreach (@cellmap_available){
 	$CELLMAP_DEFS{$_} = key_exists($cellmap_ref,$_);
 	$CELLMAP_CONTENT{$_}=[@{ $CELLMAP_DEFS{$_}->{_content} }];
-	print STDERR "  CELLMAP_DEFS{$_}: $CELLMAP_DEFS{$_}\n" if get_verbose();
+	print  "  CELLMAP_DEFS{$_}: $CELLMAP_DEFS{$_}\n" if get_verbose();
 
 	@a=@{ $CELLMAP_CONTENT{$_} };
 	@b=();
@@ -1745,7 +1779,7 @@ sub cellsmaps{
 #	@c=nonzero(@c);  # why?
 	@c=nonstring('-',@c);
 	$CELLMAP_CELLS{$_}=[@c];
-	print STDERR "  CELLMAP_CELLS{$_}: @c\n" if get_verbose();
+	print  "  CELLMAP_CELLS{$_}: @c\n" if get_verbose();
 
 	@b=fullcellmap($npin,\@a);
 	$CELLMAP_CONTENT{$_}=[@b];
@@ -1753,18 +1787,18 @@ sub cellsmaps{
  
     # create hash of all cell ids and their values
     my @cell_rpath = parse_path($cell_path);
-    print STDERR "cell_rpath: @cell_rpath\n" if get_verbose();
+    print  "cell_rpath: @cell_rpath\n" if get_verbose();
     my $cell_ref=key_defined($SOURCE_DB,@cell_rpath);
     my @cell_available = keys_at($cell_ref);
-    print STDERR "cell_rpath: @cell_rpath\n" if get_verbose();
+    print  "cell_rpath: @cell_rpath\n" if get_verbose();
 
     my %CELL_DEFS;
     my %CELL_CONTENT;
     foreach (@cell_available){
 	$CELL_DEFS{$_} = key_exists($cell_ref,$_);
 	$CELL_CONTENT{$_}=[@{ $CELL_DEFS{$_}->{_content} }];
-	print STDERR "  CELL_DEFS{$_}: $CELL_DEFS{$_}\n" if get_verbose();
-	print STDERR "        content: @{ $CELL_CONTENT{$_} }\n" if get_verbose();
+	print  "  CELL_DEFS{$_}: $CELL_DEFS{$_}\n" if get_verbose();
+	print  "        content: @{ $CELL_CONTENT{$_} }\n" if get_verbose();
 
 	@a=@{$CELL_CONTENT{$_}};
 	if(@a==1){
@@ -1807,14 +1841,14 @@ sub cellsmaps{
 
 	    if(defined $OPTIONS{ matsearch }){
 		foreach my $imat (@cmats){
-		    print STDERR "    CELL mat $imat\n" if get_verbose();
+		    print  "    CELL mat $imat\n" if get_verbose();
 		    next if in_dictionary($imat, @MATS_RESERVED);
 		    if(exists($MATS_DB{ $imat })){
 			if($MATS_DB{ $imat } eq 'fuel'){
 			    die "rodmap: cell $_ @a type is $CELL_TYPE{$_} but it has fuel $imat\n"
 				if exists( $CELL_TYPES_POSSIBLE{ $CELL_TYPE{$_} } );
 			    $CELL_TYPE{$_}='fuel';
-			    print STDERR "    \tCELL mat $imat is fuel\n" if get_verbose();
+			    print  "    \tCELL mat $imat is fuel\n" if get_verbose();
 			}
 		    }
 		    else{
@@ -1824,9 +1858,9 @@ sub cellsmaps{
 	    }
 
 	    $CELL_mats{$_} =[@cmats];
-	    print STDERR "    CELL radii @{ $CELL_radii{$_} }\n" if get_verbose();
-	    print STDERR "    CELL mats  @{ $CELL_mats{$_} }\n" if get_verbose();
-	    print STDERR "    CELL type  $CELL_TYPE{$_}\n" if get_verbose();
+	    print  "    CELL radii @{ $CELL_radii{$_} }\n" if get_verbose();
+	    print  "    CELL mats  @{ $CELL_mats{$_} }\n" if get_verbose();
+	    print  "    CELL type  $CELL_TYPE{$_}\n" if get_verbose();
 	}
     }
 
@@ -1836,8 +1870,8 @@ sub cellsmaps{
     @b=unique( @AXIAL_LABELS  );
     my @cellmap_common=intersection(\@b,\@cellmap_available);
     unless($#cellmap_common == $#b){
-	print STDERR "axial labels needed   : [@b]\n";
-	print STDERR "$OPTIONS{mapname} labels available: [@cellmap_available]\n";
+	print  "axial labels needed   : [@b]\n";
+	print  "$OPTIONS{mapname} labels available: [@cellmap_available]\n";
 	die   "missing $OPTIONS{mapname} definitions in $axial_path\n";
     }
 
@@ -1857,8 +1891,8 @@ sub cellsmaps{
     # see if we have all cells needed
     my @cell_common=intersection(\@b,\@cell_available);
     unless($#cell_common == $#b){
-	print STDERR "cell labels needed   : [@b]\n";
-	print STDERR "cell labels available: [@cell_available]\n";
+	print  "cell labels needed   : [@b]\n";
+	print  "cell labels available: [@cell_available]\n";
 	die   "cellsmaps: missing cell definitions in $axial_path\n";
     }
 
@@ -1947,15 +1981,15 @@ sub listscompare{
 
     if($OPTIONS{compare} eq 'eq'){
 	unless($#a2 == $#acommon){
-	    print STDERR "needed   : @a2\n";
-	    print STDERR "available: @a1\n";
+	    print  "needed   : @a2\n";
+	    print  "available: @a1\n";
 	    die   "listscompare: mismatch in arrays\n";
 	}
     }
     elsif($OPTIONS{compare} eq 'geq'){
 	unless($#a2 >= $#acommon){
-	    print STDERR "need: @a2\n";
-	    print STDERR "have: @a1\n";
+	    print  "need: @a2\n";
+	    print  "have: @a1\n";
 	    die   "listscompare: mismatch in arrays\n";
 	}
     }

@@ -1,4 +1,4 @@
-SHIFT: 
+SHIFT:
   _pltype: list
   _do:
     - setdb MAIN_DB
@@ -15,6 +15,13 @@ SHIFT:
       _type: string
       _do:
         - copy SHIFT/$celib_file
+      _content:
+
+    global_log:
+      _pltype: parameter
+      _type: string
+      _do:
+        - copy SHIFT/$global_log
       _content:
 
     mesh:
@@ -69,4 +76,3 @@ SHIFT:
           _do:
             - copy SHIFT/$num_inactive_cycles
           _content:
-

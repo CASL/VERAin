@@ -24,6 +24,27 @@ INSILICO:
         - copy INSILICO/$celib_file
       _content:
 
+    temp_correction:
+      _pltype: parameter
+      _type: string
+      _do:
+        - copy INSILICO/$temp_correction
+      _content:
+
+    global_log:
+      _pltype: parameter
+      _type: string
+      _do:
+        - copy INSILICO/$global_log
+      _content:
+
+    local_log:
+      _pltype: parameter
+      _type: string
+      _do:
+        - copy INSILICO/$local_log
+      _content:
+
     mat_library:
       _pltype: parameter
       _type: string

@@ -128,10 +128,54 @@ ASSEMBLIES:
 
         SpacerGrids:
           _pltype: list
-          _do:
-            - gridmap Grid_,%ASSEMBLY/$(_path)/%grid/*
+
+          _tr:
+            _name: _lgrid
+            _content: %ASSEMBLY/$(_path)/%grid
+
           _content:
 
+            Grid_(_lgrid):
+              _pltype: list
+              _content:
+
+                label:
+                  _pltype: parameter
+                  _type: string
+                  _do:
+                    - value (_lgrid)
+                  _content:
+
+                material:
+                  _pltype: parameter
+                  _type: string
+                  _do:
+                    - copy %ASSEMBLY/$(_path)/%grid/@(_lgrid):0
+                  _content:
+
+                mass:
+                  _pltype: parameter
+                  _type: double
+                  _do:
+                    - copy %ASSEMBLY/$(_path)/%grid/@(_lgrid):2
+                  _content:
+
+                height:
+                  _pltype: parameter
+                  _type: double
+                  _do:
+                    - copy %ASSEMBLY/$(_path)/%grid/@(_lgrid):1
+                  _content:
+
+                gridloss:
+                  _pltype: parameter
+                  _type: double
+                  _do:
+                    - copy %ASSEMBLY/$(_path)/%grid/@(_lgrid):3
+                  _content:
+
+
+                
         gapw:
           _pltype: parameter
           _type: double

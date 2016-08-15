@@ -571,32 +571,32 @@ BISON:
         - copy BISON/$functions_axial_peaking_factors_value
       _content:
 
-    functions_coolant_temperature_type:
+    functions_bc_temperature_type:
       _pltype: parameter
       _type: string
       _do:
-        - copy BISON/$functions_coolant_temperature_type
+        - copy BISON/$functions_bc_temperature_type
       _content:
 
-    functions_coolant_temperature_data_file:
+    functions_bc_temperature_data_file:
       _pltype: parameter
       _type: string
       _do:
-        - copy BISON/$functions_coolant_temperature_data_file
+        - copy BISON/$functions_bc_temperature_data_file
       _content:
 
-    functions_coolant_temperature_x:
+    functions_bc_temperature_x:
       _pltype: parameter
       _type: string
       _do:
-        - copy BISON/$functions_coolant_temperature_x
+        - copy BISON/$functions_bc_temperature_x
       _content:
 
-    functions_coolant_temperature_y:
+    functions_bc_temperature_y:
       _pltype: parameter
       _type: string
       _do:
-        - copy BISON/$functions_coolant_temperature_y
+        - copy BISON/$functions_bc_temperature_y
       _content:
 
     functions_linear_heat_rate_profile_x:
@@ -1150,6 +1150,13 @@ BISON:
       _type: string
       _do:
         - copy BISON/$solve_type
+      _content:
+      
+    bc_type:
+      _pltype: parameter
+      _type: string
+      _do:
+        - copy BISON/$bc_type
       _content:
 
     userobjects_pbz_execute_on:

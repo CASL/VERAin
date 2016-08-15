@@ -221,6 +221,36 @@ STATE:
     _content:
     _check:
       - is_word()
+  thexp:
+    <<: *dtword
+    _content:
+    _check:
+      - is_word()
+      - in_dictionary() on off
+  thexp_tfuel:
+    <<: *dtlist
+    _content:
+    _check:
+      - arraysize()==2
+      - is_float(nth(0,()))
+      - is_word(nth(1,()))
+      - in_dictionary(nth(1,()),'F','C','K')
+  thexp_tclad:
+    <<: *dtlist
+    _content:
+    _check:
+      - arraysize()==2
+      - is_float(nth(0,()))
+      - is_word(nth(1,()))
+      - in_dictionary(nth(1,()),'F','C','K')
+  thexp_tmod:
+    <<: *dtlist
+    _content:
+    _check:
+      - arraysize()==2
+      - is_float(nth(0,()))
+      - is_word(nth(1,()))
+      - in_dictionary(nth(1,()),'F','C','K')
   sym:
     <<: *dtword
     _content:
@@ -322,7 +352,15 @@ CORE:
       - is_float(nth(2,()))
       - nth(1,())>=0
       - nth(2,())>=0
-
+  pad:
+    <<: *dtlist
+    _content:
+    _check:
+      - is_word(nth(0,()))
+      - is_float(nth(1,()))
+      - is_float(nth(2,()))
+      - nth(1,())>=0
+      - nth(2,())>=0
   vessel:
     <<: *dtlist
     _style: multi-line
@@ -461,8 +499,8 @@ CORE:
       - nth(1,())>=0
       - lc(nth(0,()))ne'mod'
     _options:
-      thexp: float
-      thcnd: float
+      thexp: double
+      thcnd: double
     _defaults:
       _path: CORE/%(_keyword)/$(_id)
 
@@ -544,7 +582,9 @@ ASSEMBLY:
     _style:
     _check:
       - nth(2,())>0
+      - nth(2,())<6
       - nth(3,())>0
+      - nth(4,())>0
   grid_axial:
     <<: *dtlist
     _style: multi-line
@@ -581,8 +621,8 @@ ASSEMBLY:
       - nth(1,())>=0
       - lc(nth(0,()))ne'mod'
     _options:
-      thexp: float
-      thcnd: float
+      thexp: double
+      thcnd: double
     _defaults:
       _path: CORE/%(_keyword)/$(_id)
 
@@ -649,8 +689,8 @@ CONTROL:
       - nth(1,())>=0
       - lc(nth(0,()))ne'mod'
     _options:
-      thexp: float
-      thcnd: float
+      thexp: double
+      thcnd: double
     _defaults:
       _path: CORE/%(_keyword)/$(_id)
 
@@ -704,8 +744,8 @@ INSERT:
       - nth(1,())>=0
       - lc(nth(0,()))ne'mod'
     _options:
-      thexp: float
-      thcnd: float
+      thexp: double
+      thcnd: double
     _defaults:
       _path: CORE/%(_keyword)/$(_id)
 
@@ -747,8 +787,8 @@ DETECTOR:
       - nth(1,())>=0
       - lc(nth(0,()))ne'mod'
     _options:
-      thexp: float
-      thcnd: float
+      thexp: double
+      thcnd: double
     _defaults:
       _path: CORE/%(_keyword)/$(_id)
 
@@ -786,6 +826,24 @@ INSILICO:
     _content:
     _check:
       - is_word()
+  temp_correction:
+    <<: *dtword
+    _content:
+    _check:
+      - is_word()
+      - in_dictionary() none oned all
+  global_log:
+    <<: *dtword
+    _content:
+    _check:
+      - is_word()
+      - in_dictionary() debug diagnostic status info warning error critical
+  local_log:
+    <<: *dtword
+    _content:
+    _check:
+      - is_word()
+      - in_dictionary() debug diagnostic status info warning error critical
   mat_library:
     <<: *dtword
     _content:
@@ -1140,6 +1198,11 @@ SHIFT:
     _content:
     _check:
       - is_word()
+  global_log:
+    <<: *dtword
+    _content:
+    _check:
+      - is_word()
   do_transport:
     <<: *dtbool
     _content:
@@ -1247,10 +1310,6 @@ COBRATF:
     _check:
       - is_float()
       - is_gt() 0
-
-  gridloss:
-    <<: *dtdblnamed
-    _check:
 
   gridbloc:
     <<: *dtdblnamed
@@ -1721,6 +1780,24 @@ MPACT:
     _check:
       - is_string()
       - in_dictionary() 1g mg 1G MG
+  moc_mg_data_passing:
+    <<: *dtbool
+    _content:
+    _check:
+      - is_word()
+      - in_dictionary() true false
+  volume_corr:
+    <<: *dtstring
+    _content:
+    _check:
+      - is_string()
+      - in_dictionary() none angledep integral NONE ANGLEDEP INTEGRAL
+  modular_rays:
+    <<: *dtstring
+    _content:
+    _check:
+      - is_string()
+      - in_dictionary() decart two three cactus ratfrac DECART TWO THREE CACTUS RATFRAC
   power_edit:
     <<: *dtstring
     _content:
@@ -1734,11 +1811,11 @@ MPACT:
       - is_word()
       - in_dictionary() true false
   rod_treatment:
-    <<: *dtbool
+    <<: *dtword
     _content:
     _check:
       - is_word()
-      - in_dictionary() true false
+      - in_dictionary() none polynomial 1dcpm 2dmoc subplane true false
   valid_on:
     <<: *dtbool
     _content:
@@ -1767,6 +1844,12 @@ MPACT:
     _check:
       - is_word()
       - in_dictionary() none core fsr
+  rr_edits:
+    <<: *dtword
+    _content:
+    _check:
+      - is_word()
+      - in_dictionary() none hdf5 out both
   grid_treatment:
     <<: *dtword
     _content:
@@ -1921,6 +2004,12 @@ MPACT:
     _check:
       - is_int()
       - is_gt() 0
+  cat_onegroup:
+    <<: *dtlist
+    _style: multi-line
+    _content:
+    _check:
+      - fall(sub{is_int(shift)},())
 
   k_tolerance:
     <<: *dtdouble
@@ -2011,6 +2100,23 @@ MPACT:
     _check:
       - is_word()
       - in_dictionary() ctf simplified ctf_external none
+  th_nonlinear_solver:
+    <<: *dtbool
+    _content:
+    _check:
+      - is_word()
+      - in_dictionary() picard anderson
+  anderson_options:
+    <<: *dtlist
+    _content:
+    _check:
+      - arraysize()==3
+      - is_int(nth(0,()))
+      - is_float(nth(1,()))
+      - is_int(nth(2,()))
+      - nth(0,())>=0
+      - nth(1,())>0
+      - nth(2,())>0
   shielder_th:
     <<: *dtlist
     _content:
@@ -2124,6 +2230,12 @@ MPACT:
     _check:
       - is_word()
       - in_dictionary() 1gsweep mgnode mggroup mgrbsor
+  cmfd_linear_solver:
+    <<: *dtword
+    _content:
+    _check:
+      - is_word()
+      - in_dictionary() petsc trilinos
   cmfd_eigen_solver:
     <<: *dtword
     _content:
@@ -2136,12 +2248,18 @@ MPACT:
     _check:
       - is_float()
       - is_gt() 0.0
+  cmfd_shift_method:
+    <<: *dtword
+    _content:
+    _check:
+      - is_word()
+      - in_dictionary() none constant adaptive sdws-ips
   cmfd_num_inners:
     <<: *dtint
     _content:
     _check:
       - is_int()
-      - is_gt() 0
+      - is_gt() -1
   cmfd_num_outers:
     <<: *dtint
     _content:
@@ -2172,6 +2290,12 @@ MPACT:
     _check:
       - is_float()
       - is_gt() 0.0
+  num_subplanes:
+    <<: *dtint
+    _content:
+    _check:
+      - is_int()
+      - is_gt() 0
   cmfd_angle_decomp:
     <<: *dtword
     _content:
@@ -2260,7 +2384,7 @@ MPACT:
       - fall(sub{is_float(shift)},stride(1,6,()))
       - fall(sub{is_geq(shift,0)},stride(1,6,()))
       - fall(sub{is_word(shift)},stride(2,6,()))
-      - fall(sub{in_dictionary(shift,'step','const','ramp')},stride(2,6,()))
+      - fall(sub{in_dictionary(shift,'step','const','ramp','mvcr')},stride(2,6,()))
       - fall(sub{is_word(shift)},stride(3,6,()))
       - fall(sub{is_word(shift)},stride(4,6,()))
       - fall(sub{is_word(shift)},stride(5,6,()))
@@ -3372,7 +3496,13 @@ BISON:
     _content:
     _check:
       - is_string()
-      - in_dictionary() standalone tiamat tiamat_inline STANDALONE TIAMAT TIAMAT_INLINE
+      - in_dictionary() standalone tiamat tiamat_inline temp_table STANDALONE TIAMAT TIAMAT_INLINE TEMP_TABLE
+  bc_type:
+    <<: *dtstring
+    _content:
+    _check:
+      - is_string()
+      - in_dictionary() clad_outer bulk_cool CLAD_OUTER BULK_COOL
   variables_temp_initial_condition:
     <<: *dtdouble
     _content:

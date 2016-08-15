@@ -105,7 +105,7 @@ sub key_defined {           # will return actual value if it is a leaf with a va
 	if( ref $ref eq 'ARRAY' ) {
 	    # fail when the index is out of range or is not defined
 	    unless(0 <= $key && $key < @{$ref}){
-		die "key_defined: index out of range\n";
+#SSMODfix:w/ErrorHandler		die "key_defined: index out of range\n";
 		return undef;
 	    }
 	    unless(defined( $ref->[$key] )){

@@ -88,6 +88,41 @@ CORE:
         - copy CORE/@baffle:0
       _content:
 
+    pad_mat:
+      _pltype: parameter
+      _type: string
+      _do:
+        - copy CORE/@pads:0
+      _content:
+
+    pad_inner_radius:
+      _pltype: parameter
+      _type: double
+      _do:
+        - copy CORE/@pads:1
+      _content:
+
+    pad_outer_radius:
+      _pltype: parameter
+      _type: double
+      _do:
+        - copy CORE/@pads:2
+      _content:
+
+    pad_arc:
+      _pltype: parameter
+      _type: double
+      _do:
+        - copy CORE/@pads:3
+      _content:
+
+    pad_azi_locs:
+      _pltype: array
+      _type: double
+      _do:
+        - copyarray CORE/@pads,start=>4
+      _content:
+
     vessel_mats:
       _pltype: array
       _type: string

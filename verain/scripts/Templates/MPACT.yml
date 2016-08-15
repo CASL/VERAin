@@ -25,11 +25,32 @@ MPACT:
         - copy MPACT/$moc_kernel
       _content:
 
+    moc_mg_data_passing:
+      _pltype: parameter
+      _type: bool
+      _do:
+        - copy MPACT/$moc_mg_data_passing
+      _content:
+
     shield_moc_kernel:
       _pltype: parameter
       _type: string
       _do:
         - copy MPACT/$shield_moc_kernel
+      _content:
+
+    volume_corr:
+      _pltype: parameter
+      _type: string
+      _do:
+        - copy MPACT/$volume_corr
+      _content:
+
+    modular_rays:
+      _pltype: parameter
+      _type: string
+      _do:
+        - copy MPACT/$modular_rays
       _content:
 
     power_edit:
@@ -74,9 +95,16 @@ MPACT:
         - copy MPACT/$vis_edits
       _content:
 
+    rr_edits:
+      _pltype: parameter
+      _type: string
+      _do:
+        - copy MPACT/$rr_edits
+      _content:
+
     rod_treatment:
       _pltype: parameter
-      _type: bool
+      _type: string
       _do:
         - copy MPACT/$rod_treatment
       _content:
@@ -408,6 +436,13 @@ MPACT:
             - copy MPACT/$coupling_method
           _content:
 
+        nonlinear_solver:
+          _pltype: parameter
+          _type: string
+          _do:
+            - copy MPACT/$th_nonlinear_solver
+          _content:
+
         average_ftemp:
           _pltype: parameter
           _type: bool
@@ -441,6 +476,27 @@ MPACT:
           _type: int
           _do:
             - copy MPACT/$outers_per_TH
+          _content:
+
+        depthAnderson:
+          _pltype: parameter
+          _type: int
+          _do:
+            - copy MPACT/$anderson_options:0
+          _content:
+
+        mixAnderson:
+          _pltype: parameter
+          _type: double
+          _do:
+            - copy MPACT/$anderson_options:1
+          _content:
+
+        startAnderson:
+          _pltype: parameter
+          _type: int
+          _do:
+            - copy MPACT/$anderson_options:2
           _content:
 
         ctf_basename:
@@ -517,6 +573,13 @@ MPACT:
             - copy MPACT/$cmfd_solver
           _content:
 
+        linear_solver:
+          _pltype: parameter
+          _type: string
+          _do:
+            - copy MPACT/$cmfd_linear_solver
+          _content:
+
         eigen_solver:
           _pltype: parameter
           _type: string
@@ -529,6 +592,13 @@ MPACT:
           _type: double
           _do:
             - copy MPACT/$k_shift
+          _content:
+
+        cmfd_shift_method:
+          _pltype: parameter
+          _type: string
+          _do:
+            - copy MPACT/$cmfd_shift_method
           _content:
 
         num_outers:
@@ -578,6 +648,13 @@ MPACT:
           _type: double
           _do:
             - copy MPACT/$subplane_max
+          _content:
+
+        num_subplanes:
+          _pltype: parameter
+          _type: int
+          _do:
+            - copy MPACT/$num_subplanes
           _content:
 
     2d1d:
@@ -677,6 +754,13 @@ MPACT:
           _type: int
           _do:
             - copy MPACT/$subgroup_set
+          _content:
+
+        cat_onegroup:
+          _pltype: array
+          _type: int
+          _do:
+            - copy MPACT/$cat_onegroup
           _content:
 
         mod_mat:

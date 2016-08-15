@@ -20,6 +20,7 @@
         <Parameter name="key_name" type="string" value="aic"/>
         <Parameter name="mat_fracs" type="Array(double)" value="{4.11010E-01,3.88990E-01,6.32772E-03,1.43672E-01,5.00000E-02}"/>
         <Parameter name="mat_names" type="Array(string)" value="{ag-107,ag-109,in-113,in-115,cd-00}"/>
+        <Parameter name="thexp" type="double" value="6.9"/>
       </ParameterList>
       <ParameterList name="Material_air">
         <Parameter name="density" type="double" value="1.189E-03"/>
@@ -32,42 +33,49 @@
         <Parameter name="key_name" type="string" value="al2o3"/>
         <Parameter name="mat_fracs" type="Array(double)" value="{5.29321E-01,4.70679E-01}"/>
         <Parameter name="mat_names" type="Array(string)" value="{al-27,o-16}"/>
+        <Parameter name="thexp" type="double" value="7.0"/>
       </ParameterList>
       <ParameterList name="Material_b2o3">
         <Parameter name="density" type="double" value="2.55"/>
         <Parameter name="key_name" type="string" value="b2o3"/>
         <Parameter name="mat_fracs" type="Array(double)" value="{5.72412E-02,2.53330E-01,6.89429E-01}"/>
         <Parameter name="mat_names" type="Array(string)" value="{b-10,b-11,o-16}"/>
+        <Parameter name="thexp" type="double" value="7.0"/>
       </ParameterList>
       <ParameterList name="Material_b4c">
         <Parameter name="density" type="double" value="1.7597"/>
         <Parameter name="key_name" type="string" value="b4c"/>
         <Parameter name="mat_fracs" type="Array(double)" value="{1.44272E-01,6.38495E-01,2.17234E-01}"/>
         <Parameter name="mat_names" type="Array(string)" value="{b-10,b-11,c-00}"/>
+        <Parameter name="thexp" type="double" value="5.73"/>
       </ParameterList>
       <ParameterList name="Material_boron">
         <Parameter name="density" type="double" value="2.37"/>
         <Parameter name="key_name" type="string" value="boron"/>
         <Parameter name="mat_fracs" type="Array(double)" value="{1.84309E-01,8.15691E-01}"/>
         <Parameter name="mat_names" type="Array(string)" value="{b-10,b-11}"/>
+        <Parameter name="thexp" type="double" value="7.0"/>
       </ParameterList>
       <ParameterList name="Material_clad">
         <Parameter name="density" type="double" value="6.56"/>
         <Parameter name="key_name" type="string" value="clad"/>
         <Parameter name="mat_fracs" type="Array(double)" value="{1}"/>
         <Parameter name="mat_names" type="Array(string)" value="{zirc4}"/>
+        <Parameter name="thexp" type="double" value="7.092"/>
       </ParameterList>
       <ParameterList name="Material_cs">
         <Parameter name="density" type="double" value="7.85"/>
         <Parameter name="key_name" type="string" value="cs"/>
         <Parameter name="mat_fracs" type="Array(double)" value="{9.99216E-03,5.58916E-02,9.09832E-01,2.13879E-02,2.89625E-03}"/>
         <Parameter name="mat_names" type="Array(string)" value="{c-00,fe-54,fe-56,fe-57,fe-58}"/>
+        <Parameter name="thexp" type="double" value="16.79"/>
       </ParameterList>
       <ParameterList name="Material_gad">
         <Parameter name="density" type="double" value="7.407"/>
         <Parameter name="key_name" type="string" value="gad"/>
         <Parameter name="mat_fracs" type="Array(double)" value="{1.67644E-03,1.85136E-02,1.26506E-01,1.76101E-01,1.35500E-01,2.16438E-01,1.92889E-01,1.32376E-01}"/>
         <Parameter name="mat_names" type="Array(string)" value="{gd-152,gd-154,gd-155,gd-156,gd-157,gd-158,gd-160,o-16}"/>
+        <Parameter name="thexp" type="double" value="7.0"/>
       </ParameterList>
       <ParameterList name="Material_gap">
         <Parameter name="density" type="double" value="0.17860E-03"/>
@@ -86,36 +94,42 @@
         <Parameter name="key_name" type="string" value="inc"/>
         <Parameter name="mat_fracs" type="Array(double)" value="{2.50001E-02,2.50075E-02,6.26047E-03,1.25547E-01,1.45103E-02,3.68004E-03,3.95183E-03,6.43299E-02,1.51224E-03,2.04780E-04,4.90541E-01,1.95463E-01,8.63849E-03,2.79938E-02,7.35945E-03}"/>
         <Parameter name="mat_names" type="Array(string)" value="{si-00,ti-00,cr-50,cr-52,cr-53,cr-54,fe-54,fe-56,fe-57,fe-58,ni-58,ni-60,ni-61,ni-62,ni-64}"/>
+        <Parameter name="thexp" type="double" value="16.79"/>
       </ParameterList>
       <ParameterList name="Material_pyrex">
         <Parameter name="density" type="double" value="2.34249"/>
         <Parameter name="key_name" type="string" value="pyrex"/>
         <Parameter name="mat_fracs" type="Array(double)" value="{6.81945E-03,3.01805E-02,5.35000E-01,4.10000E-02,1.00000E-02,3.77000E-01}"/>
         <Parameter name="mat_names" type="Array(string)" value="{b-10,b-11,o-16,na-23,al-27,si-00}"/>
+        <Parameter name="thexp" type="double" value="3.25"/>
       </ParameterList>
       <ParameterList name="Material_pyrex-vera">
         <Parameter name="density" type="double" value="2.24419"/>
         <Parameter name="key_name" type="string" value="pyrex-vera"/>
         <Parameter name="mat_fracs" type="Array(double)" value="{7.11823E-03,3.17015E-02,5.52167E-01,4.09014E-01}"/>
         <Parameter name="mat_names" type="Array(string)" value="{b-10,b-11,o-16,si-00}"/>
+        <Parameter name="thexp" type="double" value="3.25"/>
       </ParameterList>
       <ParameterList name="Material_sio2">
         <Parameter name="density" type="double" value="2.18"/>
         <Parameter name="key_name" type="string" value="sio2"/>
         <Parameter name="mat_fracs" type="Array(double)" value="{5.32565E-01,4.67435E-01}"/>
         <Parameter name="mat_names" type="Array(string)" value="{o-16,si-00}"/>
+        <Parameter name="thexp" type="double" value="7.0"/>
       </ParameterList>
       <ParameterList name="Material_ss">
         <Parameter name="density" type="double" value="8.0"/>
         <Parameter name="key_name" type="string" value="ss"/>
         <Parameter name="mat_fracs" type="Array(double)" value="{7.99365E-04,1.00002E-02,4.50008E-04,7.93005E-03,1.59029E-01,1.83800E-02,4.66146E-03,2.00001E-02,3.86016E-02,6.28376E-01,1.47715E-02,2.00030E-03,6.38386E-02,2.54373E-02,1.12420E-03,3.64308E-03,9.57752E-04}"/>
         <Parameter name="mat_names" type="Array(string)" value="{c-00,si-00,p-31,cr-50,cr-52,cr-53,cr-54,mn-55,fe-54,fe-56,fe-57,fe-58,ni-58,ni-60,ni-61,ni-62,ni-64}"/>
+        <Parameter name="thexp" type="double" value="16.79"/>
       </ParameterList>
       <ParameterList name="Material_tungsten">
         <Parameter name="density" type="double" value="19.3"/>
         <Parameter name="key_name" type="string" value="tungsten"/>
         <Parameter name="mat_fracs" type="Array(double)" value="{0.00120000,0.26500000,0.14310000,0.30640000,0.28430000}"/>
         <Parameter name="mat_names" type="Array(string)" value="{o-16,w-182,w-183,w-184,w-186}"/>
+        <Parameter name="thexp" type="double" value="16.79"/>
       </ParameterList>
       <ParameterList name="Material_waba">
         <Parameter name="density" type="double" value="3.65"/>
@@ -134,24 +148,28 @@
         <Parameter name="key_name" type="string" value="zirc2"/>
         <Parameter name="mat_fracs" type="Array(double)" value="{4.17369E-05,8.36994E-04,9.67359E-05,2.45336E-05,7.62150E-05,1.24067E-03,2.91650E-05,3.94935E-06,3.69587E-04,1.47268E-04,6.50848E-06,2.10915E-05,5.54483E-06,4.98188E-01,1.09852E-01,1.69757E-01,1.75780E-01,2.89227E-02,1.32587E-04,9.18245E-05,4.77191E-05,2.05842E-03,1.09665E-03,3.48798E-03,1.24758E-03,4.77154E-03,6.89410E-04,8.76292E-04,1.55926E-07,5.18504E-06,1.84393E-05,2.71973E-05,1.36552E-05,3.53673E-05}"/>
         <Parameter name="mat_names" type="Array(string)" value="{cr-50,cr-52,cr-53,cr-54,fe-54,fe-56,fe-57,fe-58,ni-58,ni-60,ni-61,ni-62,ni-64,zr-90,zr-91,zr-92,zr-94,zr-96,sn-112,sn-114,sn-115,sn-116,sn-117,sn-118,sn-119,sn-120,sn-122,sn-124,hf-174,hf-176,hf-177,hf-178,hf-179,hf-180}"/>
+        <Parameter name="thexp" type="double" value="7.092"/>
       </ParameterList>
       <ParameterList name="Material_zirc4">
         <Parameter name="density" type="double" value="6.56"/>
         <Parameter name="key_name" type="string" value="zirc4"/>
         <Parameter name="mat_fracs" type="Array(double)" value="{4.17369E-05,8.36988E-04,9.67361E-05,2.45339E-05,1.18556E-04,1.92992E-03,4.53675E-05,6.14347E-06,4.98086E-01,1.09830E-01,1.69723E-01,1.75744E-01,2.89168E-02,1.32586E-04,9.18243E-05,4.77190E-05,2.05842E-03,1.09665E-03,3.48799E-03,1.24758E-03,4.77153E-03,6.89408E-04,8.76293E-04,1.55926E-07,5.18504E-06,1.84393E-05,2.71973E-05,1.36552E-05,3.53673E-05}"/>
         <Parameter name="mat_names" type="Array(string)" value="{cr-50,cr-52,cr-53,cr-54,fe-54,fe-56,fe-57,fe-58,zr-90,zr-91,zr-92,zr-94,zr-96,sn-112,sn-114,sn-115,sn-116,sn-117,sn-118,sn-119,sn-120,sn-122,sn-124,hf-174,hf-176,hf-177,hf-178,hf-179,hf-180}"/>
+        <Parameter name="thexp" type="double" value="7.092"/>
       </ParameterList>
       <ParameterList name="Material_zirc4-xhf">
         <Parameter name="density" type="double" value="6.55934"/>
         <Parameter name="key_name" type="string" value="zirc4-xhf"/>
         <Parameter name="mat_fracs" type="Array(double)" value="{4.17411E-05,8.37072E-04,9.67458E-05,2.45364E-05,1.18568E-04,1.93011E-03,4.53720E-05,6.14409E-06,4.98136E-01,1.09841E-01,1.69740E-01,1.75762E-01,2.89197E-02,1.32599E-04,9.18335E-05,4.77238E-05,2.05863E-03,1.09676E-03,3.48834E-03,1.24771E-03,4.77201E-03,6.89477E-04,8.76381E-04}"/>
         <Parameter name="mat_names" type="Array(string)" value="{cr-50,cr-52,cr-53,cr-54,fe-54,fe-56,fe-57,fe-58,zr-90,zr-91,zr-92,zr-94,zr-96,sn-112,sn-114,sn-115,sn-116,sn-117,sn-118,sn-119,sn-120,sn-122,sn-124}"/>
+        <Parameter name="thexp" type="double" value="7.092"/>
       </ParameterList>
       <ParameterList name="Material_zr">
         <Parameter name="density" type="double" value="6.506"/>
         <Parameter name="key_name" type="string" value="zr"/>
         <Parameter name="mat_fracs" type="Array(double)" value="{5.07061E-01,1.11809E-01,1.72781E-01,1.78911E-01,2.94379E-02}"/>
         <Parameter name="mat_names" type="Array(string)" value="{zr-90,zr-91,zr-92,zr-94,zr-96}"/>
+        <Parameter name="thexp" type="double" value="7.092"/>
       </ParameterList>
     </ParameterList>
     <Parameter name="apitch" type="double" value="21.50"/>
@@ -545,7 +563,7 @@
       <Parameter name="quad_type" type="string" value="CHEBYSHEV-YAMAMOTO"/>
     </ParameterList>
     <Parameter name="ray_spacing" type="double" value="0.005"/>
-    <Parameter name="rod_treatment" type="bool" value="true"/>
+    <Parameter name="rod_treatment" type="string" value="polynomial"/>
     <Parameter name="vis_edits" type="string" value="none"/>
     <ParameterList name="xs_library">
       <Parameter name="subgroup_set" type="int" value="4"/>

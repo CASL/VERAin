@@ -191,9 +191,12 @@ sub stride ($$@) {
 
     my @c=splice @a, $offset;
     my $b=shift @c;
+    return undef unless defined($b);
+    my @result=($b);
+    
     my @b=grep {not ++$i % $n} @c;
-
-    return ($b,@b);
+    push @result, @b if @b > 0;
+    return @result;
 }
 
 sub skipeverynth ($@) {
