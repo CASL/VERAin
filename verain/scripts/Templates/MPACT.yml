@@ -18,6 +18,13 @@ MPACT:
         - copy MPACT/$shield_ray_spacing
       _content:
 
+    refl_no_added_modules:
+      _pltype: parameter
+      _type: string
+      _do:
+        - copy MPACT/$refl_no_added_modules
+      _content:
+
     moc_kernel:
       _pltype: parameter
       _type: string
@@ -107,6 +114,13 @@ MPACT:
       _type: string
       _do:
         - copy MPACT/$rod_treatment
+      _content:
+
+    ppm_method:
+      _pltype: parameter
+      _type: string
+      _do:
+        - copy MPACT/$ppm_method
       _content:
 
     jagged:
@@ -274,6 +288,20 @@ MPACT:
             - copy MPACT/@crud_mesh:1
           _content:
 
+        moderator_mesh_radii:
+          _pltype: parameter
+          _type: double
+          _do:
+            - copy MPACT/@fuel_pin_mod_mesh:0
+          _content:
+
+        moderator_mesh_ndiv:
+          _pltype: parameter
+          _type: int
+          _do:
+            - copy MPACT/@fuel_pin_mod_mesh:1
+          _content:
+
     parallel_env:
       _pltype: list
       _content:
@@ -318,6 +346,27 @@ MPACT:
           _type: string
           _do:
             - copy MPACT/$par_file
+          _content:
+
+        par_xdim:
+          _pltype: parameter
+          _type: int
+          _do:
+            - copy MPACT/$par_xdim
+          _content:
+
+        par_ydim:
+          _pltype: parameter
+          _type: int
+          _do:
+            - copy MPACT/$par_ydim
+          _content:
+
+        par_map:
+          _pltype: array
+          _type: int
+          _do:
+            - copyarray MPACT/@par_map
           _content:
 
     iteration_control:
@@ -548,6 +597,45 @@ MPACT:
             - copy MPACT/$temptable_filename
           _content:
 
+        temptable:
+          _pltype: list
+          _content:
+
+            qprime:
+              _pltype: parameter
+              _type: double
+              _do:
+                - copy MPACT/$temptable_qprime
+              _content:
+
+            burnup:
+              _pltype: array
+              _type: double
+              _do:
+                - copyarray MPACT/@temptable_polynomial,start=>0,stride=>3
+              _content:
+
+            a_linear:
+              _pltype: array
+              _type: double
+              _do:
+                - copyarray MPACT/@temptable_polynomial,start=>1,stride=>3
+              _content:
+
+            b_quadratic:
+              _pltype: array
+              _type: double
+              _do:
+                - copyarray MPACT/@temptable_polynomial,start=>2,stride=>3
+              _content:
+              
+            boundary:
+              _pltype: parameter
+              _type: string
+              _do:
+                - copy MPACT/$temptable_boundary
+              _content:
+
     cmfd:
       _pltype: list
       _content:
@@ -580,6 +668,20 @@ MPACT:
             - copy MPACT/$cmfd_linear_solver
           _content:
 
+        petsc_linear_solver_method:
+          _pltype: parameter
+          _type: string
+          _do:
+            - copy MPACT/$petsc_linear_solver_method
+          _content:
+
+        preconditioner:
+          _pltype: parameter
+          _type: string
+          _do:
+            - copy MPACT/$preconditioner
+          _content:
+
         eigen_solver:
           _pltype: parameter
           _type: string
@@ -599,6 +701,13 @@ MPACT:
           _type: string
           _do:
             - copy MPACT/$cmfd_shift_method
+          _content:
+
+        cmfd_relaxation:
+          _pltype: parameter
+          _type: double
+          _do:
+            - copy MPACT/$cmfd_relaxation
           _content:
 
         num_outers:
@@ -742,6 +851,13 @@ MPACT:
             - copy MPACT/$quasi_1D
           _content:
 
+        res_up_scatter:
+          _pltype: parameter
+          _type: string
+          _do:
+            - copy MPACT/$res_up_scatter
+          _content:
+
         mats_file:
           _pltype: parameter
           _type: string
@@ -761,6 +877,13 @@ MPACT:
           _type: int
           _do:
             - copy MPACT/$cat_onegroup
+          _content:
+          
+        shld_range:
+          _pltype: array
+          _type: int
+          _do:
+            - copy MPACT/$shld_range
           _content:
 
         mod_mat:

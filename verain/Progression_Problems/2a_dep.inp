@@ -10,6 +10,7 @@
   sym      qtr  
   feedback off
   deplete EFPD 0 10 20 40 60
+  edit extended core_power
 
 [CORE]
   size   1
@@ -49,13 +50,16 @@
 
   axial ASSY 0.0 LAT 1.0 
 
+[EDITS]
+  edit_group extended radial_power 2D_assem_exposure core_exposure
+
 [MPACT]
   num_space      1 
   num_angle     -8
   num_threads    1
 
 [SHIFT]
-  transport            ce_mc       
+  transport            ce       
   num_cycles           1100
   num_inactive_cycles  100
   Np                   1000000  

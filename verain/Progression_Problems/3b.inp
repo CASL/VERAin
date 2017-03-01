@@ -230,7 +230,7 @@
   parallel  0
 
 [SHIFT]
-  transport             ce_mc     
+  transport             ce     
   num_cycles            5000
   num_inactive_cycles   500
   Np                    5000000

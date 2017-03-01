@@ -76,7 +76,7 @@ $SCHEMA="${directory}Templates/Directory.yml";
 @BLOCKS=('CASEID','STATES','CORE','ASSEMBLIES',
 	 'CONTROLS','DETECTORS','INSERTS',
 	 'INSILICO','SHIFT','EDITS','COBRATF','COUPLING',
-	 'MPACT','MAMBA2D','BISON','TIAMAT');
+	 'MPACT','MAMBA1D','BISON','TIAMAT');
 
 $SCH_PL{ 'CASEID' } = (
 #include pyml/CASEID.pyml
@@ -117,8 +117,8 @@ $SCH_PL{ 'COUPLING' } = (
 $SCH_PL{ 'MPACT' } = (
 #include pyml/MPACT.pyml
 )[0];
-$SCH_PL{ 'MAMBA2D' } = (
-#include pyml/MAMBA2D.pyml
+$SCH_PL{ 'MAMBA1D' } = (
+#include pyml/MAMBA1D.pyml
 )[0];
 $SCH_PL{ 'BISON' } = (
 #include pyml/BISON.pyml
@@ -144,6 +144,7 @@ my $XML='on';
 my $XSLT='on';
 my $NOTRIM;
 my $INIT;
+my $XINIT;
 { # process options
     GetOptions(
 	"xml=s"     => \$XML,
@@ -153,7 +154,8 @@ my $INIT;
 	"version"   => \$VERSION,
 	"help"      => \$HELP,
 	"notrim"    => \$NOTRIM,
-	"init"      => \$INIT
+	"init"      => \$INIT,
+	"xinit"     => \$XINIT
 
 #	"update=s"  => \$_UPDATE         # hidden updates
 	);
@@ -172,7 +174,7 @@ if($VERSION){
 # For formatted display of XML file in a browser.
 my $XSLT_FILE='PL9.xsl';
 if($XSLT ne 'on' && $XSLT ne 'off'){
-   $XSLT_FILE=$XSLT; 
+   $XSLT_FILE=$XSLT;
 }
 my $XSLT_HEADER="<?xml-stylesheet version=\"1.0\" type=\"text/xsl\" href=\"$XSLT_FILE\"?>";
 
@@ -183,14 +185,15 @@ options:
   --xml=(on|off)
   --xslt=(on|off)
   --init
+  --xinit
   --verbose
   --debug
   --version
   --help\n";
 }
 
-# Use initialization files for --init switch
-if($INIT){
+# Do not use initialization files for --xinit switch
+unless($XINIT){
     foreach $iblock (@BLOCKS){
 	my $finit="${directory}Init/${iblock}.ini";
 	if ( -e $finit ) {
@@ -200,7 +203,7 @@ if($INIT){
     }
 }
 
-# 
+#
 # Initiate output blocks
 #
 foreach $iblock (@BLOCKS){
@@ -225,7 +228,7 @@ $INPUT_DB = (
 #include pyml/Directory.pyml
 )[0];
 
-unless ( $INPUT_DB ){    
+unless ( $INPUT_DB ){
     $YAML::UseAliases=0;    # minimize references
     ($INPUT_DB) = YAML::LoadFile( $SCHEMA );
 # Clean up the inner references in the tree

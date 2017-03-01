@@ -77,13 +77,13 @@ sub clean_line{
 	if($delim eq '<'){
 	    ($next,$rest) = extract_bracketed($text,'<');
 	    unless($next){
-		die "clean_line: Unbalanced brackets: $text\n";
+		&print_input_log() &&  die "clean_line: Unbalanced brackets: $text\n";
 	    }
 	    $next =~ s/^.//; $next =~ s/.$//; # strip angle brackets
 	    my @ary=();
 	    @ary = range( $next );
 	    unless($next){
-		die "clean_line: Nothing generated with range: $text\n";
+		&print_input_log() &&  die "clean_line: Nothing generated with range: $text\n";
 	    }
 	    $transl.=" @ary ";
 	}
@@ -94,7 +94,7 @@ sub clean_line{
 	else{
 	    ($next,$rest) = extract_delimited($text,"$delim");
 	    unless($next){
-		die "clean_line: Unbalanced quotes: $text\n";
+		&print_input_log() &&  die "clean_line: Unbalanced quotes: $text\n";
 	    }
 	    $transl.=$next;
 	}
@@ -166,6 +166,14 @@ sub read_ascii {
 
 	  /^include\s+(\S+)/ && do{
 	      my $ifile=$1;
+	      my $split_file_exp='\'\"';
+	      my @incfl=quotewords($split_file_exp, 0, $ifile);
+	      if(@incfl){
+		  $ifile=$incfl[0];
+	      }
+	      else{
+		  &print_input_log() && die "Invalid include syntax.\n";
+	      }
 	      print STDERR "[$filename:$.] Include file: $ifile\n" if get_verbose();
 	      read_ascii($ifile,$INPUT_DB, $MAIN_DB, 
 			 'incl'=>1);

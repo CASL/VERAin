@@ -44,7 +44,14 @@ use Exporter;
 	 'purge_array',
 	 'replace_in_array',
 	 'extract_options',
-	 'append_options'
+	 'append_options',
+	 'match_first_position',
+	 'match_all_positions',
+	 'times_in_string',
+	 'split_string_at',
+	 'cut_string_at',
+	 'trim_space',
+	 'match_all_equalities'
     );
 
 {
@@ -278,7 +285,7 @@ sub txt2xml {
     }
     elsif (ref($r) eq "ARRAY") {
 	for (my $i = 0; $i <= $#$r; $i++) {
-	    $r->[$i];
+#	    $r->[$i];
 	    $r->[$i] =~ s/&/&amp;/g;
 	    $r->[$i] =~ s/</&lt;/g;
 #	    $r->[$i] =~ s/>/&gt;/g;
@@ -406,6 +413,84 @@ sub append_options{
 	return 1;
     }
     return 0;
+}
+
+sub match_first_position
+{
+    my ($regex, $string) = @_;
+    return if not $string =~ /$regex/;
+    return ($-[0], $+[0]-$-[0]);
+}
+
+sub match_all_positions
+{
+    my ($regex, $string) = @_;
+    my @midx;
+    while ($string =~ /$regex/g) {
+        push @midx, [$-[0], $+[0]-$-[0]];
+    }
+    return @midx
+}
+
+sub match_all_equalities
+{
+    my ($string) = @_;
+    my $regex='\w+\s*=\s*';
+    my @pairs;
+
+    my @midx=match_all_positions($regex,$string);
+
+    my $left=$string;
+    for(my $i=$#midx; $i>=0; $i--){
+	my ($idx, $len) = @{ $midx[$i] };
+	my ($pre, $post)=split_string_at($left,$idx-1);
+	my ($com, $val) =split_string_at($post,$len-1);
+	$com=~s/=//;
+	$com=trim_space($com);
+	$val=trim_space($val);
+	push @pairs, [$com, $val];
+	$left=$pre;
+    }
+    return @pairs;
+}
+
+sub times_in_string
+{
+    my ($regex, $string) = @_;
+    my $number = 0;
+    $number = () = $string =~ /$regex/gi;
+    return $number > 0 ? $number : 0;
+}
+
+sub split_string_at {
+    my ($str, $n) = @_;
+    my $pre  = substr($str,0,$n);
+    my $post = substr($str,$n+1);
+    return ($pre, $post);
+}
+
+sub cut_string_at {
+    my ($str, @n) = @_;
+    my $t;
+    my $last = 0;
+    my $len=0;
+
+    for(my $i=0; $i<=$#n; $i++){
+	$len=$n[$i] - $last;
+	$t.="A".$len.' ';
+	$last=$n[$i];
+    }
+    $t.='A*';
+
+#    print "t: $t\n";
+    my @list = unpack($t, $str);
+}
+
+sub trim_space {
+    my $str = shift @_;
+    $str =~ s/^\s+//;
+    $str =~ s/\s+$//;
+    return $str;
 }
 
 1;

@@ -1,0 +1,47 @@
+MAMBA1D:
+  _pltype: list
+  _do:
+    - setdb MAIN_DB
+  _content:
+    noBoilnoCrud:
+      _pltype: parameter
+      _type: int
+      _do:
+        - copy MAMBA1D/$noBoilnoCrud
+      _content:
+
+    onlyBoronPrecip:
+      _pltype: parameter
+      _type: int
+      _do:
+        - copy MAMBA1D/$onlyBoronPrecip
+      _content:
+
+
+    Bthresh:
+      _pltype: parameter
+      _type: double 
+      _do:
+        - copy MAMBA1D/$Bthresh
+      _content:
+
+    Bfract:
+      _pltype: parameter
+      _type: double 
+      _do:
+        - copy MAMBA1D/$Bfract
+      _content:
+
+    constantTsat:
+      _pltype: parameter
+      _type: double
+      _do:
+        - copy MAMBA1D/$constantTsat
+      _content:
+
+    modelTKEEnhance:
+      _pltype: parameter
+      _type: int
+      _do:
+        - copy MAMBA1D/$modelTKEEnhance
+      _content:

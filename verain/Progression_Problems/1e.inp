@@ -49,12 +49,13 @@
 
 [MPACT]
   ray_spacing    0.005
+  shield_ray_spacing 0.005
   num_space      1 
   num_angle     -8
   num_threads    1
 
 [SHIFT]
-  transport            ce_mc       
+  transport            ce       
   num_cycles           1100
   num_inactive_cycles  100
   Np                   100000  

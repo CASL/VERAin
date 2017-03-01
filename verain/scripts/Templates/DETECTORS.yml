@@ -55,6 +55,12 @@ DETECTORS:
           _do:
             - copy %DETECTOR/$(_path)/$title
           _content:
+        det_type:
+          _pltype: parameter
+          _type: string
+          _do:
+            - copy %DETECTOR/$(_path)/$type
+          _content:
         num_pins:
           _pltype: parameter
           _type: int

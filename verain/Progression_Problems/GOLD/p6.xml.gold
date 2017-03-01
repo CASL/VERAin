@@ -327,7 +327,7 @@
     <Parameter name="mesh" type="int" value="1"/>
     <Parameter name="output_geometry" type="bool" value="true"/>
     <Parameter name="thermal_energy_cutoff" type="double" value="10.0"/>
-    <Parameter name="transport" type="string" value="ce_mc"/>
+    <Parameter name="transport" type="string" value="ce"/>
   </ParameterList>
   <ParameterList name="EDITS">
     <Parameter name="axial_edit_bounds" type="Array(double)" value="{11.951,15.817,24.028,32.239,40.45,48.662,56.873,65.084,73.295,77.105,85.17,93.235,101.3,109.365,117.43,125.495,129.305,137.37,145.435,153.5,161.565,169.63,177.695,181.505,189.57,197.635,205.7,213.765,221.83,229.895,233.705,241.77,249.835,257.9,265.965,274.03,282.095,285.905,293.97,302.035,310.1,318.165,326.23,334.295,338.105,346.0262,353.9474,361.8686,369.7898,377.711}"/>

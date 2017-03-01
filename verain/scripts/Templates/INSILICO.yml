@@ -17,13 +17,6 @@ INSILICO:
         - copy INSILICO/$xs_library
       _content:
 
-    celib_file:
-      _pltype: parameter
-      _type: string
-      _do:
-        - copy INSILICO/$celib_file
-      _content:
-
     temp_correction:
       _pltype: parameter
       _type: string
@@ -43,13 +36,6 @@ INSILICO:
       _type: string
       _do:
         - copy INSILICO/$local_log
-      _content:
-
-    mat_library:
-      _pltype: parameter
-      _type: string
-      _do:
-        - copy INSILICO/$mat_library
       _content:
 
     mesh:
@@ -143,39 +129,11 @@ INSILICO:
         - copy INSILICO/$max_delta_z
       _content:
 
-    partition_upscatter:
-      _pltype: parameter
-      _type: bool
-      _do:
-        - copy INSILICO/$partition_upscatter
-      _content:
-
     store_fulcrum_string:
       _pltype: parameter
       _type: string
       _do:
         - copy INSILICO/$store_fulcrum_string
-      _content:
-
-    mg_solver:
-      _pltype: parameter
-      _type: string
-      _do:
-        - copy INSILICO/$mg_solver
-      _content:
-
-    eigen_solver:
-      _pltype: parameter
-      _type: string
-      _do:
-        - copy INSILICO/$eigen_solver
-      _content:
-
-    iterate_downscatter:
-      _pltype: parameter
-      _type: bool
-      _do:
-        - copy INSILICO/$iterate_downscatter
       _content:
 
     downscatter:
@@ -199,38 +157,20 @@ INSILICO:
         - copy INSILICO/$cell_broadcast_size
       _content:
 
-    aztec_kspace:
-      _pltype: parameter
-      _type: int
-      _do:
-        - copy INSILICO/$aztec_kspace
-      _content:
-
-    max_itr:
-      _pltype: parameter
-      _type: int
-      _do:
-        - copy INSILICO/$max_itr
-      _content:
-
-    tolerance:
-      _pltype: parameter
-      _type: double
-      _do:
-        - copy INSILICO/$tolerance
-      _content:
     eq_set:
       _pltype: parameter
       _type: string
       _do:
         - copy INSILICO/$eq_set
       _content:
+
     new_grp_bounds:
       _pltype: array
       _type: double
       _do:
         - copyarray INSILICO/@new_grp_bounds
       _content:
+
     cell_homogenize:
       _pltype: parameter
       _type: bool
@@ -283,15 +223,22 @@ INSILICO:
             - copy INSILICO/$Sn_order
           _content:
 
-    eigenvalue_db:
+    solver_db:
       _pltype: list
       _content:
+
+        solver:
+          _pltype: parameter
+          _type: string
+          _do:
+            - copy INSILICO/$solver
+          _content:
 
         tolerance:
           _pltype: parameter
           _type: double
           _do:
-            - copy INSILICO/$init_tolerance
+            - copy INSILICO/$tolerance
           _content:
 
         k_tolerance:
@@ -301,32 +248,25 @@ INSILICO:
             - copy INSILICO/$k_tolerance
           _content:
 
-        L2_tolerance:
-          _pltype: parameter
-          _type: double
-          _do:
-            - copy INSILICO/$L2_tolerance
-          _content:
-
-        arnoldi_kspace:
+        subspace_size:
           _pltype: parameter
           _type: int
           _do:
-            - copy INSILICO/$arnoldi_kspace
+            - copy INSILICO/$subspace_size
           _content:
 
-        arnoldi_restarts:
+        max_itr:
           _pltype: parameter
           _type: int
           _do:
-            - copy INSILICO/$arnoldi_restarts
+            - copy INSILICO/$max_itr
           _content:
 
-        diagnostic_level:
+        verbosity:
           _pltype: parameter
-          _type: int
+          _type: string
           _do:
-            - copy INSILICO/$diagnostic_level
+            - copy INSILICO/$verbosity
           _content:
 
         energy_dep_ev:
@@ -335,38 +275,52 @@ INSILICO:
           _do:
             - copy INSILICO/$energy_dep_ev
           _content:
-    
-        Preconditioner:
-          _pltype: parameter
-          _type: string
-          _do:
-            - copy INSILICO/$preconditioner
-          _content:
-    
-    upscatter_db:
-      _pltype: list
-      _content:
 
-        tolerance:
+        partition_upscatter:
           _pltype: parameter
-          _type: double
+          _type: bool
           _do:
-            - copy INSILICO/$upscatter_tolerance
+            - copy INSILICO/$partition_upscatter
           _content:
 
-        aztec_diag:
-          _pltype: parameter
-          _type: int
-          _do:
-            - copy INSILICO/$aztec_diag
+        upscatter_db:
+          _pltype: list
           _content:
 
-        aztec_output:
-          _pltype: parameter
-          _type: int
-          _do:
-            - copy INSILICO/$aztec_output
-          _content:
+            tolerance:
+              _pltype: parameter
+              _type: double
+              _do:
+                - copy INSILICO/$upscatter_tolerance
+              _content:
+
+            solver:
+              _pltype: parameter
+              _type: string
+              _do:
+                - copy INSILICO/$upscatter_solver
+              _content:
+
+            max_itr:
+              _pltype: parameter
+              _type: int
+              _do:
+                - copy INSILICO/$upscatter_max_itr
+              _content:
+
+            verbosity:
+              _pltype: parameter
+              _type: string
+              _do:
+                - copy INSILICO/$upscatter_verbosity
+              _content:
+
+            iterate_downscatter:
+              _pltype: parameter
+              _type: bool
+              _do:
+                - copy INSILICO/$iterate_downscatter
+              _content:
 
     silo_db:
       _pltype: list
@@ -386,31 +340,6 @@ INSILICO:
             - copy INSILICO/$mixing_table
           _content:
 
-    kcode_db:
-      _pltype: list
-      _content:
-
-        Np:
-          _pltype: parameter
-          _type: int
-          _do:
-            - copy INSILICO/$Np
-          _content:
-
-        num_cycles:
-          _pltype: parameter
-          _type: int
-          _do:
-            - copy INSILICO/$num_cycles
-          _content:
-
-        num_inactive_cycles:
-          _pltype: parameter
-          _type: int
-          _do:
-            - copy INSILICO/$num_inactive_cycles
-          _content:
-
     Pn_correction:
       _pltype: parameter
       _type: bool
@@ -424,25 +353,3 @@ INSILICO:
       _do:
         - copy INSILICO/$pin_partitioning
       _content:
-
-    transport:
-      _pltype: parameter
-      _type: string
-      _do:
-        - copy INSILICO/$transport
-      _content:
-
-    output_geometry:
-      _pltype: parameter
-      _type: bool
-      _do:
-        - copy INSILICO/$output_geometry
-      _content:
-
-    thermal_energy_cutoff:
-      _pltype: parameter
-      _type: double
-      _do:
-        - copy INSILICO/$thermal_energy_cutoff
-      _content:
-

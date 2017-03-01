@@ -600,7 +600,7 @@
   par_file       part_p5_73r_58z.txt
 
 [SHIFT]
-  transport             ce_mc       
+  transport             ce       
   num_cycles            2000
   num_inactive_cycles   500
   Np                    500000000

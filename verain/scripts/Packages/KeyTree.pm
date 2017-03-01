@@ -241,9 +241,16 @@ sub parse_path{
     my ($path)=@_;
 
     $path=~s/\%(\w+)/$1\/_key/g;
+
+    $path=~s/\@(\w+)\^/$1\/_parameters/g;
     $path=~s/\@(\w+)/$1\/_content/g;
     $path=~s/\:(\d+)/\/$1/g;
-    $path=~s/\$([^\/]+)/$1\/_content/g;
+
+#    $path=~s/\$([^\/]+)/$1\/_content/g;
+
+    $path=~s/\$(\w+)\^/$1\/_parameters/g;
+    $path=~s/\$(\w+)/$1\/_content/g;
+
     $path=~s/\$\//_content\//g;
     my @a=split /\//, $path;
 

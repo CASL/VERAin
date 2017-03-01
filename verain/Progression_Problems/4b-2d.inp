@@ -140,7 +140,7 @@
   num_threads    1
 
 [SHIFT]
-  transport            ce_mc       
+  transport            ce       
   num_cycles           2000
   num_inactive_cycles  200
   Np                   2000000  

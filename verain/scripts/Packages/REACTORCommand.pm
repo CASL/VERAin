@@ -61,6 +61,9 @@ sub ctokens
 #   Split the command text into tokens
     unless(defined($self->{tlist})){
 	my $dtx=$self->ctext();
+	if($self->argexists('_slash')){
+	    $dtx =~ s/\// \/ /g;
+	}
 	my $split_exp='\s+|=';
 	@a=quotewords($split_exp, 0, $dtx);
 	@a = grep {defined && $_ ne ''} @a;
@@ -206,6 +209,18 @@ sub argarray
     return values_at($tree,@argument);
 }
 
+sub argkeys
+{
+    my ($self,@argument)=@_;
+    my $myfun=(caller(0))[3];
+
+    croak "Too few arguments to $myfun" if @_ < 2;
+
+    my $tree=$self->keytree();
+    my $ref=key_exists($tree,@argument);
+    return (ref $ref eq 'HASH') ? keys_at($ref) : ();
+}
+
 sub ctext
 {
     my ($self, $newval) = @_;
@@ -214,6 +229,17 @@ sub ctext
     croak "Too many arguments to $myfun" if @_ > 2;
     $self->{ctext} .= " ".$newval if @_ > 1;
     croak "$myfun undefined" unless defined($self->{ctext});
+    return $self->{ctext};
+}
+
+sub ctextwrite
+{
+    my ($self, $newval) = @_;
+    my $myfun=(caller(0))[3];
+
+    croak "Invalid number of arguments to $myfun" if @_ != 2;
+    $self->{ctext} = $newval;
+    croak "$myfun undefined entry" unless defined($self->{ctext});
     return $self->{ctext};
 }
 
@@ -345,6 +371,9 @@ sub keyin{
     my $parse = $self->argvalue('_parse');
     my $type = $self->argvalue('_type');
 
+# extract parameters if exist
+    my %CPARMS;
+    $self->extract_parameters(\%CPARMS);
 #   Split the command text into tokens
     my @a=$self->ctokens();
     my @a0=@a;
@@ -393,7 +422,13 @@ sub keyin{
     }
     unless($result){
 	&error_report($self->keyword(),$dtx,$file,$line,$errmsg);
-	die "$myfun check fail\n";
+	die "$myfun command check fail\n";
+    }
+
+    $result=$self->encode_parameters(\%CPARMS,$templ,\$errmsg);
+    unless($result){
+	&error_report($self->keyword,$dtx,$file,$line,$errmsg);
+	die "$myfun parameter check fail\n";
     }
 
     return $result;
@@ -467,5 +502,90 @@ sub apply_evals {
     return 1;
 }
 
+sub extract_parameters {
+    my ($self,$href)=@_;
+    my $myfun=(caller(0))[3];
+
+    my @pa=$self->argkeys('_parameters');
+    if(@pa){
+	my %validk;
+	@validk{@pa} = ();
+	my $keyw=$self->keyword();
+	my $dtx=$self->ctext();
+	my $slcnt = times_in_string( '\/', $dtx);
+	return if $slcnt < 1;
+	my $loc = rindex($dtx, '/');
+	if($loc>0){
+	    my ($pre, $post) = split_string_at($dtx,$loc);
+	    $pre =trim_space($pre);
+	    $post=trim_space($post);
+	    $self->ctextwrite($pre);
+
+	    my @para=match_all_equalities($post);
+	    foreach my $ipara ( @para ){
+		my ($kk1, $kk2)=@{ $ipara };
+#		print "para [$kk1] [$kk2]\n";
+		if(exists($validk{$kk1})){
+		    $href->{$kk1}=$kk2;
+		}
+		else{
+		    my $line=$self->line();
+		    my $file=$self->file();
+		    my $errmsg = "invalid parameter $kk1";
+		    &error_report($keyw,$dtx,$file,$line,$errmsg);
+		    die "Input syntax error\n";
+		}
+	    }
+	}
+    }
+}
+
+sub encode_parameters {
+    my ($self,$href,$templ,$referrmsg)=@_;
+    my $myfun=(caller(0))[3];
+
+    my $split_exp='\s+';
+    my $result=1;
+    my $LABEL='_parameters';
+    my $CONTENT_LABEL='_content';
+
+    foreach my $ikey ( keys %{ $href } ){
+	$result=0;
+	my @sr    = $self->argarray($LABEL,$ikey,'_check');
+	my $parse = $self->argvalue($LABEL,$ikey,'_parse');
+	my $type  = $self->argvalue($LABEL,$ikey,'_type');
+	my $named = $self->argvalue($LABEL,$ikey,'_named');
+#	print "key: $ikey, parse: $parse, type: $type, check: @sr, named: $named\n";
+	if($named){
+	    print STDERR "Named parameter $ikey is not allowed in parameters.\n";
+	    die "Internal configuration error, invalid Directory.yml entry.\n";
+	}
+
+	my $pvalue=$href->{$ikey};
+	my $tp=new_key($templ,$LABEL,$ikey);
+
+	if($parse eq 'scalar'){
+	    $result=&apply_evals(\$pvalue,\@sr,$referrmsg,$self);
+	    key_on($tp,$CONTENT_LABEL,$pvalue) if $result;
+	}
+	elsif($parse eq 'list'){
+	    my @a=quotewords($split_exp, 0, $pvalue);
+	    @a = grep {defined && $_ ne ''} @a;
+	    $result=&apply_evals(\@a,\@sr,$referrmsg,$self);
+	    key_on($tp,$CONTENT_LABEL,[@a]) if $result;
+	}
+	else{
+	    print STDERR "Invalid parse type for parameter $ikey.\n";
+	    die "Internal configuration error, invalid Directory.yml entry.\n";
+	}
+	return $result unless $result;
+
+	my $pw='%ASSEMBLY/$path/%axial/@loop^';
+	my @aa=parse_path( $pw );
+#	print "aa: @aa\n";
+	
+    }
+    return $result;
+}
 
 1;

@@ -400,7 +400,7 @@
     <Parameter name="mesh" type="int" value="1"/>
     <Parameter name="output_geometry" type="bool" value="true"/>
     <Parameter name="thermal_energy_cutoff" type="double" value="10.0"/>
-    <Parameter name="transport" type="string" value="ce_mc"/>
+    <Parameter name="transport" type="string" value="ce"/>
   </ParameterList>
   <ParameterList name="MPACT">
     <ParameterList name="2d1d">

@@ -249,7 +249,7 @@
   par_file       part_p5-2d_73r_1z.txt
 
 [SHIFT]
-  transport            ce_mc       
+  transport            ce       
   num_cycles           2000
   num_inactive_cycles  250
   Np                   50000000 

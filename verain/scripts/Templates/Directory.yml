@@ -53,7 +53,7 @@ _DIRECTORY:
   COUPLING:
   MPACT:
   BISON:
-  MAMBA2D:
+  MAMBA1D:
   TIAMAT:
 
 CASEID:
@@ -156,6 +156,13 @@ STATE:
     _check:
       - is_word()
       - in_dictionary() zero dep equil peak
+  rlx_xesm:
+    <<: *dtdouble
+    _content:
+    _check:
+      - is_float()
+      - is_gt() 0
+      - is_leq() 1.0
   boron:
     <<: *dtdouble
     _content:
@@ -181,7 +188,12 @@ STATE:
     _content:
     _check:
       - is_word()
-      - in_dictionary() keff boron
+      - in_dictionary() keff boron rod
+  search_bank:
+    <<: *dtword
+    _content:
+    _check:
+      - is_word()
   pressure:
     <<: *dtdouble
     _content:
@@ -484,6 +496,12 @@ CORE:
     _content:
     _check:
       - fall(sub{is_word(shift)},())
+  label_format:
+    <<: *dtword
+    _content:
+    _check:
+      - is_word()
+      - in_dictionary() x-y y-x
   height:
     <<: *dtdouble
     _content:
@@ -582,7 +600,7 @@ ASSEMBLY:
     _style:
     _check:
       - nth(2,())>0
-      - nth(2,())<6
+      - nth(2,())<10
       - nth(3,())>0
       - nth(4,())>0
   grid_axial:
@@ -608,7 +626,7 @@ ASSEMBLY:
     _style: multi-line
     _slash:
     _check:
-      - nth(1,())>0
+      - nth(1,())>=0
       - nth(2,())eq'/'||nth(3,())eq'/'
       - (nth(2,())eq'/'&&(nth(3,())>=0))||(nth(3,())eq'/'&&(nth(4,())>=0))
 
@@ -757,6 +775,12 @@ DETECTOR:
     _content:
     _check:
       - is_string()
+  type:
+    <<: *dtword
+    _content:
+    _check:
+      - is_word()
+      - in_dictionary() u235 v rh
   npin:
     <<: *dtint
     _content:
@@ -821,11 +845,6 @@ INSILICO:
     _content:
     _check:
       - is_word()
-  celib_file:
-    <<: *dtword
-    _content:
-    _check:
-      - is_word()
   temp_correction:
     <<: *dtword
     _content:
@@ -844,11 +863,6 @@ INSILICO:
     _check:
       - is_word()
       - in_dictionary() debug diagnostic status info warning error critical
-  mat_library:
-    <<: *dtword
-    _content:
-    _check:
-      - is_word()
   dimension:
     <<: *dtint
     _content:
@@ -910,24 +924,6 @@ INSILICO:
     _check:
       - is_int()
       - is_gt() 0
-  num_cycles:
-    <<: *dtint
-    _content:
-    _check:
-      - is_int()
-      - is_gt() 0
-  num_inactive_cycles:
-    <<: *dtint
-    _content:
-    _check:
-      - is_int()
-      - is_gt() 0
-  Np:
-    <<: *dtint
-    _content:
-    _check:
-      - is_int()
-      - is_gt() 0
   radial_geom_eps:
     <<: *dtdouble
     _content:
@@ -957,13 +953,13 @@ INSILICO:
     _content:
     _check:
       - is_word()
-  mg_solver:
+  upscatter_solver:
     <<: *dtword
     _content:
     _check:
       - is_word()
-      - in_dictionary() Krylov Gauss-Seidel
-  eigen_solver:
+      - in_dictionary() gmres gauss_seidel
+  solver:
     <<: *dtword
     _content:
     _check:
@@ -993,13 +989,19 @@ INSILICO:
     _check:
       - is_int()
       - is_geq() 0
-  aztec_kspace:
+  subspace_size:
     <<: *dtint
     _content:
     _check:
       - is_int()
       - is_gt() 0
   max_itr:
+    <<: *dtint
+    _content:
+    _check:
+      - is_int()
+      - is_gt() 0
+  upscatter_max_itr:
     <<: *dtint
     _content:
     _check:
@@ -1018,6 +1020,18 @@ INSILICO:
     _check:
       - is_word()
       - in_dictionary() sc ld bld bld_2d spn_fv
+  verbosity:
+    <<: *dtword
+    _content:
+    _check:
+      - is_word()
+      - in_dictionary() none low medium high
+  upscatter_verbosity:
+    <<: *dtword
+    _content:
+    _check:
+      - is_word()
+      - in_dictionary() none low medium high
   new_grp_bounds:
     <<: *dtlist
     _style: multi-line
@@ -1025,7 +1039,6 @@ INSILICO:
     _check:
       - fall(sub{is_float(shift)},())
       - fall(sub{is_gt(shift,0)},())
-
   quad_type:
     <<: *dtword
     _content:
@@ -1050,14 +1063,6 @@ INSILICO:
     _check:
       - is_int()
       - is_gt() 0
-
-  init_tolerance:
-    <<: *dtdouble
-    _content:
-    _check:
-      - is_float()
-      - is_gt() 0
-      - is_lt() 1
   k_tolerance:
     <<: *dtdouble
     _content:
@@ -1065,45 +1070,12 @@ INSILICO:
       - is_float()
       - is_gt() 0
       - is_lt() 1
-  L2_tolerance:
-    <<: *dtdouble
-    _content:
-    _check:
-      - is_float()
-      - is_gt() 0
-      - is_lt() 1
-  arnoldi_kspace:
-    <<: *dtint
-    _content:
-    _check:
-      - is_int()
-      - is_gt() 0
-  arnoldi_restarts:
-    <<: *dtint
-    _content:
-    _check:
-      - is_int()
-      - is_gt() 0
-  diagnostic_level:
-    <<: *dtint
-    _content:
-    _check:
-      - is_int()
-      - is_geq() 0
-      - is_lt() 3
   energy_dep_ev:
     <<: *dtbool
     _content:
     _check:
       - is_word()
       - in_dictionary() true false
-  preconditioner:
-    <<: *dtword
-    _content:
-    _check:
-      - is_word()
-      - in_dictionary() Ifpack ML
-
   upscatter_tolerance:
     <<: *dtdouble
     _content:
@@ -1111,19 +1083,6 @@ INSILICO:
       - is_float()
       - is_gt() 0
       - is_lt() 1
-  aztec_diag:
-    <<: *dtint
-    _content:
-    _check:
-      - is_int()
-      - is_geq() 0
-  aztec_output:
-    <<: *dtint
-    _content:
-    _check:
-      - is_int()
-      - is_geq() 0
-
   silo_output:
     <<: *dtword
     _content:
@@ -1135,35 +1094,30 @@ INSILICO:
     _check:
       - is_word()
       - in_dictionary() true false
-
   cell_homogenize:
     <<: *dtbool
     _content:
     _check:
       - is_word()
       - in_dictionary() true false
-
   SPN_matrix_type:
     <<: *dtword
     _content:
     _check:
       - is_word()
       - in_dictionary() mat_free
-
   SPN_order:
     <<: *dtint
     _content:
     _check:
       - is_int()
       - in_dictionary() 1 3 5 7
-
   Pn_correction:
     <<: *dtbool
     _content:
     _check:
       - is_word()
       - in_dictionary() true false
-
   pin_partitioning:
     <<: *dtbool
     _content:
@@ -1171,38 +1125,30 @@ INSILICO:
       - is_word()
       - in_dictionary() true false
 
-  transport:
-    <<: *dtstring
-    _content:
-    _check:
-      - is_word()
-      - in_dictionary() deterministic ce_mc mg_mc
-
-  output_geometry:
-    <<: *dtbool
-    _content:
-    _check:
-      - is_word()
-      - in_dictionary() true false
-
-  thermal_energy_cutoff:
-    <<: *dtdouble
-    _content:
-    _check:
-      - is_float()
-      - is_gt() 0
-
 SHIFT:
   celib_file:
     <<: *dtword
     _content:
     _check:
       - is_word()
+  temp_correction:
+    <<: *dtword
+    _content:
+    _check:
+      - is_word()
+      - in_dictionary() none oned all
+  temp_transfer:
+    <<: *dtword
+    _content:
+    _check:
+      - is_word()
+      - in_dictionary() all none pin
   global_log:
     <<: *dtword
     _content:
     _check:
       - is_word()
+      - in_dictionary() debug diagnostic status info warning error critical
   do_transport:
     <<: *dtbool
     _content:
@@ -1215,12 +1161,6 @@ SHIFT:
     _check:
       - is_word()
       - in_dictionary() true false
-  mesh:
-    <<: *dtint
-    _content:
-    _check:
-      - is_int()
-      - is_gt() 0
   num_cycles:
     <<: *dtint
     _content:
@@ -1239,27 +1179,125 @@ SHIFT:
     _check:
       - is_int()
       - is_gt() 0
-
   transport:
     <<: *dtstring
     _content:
     _check:
       - is_word()
-      - in_dictionary() deterministic ce_mc mg_mc
-
+      - in_dictionary() ce mg
+  problem_mode:
+    <<: *dtstring
+    _content:
+    _check:
+      - is_word()
+      - in_dictionary() eigenvalue forward
+  mode:
+    <<: *dtstring
+    _content:
+    _check:
+      - is_word()
+      - in_dictionary() n np
   output_geometry:
     <<: *dtbool
     _content:
     _check:
       - is_word()
       - in_dictionary() true false
-
+  output_fission_source:
+    <<: *dtbool
+    _content:
+    _check:
+      - is_word()
+      - in_dictionary() true false
   thermal_energy_cutoff:
     <<: *dtdouble
     _content:
     _check:
       - is_float()
       - is_gt() 0
+  excore_filename:
+    <<: *dtword
+    _content:
+    _check:
+     - is_word()
+  radial_mesh:
+    <<: *dtlist
+    _content:
+    _check:
+  num_theta:
+    <<: *dtint
+    _content:
+    _check:
+      - is_int()
+      - is_gt() 0
+  num_axial:
+    <<: *dtint
+    _content:
+    _check:
+      - is_int()
+      - is_gt() 0
+  neutron_bounds:
+    <<: *dtlist
+    _content:
+    _check:
+      - is_strictlydecreasing(stride(1,1,()))
+  photon_bounds:
+    <<: *dtlist
+    _content:
+    _check:
+      - is_strictlydecreasing(stride(1,1,()))
+  bc_bnd_mesh:
+    <<: *dtlist
+    _content:
+    _check:
+      - arraysize()==6
+      - is_word(nth(0,()))
+      - in_dictionary(nth(0,()),'reflect','vacuum')
+      - is_word(nth(1,()))
+      - in_dictionary(nth(1,()),'reflect','vacuum')
+      - is_word(nth(2,()))
+      - in_dictionary(nth(2,()),'reflect','vacuum')
+      - is_word(nth(3,()))
+      - in_dictionary(nth(3,()),'reflect','vacuum')
+      - is_word(nth(4,()))
+      - in_dictionary(nth(4,()),'reflect','vacuum')
+      - is_word(nth(5,()))
+      - in_dictionary(nth(5,()),'reflect','vacuum')
+  x_bnd_mesh:
+    <<: *dtlist
+    _content:
+    _check:
+      - arraysize()==2
+      - is_float(nth(0,()))
+      - is_float(nth(1,()))
+  y_bnd_mesh:
+    <<: *dtlist
+    _content:
+    _check:
+      - arraysize()==2
+      - is_float(nth(0,()))
+      - is_float(nth(1,()))
+  z_bnd_mesh:
+    <<: *dtlist
+    _content:
+    _check:
+      - arraysize()==2
+      - is_float(nth(0,()))
+      - is_float(nth(1,()))
+  core_translate:
+    <<: *dtlist
+    _content:
+    _check:
+      - arraysize()==3
+      - is_float(nth(0,()))
+      - is_float(nth(1,()))
+      - is_float(nth(2,()))
+  create_unique_pins:
+    <<: *dtbool
+    _content:
+    _check:
+      - is_word()
+      - in_dictionary() true false
 
 COBRATF:
 
@@ -1768,6 +1806,12 @@ MPACT:
     _check:
       - is_float()
       - is_gt() 0.0
+  refl_no_added_modules:
+    <<: *dtstring
+    _content:
+    _check:
+      - is_string()
+      - in_dictionary() true false
   moc_kernel:
     <<: *dtstring
     _content:
@@ -1816,6 +1860,12 @@ MPACT:
     _check:
       - is_word()
       - in_dictionary() none polynomial 1dcpm 2dmoc subplane true false
+  ppm_method:
+    <<: *dtword
+    _content:
+    _check:
+      - is_word()
+      - in_dictionary() 1 2
   valid_on:
     <<: *dtbool
     _content:
@@ -1899,6 +1949,16 @@ MPACT:
     _content:
     _check:
       - fall(sub{is_float(shift)},())
+  fuel_pin_mod_mesh:
+    <<: *dtlist
+    _content:
+    _check:
+      - arraysize()==2
+      - is_float(nth(0,()))
+      - is_int(nth(1,()))
+      - nth(0,())>0
+      - nth(1,())>0
+
   crud_mesh:
     <<: *dtlist
     _content:
@@ -1983,6 +2043,12 @@ MPACT:
     _check:
       - is_word()
       - in_dictionary() t f true false
+  res_up_scatter:
+    <<: *dtword
+    _content:
+    _check:
+      - is_word()
+      - in_dictionary() true false
   dep_filename:
     <<: *dtword
     _content:
@@ -2005,6 +2071,12 @@ MPACT:
       - is_int()
       - is_gt() 0
   cat_onegroup:
+    <<: *dtlist
+    _style: multi-line
+    _content:
+    _check:
+      - fall(sub{is_int(shift)},())
+  shld_range:
     <<: *dtlist
     _style: multi-line
     _content:
@@ -2093,13 +2165,27 @@ MPACT:
     _content:
     _check:
       - is_word()
-
+  par_xdim:
+    <<: *dtword
+    _content:
+    _check:
+      - is_int()
+  par_ydim:
+    <<: *dtword
+    _content:
+    _check:
+      - is_int()
+  par_map:
+    <<: *dtlist
+    _style: multi-line
+    _check:
+      - fall(sub{is_int(shift)},())
   coupling_method:
     <<: *dtbool
     _content:
     _check:
       - is_word()
-      - in_dictionary() ctf simplified ctf_external none
+      - in_dictionary() ctf simplified ctf_external tiamat none
   th_nonlinear_solver:
     <<: *dtbool
     _content:
@@ -2175,12 +2261,33 @@ MPACT:
     _check:
       - is_word()
       - in_dictionary() true false
+  temptable_boundary:
+    <<: *dtword
+    _content:
+    _check:
+      - is_word()
+      - in_dictionary() clad_outer bulk_cool
   temptable_filename:
     <<: *dtword
     _content:
     _check:
       - is_word()
-
+  temptable_qprime:
+    <<: *dtfloat
+    _content:
+    _check:
+      - is_float()
+      - is_geq() 0
+  temptable_polynomial:
+    <<: *dtlist
+    _style: multi-line
+    _content:
+    _check:
+      - arraysize()%3==0
+      - fall(sub{is_float(shift)},stride(0,3,()))
+      - fall(sub{is_float(shift)},stride(1,3,()))
+      - fall(sub{is_float(shift)},stride(2,3,()))
+      - fall(sub{is_geq(shift,0)},stride(0,3,()))
   dep_edit:
     <<: *dtword
     _content:
@@ -2236,6 +2343,18 @@ MPACT:
     _check:
       - is_word()
       - in_dictionary() petsc trilinos
+  petsc_linear_solver_method:
+    <<: *dtword
+    _content:
+    _check:
+      - is_word()
+      - in_dictionary() gmres bicgstab
+  preconditioner:
+    <<: *dtword
+    _content:
+    _check:
+      - is_word()
+      - in_dictionary() default ilu bilu bjacobi_ilu mg eisenstat none
   cmfd_eigen_solver:
     <<: *dtword
     _content:
@@ -2243,6 +2362,12 @@ MPACT:
       - is_word()
       - in_dictionary() power jd gd arnoldi slepc_power
   k_shift:
+    <<: *dtdouble
+    _content:
+    _check:
+      - is_float()
+      - is_gt() 0.0
+  cmfd_relaxation:
     <<: *dtdouble
     _content:
     _check:
@@ -2389,205 +2514,48 @@ MPACT:
       - fall(sub{is_word(shift)},stride(4,6,()))
       - fall(sub{is_word(shift)},stride(5,6,()))
 
-MAMBA2D:
-  problem_name:
+MAMBA1D:
+  noBoilnoCrud:
+    <<: *dtint
+    _content:
+    _check:
+      - is_geq() 0
+      - is_int()
+  Bthresh:
+    <<: *dtdouble
+    _content:
+    _check:
+      - is_float()
+      - is_gt() 0
+  Bfract:
+    <<: *dtdouble
+    _content:
+    _check:
+      - is_float()
+      - is_gt() 0
+  interface:
     <<: *dtstring
     _content:
     _check:
       - is_string()
-  Nx:
+  constantTsat:
+    <<: *dtdouble
+    _content:
+    _check:
+      - is_float()
+      - is_gt() 0
+  onlyBoronPrecip:
     <<: *dtint
     _content:
     _check:
-      - is_int()
-      - is_gt() 0
-  Ny:
-    <<: *dtint
-    _content:
-    _check:
-      - is_int()
-      - is_gt() 0
-  deltaX:
-    <<: *dtdouble
-    _content:
-    _check:
-      - is_float()
-      - is_gt() 0
-  deltaY:
-    <<: *dtdouble
-    _content:
-    _check:
-      - is_float()
-      - is_gt() 0
-  deltat:
-    <<: *dtdouble
-    _content:
-    _check:
-      - is_float()
-      - is_gt() 0
-  tmax:
-    <<: *dtdouble
-    _content:
-    _check:
-      - is_float()
-      - is_gt() 0
-  imod:
-    <<: *dtint
-    _content:
-    _check:
-      - is_int()
-  HFprod:
-    <<: *dtdouble
-    _content:
-    _check:
-      - is_float()
-  Tsat:
-    <<: *dtdouble
-    _content:
-    _check:
-      - is_float()
-      - is_gt() 0
-  C_por:
-    <<: *dtdouble
-    _content:
-    _check:
-      - is_float()
-      - is_gt() 0
-  C_den:
-    <<: *dtdouble
-    _content:
-    _check:
-      - is_float()
-      - is_gt() 0
-  Cp:
-    <<: *dtdouble
-    _content:
-    _check:
-      - is_float()
-      - is_gt() 0
-  C_k:
-    <<: *dtdouble
-    _content:
-    _check:
-      - is_float()
-      - is_gt() 0
-  Hc:
-    <<: *dtdouble
-    _content:
-    _check:
-      - is_float()
-      - is_gt() 0
-  Nc:
-    <<: *dtdouble
-    _content:
-    _check:
-      - is_float()
-      - is_gt() 0
-  rc:
-    <<: *dtdouble
-    _content:
-    _check:
-      - is_float()
-      - is_gt() 0
-  Db:
-    <<: *dtdouble
-    _content:
-    _check:
-      - is_float()
-      - is_gt() 0
-  jm:
-    <<: *dtint
-    _content:
-    _check:
-      - is_int()
-  Wden:
-    <<: *dtdouble
-    _content:
-    _check:
-      - is_float()
-  ksnb:
-    <<: *dtdouble
-    _content:
-    _check:
-      - is_float()
-  ksnbp:
-    <<: *dtdouble
-    _content:
-    _check:
-      - is_float()
-  npar:
-    <<: *dtint
-    _content:
-    _check:
-      - is_int()
-      - is_gt() 0
-  AFe:
-    <<: *dtdouble
-    _content:
-    _check:
-      - is_float()
-      - is_gt() 0
-  EFe:
-    <<: *dtdouble
-    _content:
-    _check:
-      - is_float()
-      - is_gt() 0
-  nsol:
-    <<: *dtint
-    _content:
-    _check:
-      - is_int()
-      - is_gt() 0
-  AB:
-    <<: *dtdouble
-    _content:
-    _check:
-      - is_float()
-      - is_gt() 0
-  EB:
-    <<: *dtdouble
-    _content:
-    _check:
-      - is_float()
-      - is_gt() 0
-
-  nbnd:
-    <<: *dtint
-    _content:
-    _check:
-      - is_int()
-      - is_gt() 0
-  C_NiFe2O4c:
-    <<: *dtdouble
-    _content:
-    _check:
-      - is_float()
       - is_geq() 0
-  C_NiFe2O4s:
-    <<: *dtlist
-    _content:
-    _check:
-      - fall(sub{is_float(shift)},())
-      - fall(sub{is_geq(shift,0)},())
-  nint:
+      - is_int()
+  modelTKEEnhance:
     <<: *dtint
     _content:
     _check:
-      - is_int()
-      - is_gt() 0
-  C_Bc:
-    <<: *dtdouble
-    _content:
-    _check:
-      - is_float()
       - is_geq() 0
-  C_Bs:
-    <<: *dtlist
-    _content:
-    _check:
-      - fall(sub{is_float(shift)},())
-      - fall(sub{is_geq(shift,0)},())
+      - is_int()
 
 BISON:
 
@@ -3503,6 +3471,24 @@ BISON:
     _check:
       - is_string()
       - in_dictionary() clad_outer bulk_cool CLAD_OUTER BULK_COOL
+  axial_shape:
+    <<: *dtstring
+    _content:
+    _check:
+      - is_string()
+      - in_dictionary() midpoint constant MIDPOINT CONSTANT
+  fast_flux:
+    <<: *dtbool
+    _content:
+    _check:
+      - is_word()
+      - in_dictionary() true false
+  element_order:
+    <<: *dtstring
+    _content:
+    _check:
+      - is_string()
+      - in_dictionary() linear quadratic LINEAR QUADRATIC
   variables_temp_initial_condition:
     <<: *dtdouble
     _content:

@@ -445,7 +445,7 @@ BISON:
         - copy BISON/$executioner_l_max_its
       _content:
 
-    executioner_nl_tol:
+    executioner_l_tol:
       _pltype: parameter
       _type: double
       _do:
@@ -1157,6 +1157,27 @@ BISON:
       _type: string
       _do:
         - copy BISON/$bc_type
+      _content:
+      
+    axial_shape:
+      _pltype: parameter
+      _type: string
+      _do:
+        - copy BISON/$axial_shape
+      _content:
+      
+    fast_flux:
+      _pltype: parameter
+      _type: bool
+      _do:
+        - copy BISON/$fast_flux
+      _content:
+
+    element_order:
+      _pltype: parameter
+      _type: string
+      _do:
+        - copy BISON/$element_order
       _content:
 
     userobjects_pbz_execute_on:
