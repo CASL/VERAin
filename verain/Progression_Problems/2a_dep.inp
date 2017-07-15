@@ -1,11 +1,11 @@
 [CASEID]
-  title 'CASL AMA Benchmark Problem 2A - Fuel Lattice - Public'
+  title 'CASL AMA Benchmark Problem 2A Depletion - Fuel Lattice - Public'
 
 [STATE]
   power    100.0
-  tinlet   565 K
-  tfuel    565 K
-  modden   0.743      ! g/cc
+  tinlet   600 K
+  tfuel    900 K
+  modden   0.661      ! g/cc
   boron    1300       ! ppm
   sym      qtr  
   feedback off
@@ -32,7 +32,7 @@
   npin   17
   ppitch 1.26
   
-  fuel U31 10.257 94.5 / 3.1 u-234 0.026347
+  fuel U31 10.257 94.5 / 3.1 u-234=0.026347
 
   cell 1 0.4096 0.418 0.475 / U31 he zirc4
   cell 2        0.561 0.602 /    mod zirc4
@@ -54,16 +54,8 @@
   edit_group extended radial_power 2D_assem_exposure core_exposure
 
 [MPACT]
-  num_space      1 
-  num_angle     -8
-  num_threads    1
 
-[SHIFT]
-  transport            ce       
+[SHIFT]    
   num_cycles           1100
   num_inactive_cycles  100
   Np                   1000000  
-
-[INSILICO]
-  num_blocks_i   4
-  num_blocks_j   4

@@ -14,7 +14,7 @@
   size   1
   apitch 21.50 
   height 1.0
-  rated  0.01 0.01
+  rated  0.04832 0.01
 
   core_shape
     1
@@ -34,7 +34,7 @@
   npin 17
   ppitch 1.26
   
-  fuel U31 10.257 94.5 / 3.1 u-234 0.026347
+  fuel U31 10.257 94.5 / 3.1 u-234=0.026347
 
   mat ifba 3.85 zr-90   4.12271E-01
                 zr-91   9.09074E-02
@@ -156,17 +156,8 @@
   axial 24WABA  0.0 LAT24 1.0 
 
 [MPACT]
-  ray_spacing    0.005
-  num_space      1 
-  num_angle     -8
-  num_threads    1
 
 [SHIFT]
-  transport            ce       
   num_cycles           1100
   num_inactive_cycles  100
   Np                   1000000  
-
-[INSILICO]
-  num_blocks_i   4
-  num_blocks_j   4

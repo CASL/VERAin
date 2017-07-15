@@ -14,7 +14,7 @@
 [CORE]
   size   3               ! nine assemblies
   apitch 21.5
-  rated  159.1 6.14      ! MW, Mlbs/hr 
+  rated  0.43488 6.14    ! MW, Mlbs/hr 
   height 1.0     
 
   core_shape
@@ -50,8 +50,8 @@
   npin 17 
   ppitch 1.260
   
-  fuel U21 10.257 94.5 / 2.110 u-234 0.017364
-  fuel U26 10.257 94.5 / 2.619 u-234 0.021947
+  fuel U21 10.257 94.5 / 2.110 u-234=0.017364
+  fuel U26 10.257 94.5 / 2.619 u-234=0.021947
 
   cell 1     0.4096 0.418 0.475 / U21 he zirc4
   cell 2     0.4096 0.418 0.475 / U26 he zirc4
@@ -134,16 +134,9 @@
   axial 1   0.0 AIC 1.0 
 
 [MPACT]
-  num_space      9
-  num_angle      8
-  num_threads    1
+  num_space 9
 
-[SHIFT]
-  transport            ce       
+[SHIFT]  
   num_cycles           2000
   num_inactive_cycles  200
   Np                   2000000  
-
-[INSILICO]
-  num_blocks_i  4   
-  num_blocks_j  4   

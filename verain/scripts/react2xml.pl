@@ -33,6 +33,7 @@ sub GetPaths()
 use warnings ;
 use Data::Dumper ;
 use Getopt::Long;
+use File::Basename;
 
 #
 # Data structure with reactor file input commands
@@ -178,8 +179,14 @@ if($XSLT ne 'on' && $XSLT ne 'off'){
 }
 my $XSLT_HEADER="<?xml-stylesheet version=\"1.0\" type=\"text/xsl\" href=\"$XSLT_FILE\"?>";
 
+my @ARGS=@ARGV;
+if(@ARGS == 1){
+    my($filename, $dirs, $suffix) = fileparse($ARGS[0],qr/\.[^.]*/);
+    $ARGS[1]=$dirs.$filename.".xml";
+}
 
-if(@ARGV < 2){
+
+if(@ARGS < 2){
     die "Usage: $pgnam [options ...] reactor_input_file output_xml_file
 options:
   --xml=(on|off)
@@ -211,7 +218,7 @@ foreach $iblock (@BLOCKS){
 }
 
 
-my ($ifile,$ofile)=@ARGV;
+my ($ifile,$ofile)=@ARGS;
 
 die "$pgnam: input file $ifile does not exist or not readable.\n"
     unless (-e $ifile && -r $ifile);

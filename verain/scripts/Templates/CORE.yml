@@ -137,6 +137,27 @@ CORE:
         - copyarray CORE/@vessel,start=>1,stride=>2
       _content:
 
+    hole_x:
+      _pltype: array
+      _type: double
+      _do:
+        - copyarray CORE/@hole,start=>0,stride=>3
+      _content:
+      
+    hole_y:
+      _pltype: array
+      _type: double
+      _do:
+        - copyarray CORE/@hole,start=>1,stride=>3
+      _content:
+
+    hole_radius:
+      _pltype: array
+      _type: double
+      _do:
+        - copyarray CORE/@hole,start=>2,stride=>3
+      _content:
+
     assm_map:
       _pltype: array
       _type: string
@@ -337,5 +358,11 @@ CORE:
       _type: string
       _do:
         - copy CORE/$reactor_type
+      _content:
+
+    Sources:
+      _pltype: list
+      _do:
+        - sourcemap Source_,CORE/%source/*
       _content:
 

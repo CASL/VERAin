@@ -38,6 +38,13 @@ SHIFT:
         - copy SHIFT/$temp_correction
       _content:
 
+    transfer:
+      _pltype: parameter
+      _type: string
+      _do:
+        - copy SHIFT/$transfer
+      _content:
+
     temp_transfer:
       _pltype: parameter
       _type: string
@@ -73,6 +80,13 @@ SHIFT:
         - copy SHIFT/$output_geometry
       _content:
 
+    output_micro_tally:
+      _pltype: parameter
+      _type: bool
+      _do:
+        - copy SHIFT/$output_micro_tally
+      _content:
+
     output_fission_source:
       _pltype: parameter
       _type: bool
@@ -89,7 +103,7 @@ SHIFT:
 
     Np:
       _pltype: parameter
-      _type: int
+      _type: double
       _do:
         - copy SHIFT/$Np
       _content:
@@ -121,7 +135,7 @@ SHIFT:
 
         Np:
           _pltype: parameter
-          _type: int
+          _type: double
           _do:
             - copy SHIFT/$Np
           _content:
@@ -165,18 +179,39 @@ SHIFT:
             - copy SHIFT/$num_axial
           _content:
 
-        neutron_bounds:
+        n_bounds:
           _pltype: array
           _type: double
           _do:
-            - copyarray SHIFT/$neutron_bounds
+            - copyarray SHIFT/$n_bounds
           _content:
 
-        photon_bounds:
+        p_bounds:
           _pltype: array
           _type: double
           _do:
-            - copyarray SHIFT/$photon_bounds
+            - copyarray SHIFT/$p_bounds
+          _content:
+        
+        micro_zaids:
+          _pltype: array
+          _type: int
+          _do:
+            - copyarray SHIFT/$micro_zaids
+          _content:
+       
+        micro_rxns:
+          _pltype: array
+          _type: int 
+          _do:
+            - copyarray SHIFT/$micro_rxns
+          _content:
+
+        gamma_flux:
+          _pltype: parameter
+          _type: bool
+          _do:
+            - copy SHIFT/$gamma_flux
           _content:
 
     boundary_mesh_db:

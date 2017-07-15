@@ -1,5 +1,5 @@
 [CASEID]
-  title 'CASL AMA Problem 4 - Integral Row Worth - Public'
+  title 'CASL AMA Problem 4 - Integral Rod Worth - Public'
 
 [STATE]
   power    0.0
@@ -22,7 +22,6 @@
 [STATE]  rodbank D 207
 [STATE]  rodbank D 230
   
-
 [CORE]
   size   3              ! nine assemblies
   apitch 21.5
@@ -61,11 +60,11 @@
 
 [ASSEMBLY]
   title "Westinghouse 17x17"
-  npin 17 
+  npin   17 
   ppitch 1.260
   
-  fuel U21 10.257 94.5 / 2.110 u-234 0.017364
-  fuel U26 10.257 94.5 / 2.619 u-234 0.021947
+  fuel U21 10.257 94.5 / 2.110 u-234=0.017364
+  fuel U26 10.257 94.5 / 2.619 u-234=0.021947
 
   cell 1     0.4096 0.418 0.475 / U21 he zirc4
   cell 2     0.4096 0.418 0.475 / U26 he zirc4
@@ -335,16 +334,9 @@
       377.711
 
 [MPACT]
-  num_space      522
-  num_angle      1
-  num_threads    1
+  num_space    58
 
 [SHIFT]
-  transport             ce     
   num_cycles            2000
   num_inactive_cycles   500
   Np                    50000000
-
-[INSILICO]
-  num_blocks_i   12
-  num_blocks_j   12

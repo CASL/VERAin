@@ -292,14 +292,21 @@ MPACT:
           _pltype: parameter
           _type: double
           _do:
-            - copy MPACT/@fuel_pin_mod_mesh:0
+            - copy MPACT/@pin_cell_mod_mesh:0
           _content:
 
         moderator_mesh_ndiv:
           _pltype: parameter
           _type: int
           _do:
-            - copy MPACT/@fuel_pin_mod_mesh:1
+            - copy MPACT/@pin_cell_mod_mesh:1
+          _content:
+
+        moderator_mesh_pins:
+          _pltype: parameter
+          _type: string
+          _do:
+            - copy MPACT/@pin_cell_mod_mesh:2
           _content:
 
     parallel_env:
@@ -408,11 +415,25 @@ MPACT:
             - copy MPACT/$up_scatter
           _content:
 
+        num_extsrc_itrs:
+          _pltype: parameter
+          _type: int
+          _do:
+            - copy MPACT/$num_extsrc_itrs
+          _content:
+
         scattering:
           _pltype: parameter
           _type: string
           _do:
             - copy MPACT/$scattering
+          _content:
+
+        trim_Pn_moments:
+          _pltype: parameter
+          _type: bool
+          _do:
+            - copy MPACT/$trim_Pn_moments
           _content:
 
         boundary_update:
@@ -590,6 +611,13 @@ MPACT:
             - copy MPACT/$sth_avgpin
           _content:
 
+        temptable_shape:
+          _pltype: parameter
+          _type: bool
+          _do:
+            - copy MPACT/$temptable_shape
+          _content:
+
         temptable_filename:
           _pltype: parameter
           _type: string
@@ -628,7 +656,7 @@ MPACT:
               _do:
                 - copyarray MPACT/@temptable_polynomial,start=>2,stride=>3
               _content:
-              
+
             boundary:
               _pltype: parameter
               _type: string
@@ -696,6 +724,13 @@ MPACT:
             - copy MPACT/$k_shift
           _content:
 
+        k_shift_1G:
+          _pltype: parameter
+          _type: double
+          _do:
+            - copy MPACT/$k_shift_1G
+          _content:
+
         cmfd_shift_method:
           _pltype: parameter
           _type: string
@@ -703,11 +738,46 @@ MPACT:
             - copy MPACT/$cmfd_shift_method
           _content:
 
+        cmfd_shift_method_1G:
+          _pltype: parameter
+          _type: string
+          _do:
+            - copy MPACT/$cmfd_shift_method_1G
+          _content:
+
+        cmfd_shift_c0:
+          _pltype: parameter
+          _type: double
+          _do:
+            - copy MPACT/$cmfd_shift_c0
+          _content:
+
         cmfd_relaxation:
           _pltype: parameter
           _type: double
           _do:
             - copy MPACT/$cmfd_relaxation
+          _content:
+
+        ktol_1G:
+          _pltype: parameter
+          _type: int
+          _do:
+            - copy MPACT/$ktol_1G
+          _content:
+
+        flxtol_1G:
+          _pltype: parameter
+          _type: int
+          _do:
+            - copy MPACT/$flxtol_1G
+          _content:
+
+        max_1G_eig_its:
+          _pltype: parameter
+          _type: int
+          _do:
+            - copy MPACT/$max_1G_eig_its
           _content:
 
         num_outers:
@@ -722,6 +792,13 @@ MPACT:
           _type: int
           _do:
             - copy MPACT/$cmfd_num_inners
+          _content:
+
+        num_inners_1G:
+          _pltype: parameter
+          _type: int
+          _do:
+            - copy MPACT/$cmfd_num_inners_1G
           _content:
 
         up_scatter:
@@ -878,7 +955,7 @@ MPACT:
           _do:
             - copy MPACT/$cat_onegroup
           _content:
-          
+
         shld_range:
           _pltype: array
           _type: int
@@ -901,37 +978,43 @@ MPACT:
           _pltype: array
           _type: double
           _do:
-            - copyarray MPACT/@perturb,start=>0,stride=>6
+            - copyarray MPACT/@perturb,start=>0,stride=>7
           _content:
         perturb_time_stop:
           _pltype: array
           _type: double
           _do:
-            - copyarray MPACT/@perturb,start=>1,stride=>6
+            - copyarray MPACT/@perturb,start=>1,stride=>7
           _content:
+        perturb_time_step:
+          _pltype: array
+          _type: double
+          _do:
+            - copyarray MPACT/@perturb,start=>2,stride=>7
+          _content: 
         perturb_type:
           _pltype: array
           _type: string
           _do:
-            - copyarray MPACT/@perturb,start=>2,stride=>6
+            - copyarray MPACT/@perturb,start=>3,stride=>7
           _content:
         perturb_mat_init:
           _pltype: array
           _type: string
           _do:
-            - copyarray MPACT/@perturb,start=>3,stride=>6
+            - copyarray MPACT/@perturb,start=>4,stride=>7
           _content:
         perturb_mat_start:
           _pltype: array
           _type: string
           _do:
-            - copyarray MPACT/@perturb,start=>4,stride=>6
+            - copyarray MPACT/@perturb,start=>5,stride=>7
           _content:
         perturb_mat_stop:
           _pltype: array
           _type: string
           _do:
-            - copyarray MPACT/@perturb,start=>5,stride=>6
+            - copyarray MPACT/@perturb,start=>6,stride=>7
           _content:
 
         timestep_dt:
@@ -951,6 +1034,13 @@ MPACT:
           _type: double
           _do:
             - copy MPACT/$timestep:2
+          _content:
+
+        tml:
+          _pltype: parameter
+          _type: bool
+          _do:
+            - copy MPACT/$tml
           _content:
 
         prompt:

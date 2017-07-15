@@ -135,6 +135,7 @@ sub dispatch {
 	matmap     => \&matmap,
 	fuelmap    => \&fuelmap,
 	rodmap     => \&rodmap,
+        sourcemap  => \&sourcemap,
 	makemap    => \&makemap,
 	echos      => \&echos,
 	rename     => \&dbcopy,
@@ -1368,6 +1369,47 @@ sub rodmap{
 	}
     }
 }
+
+
+sub sourcemap{
+    my ($home,$basename,@paths)=@_;
+
+    my @mats;
+    my @mats_names;
+    foreach my $ipath (@paths){
+        my @apaths=find_keys($SOURCE_DB,$ipath);
+        my @names =find_keys($SOURCE_DB,$ipath,undef,strings=>'true');
+        push @mats, @apaths if @apaths;
+        push @mats_names, @names if @names;
+    }
+
+    foreach my $imat_path (@mats){
+        my @keypath=@{ $imat_path };
+        my $keyname=$keypath[$#keypath];
+        my @content=@{ key_defined($SOURCE_DB,@keypath,'_content') };
+
+        my $mat_ref=&key_on_list($home,$basename.$keyname);
+
+        my @slshs=indexes { $_ eq '/' } @content;
+        if(!(@slshs==1)){
+            die "sourcemap: invalid number of slashes in command source @content\n";
+        }
+
+        my @part1=before {$_ eq '/'} @content;
+        my @part2=after  {$_ eq '/'} @content;
+
+        if(($#part1+1)==2){
+            $stt_str=$part1[0];
+            $src_mult=$part1[1];
+            &key_on_parameter($mat_ref,'init_strength','double',$stt_str);
+            &key_on_parameter($mat_ref,'strength_mult','double',$src_mult);
+        } 
+
+        &key_on_parameter($mat_ref,'key_name','string',$keyname);
+        &key_on_array($mat_ref,'spectrum','double',@part2);
+    }
+}
+
 
 sub key_on_parameter {
     ($iref,$name,$type,$value)=@_;

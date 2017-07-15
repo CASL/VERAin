@@ -18,6 +18,34 @@ EDITS:
         - copy EDITS/$axial_edit_mesh_delta
       _content:
 
+    points_type:
+      _pltype: array
+      _type: string
+      _do:
+        - copyarray EDITS/@points,start=>0,stride=>4
+      _content:
+
+    points_dim1:
+      _pltype: array
+      _type: double
+      _do:
+        - copyarray EDITS/@points,start=>1,stride=>4
+      _content:
+
+    points_dim2:
+      _pltype: array
+      _type: double
+      _do:
+        - copyarray EDITS/@points,start=>2,stride=>4
+      _content:
+
+    points_dim3:
+      _pltype: array
+      _type: double
+      _do:
+        - copyarray EDITS/@points,start=>3,stride=>4
+      _content:
+
     edit_group:
       _pltype: list
       _do:

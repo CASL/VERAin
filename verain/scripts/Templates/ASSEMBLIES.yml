@@ -167,11 +167,27 @@ ASSEMBLIES:
                     - copy %ASSEMBLY/$(_path)/%grid/@(_lgrid):1
                   _content:
 
-                gridloss:
+                # The old way of specifying gridloss.  Still read in for backwards compatibility, but this will be removed
+                # in the future.
+                gridloss_old:
                   _pltype: parameter
                   _type: double
                   _do:
                     - copy %ASSEMBLY/$(_path)/%grid/@(_lgrid):3
+                  _content:
+
+                gridloss:
+                  _pltype: parameter
+                  _type: double
+                  _do:
+                    - copy %ASSEMBLY/$(_path)/%grid/$(_lgrid)^/$loss
+                  _content:
+
+                gridblock:
+                  _pltype: parameter
+                  _type: double
+                  _do:
+                    - copy %ASSEMBLY/$(_path)/%grid/$(_lgrid)^/$blockage
                   _content:
 
 

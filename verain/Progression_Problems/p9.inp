@@ -2,11 +2,8 @@
   title 'CASL AMA Problem 9 - Watts Bar Unit 1 Cycle 1 Depletion - Public'
 
 [STATE]
-  title 'WBN1C1 BOC HZP'
-  power    0.0          ! %
-  tinlet   557.0 F 
-  pressure 2250         ! psia
-
+  title 'WBN1C1 Cycle Depletion'
+  pressure 2250 
   sym      qtr  
   feedback on 
   search   boron
@@ -20,43 +17,43 @@
            C 230 
            D 186 
 
-  boron    1300         ! ppm
-  tfuel    565 K 
-  modden   0.743        ! g/cc
-
+        power 0.0  ; tinlet 557.0 F
 [STATE] power 65.7 ; tinlet 557.6 F ; rodbank D 192 ; deplete EFPD 9.0    
-[STATE] power 99.7 ; tinlet 558.1 F ; rodbank D 219 ; deplete EFPD 32.0   
-[STATE] power 98.0 ; tinlet 558.2 F ; rodbank D 218 ; deplete EFPD 50.0   
-[STATE] power 100.0; tinlet 558.6 F ; rodbank D 219 ; deplete EFPD 64.0   
-[STATE] power 99.7 ; tinlet 558.7 F ; rodbank D 215 ; deplete EFPD 78.0   
-[STATE] power 99.7 ; tinlet 558.6 F ; rodbank D 217 ; deplete EFPD 92.7   
-[STATE] power 99.8 ; tinlet 558.8 F ; rodbank D 220 ; deplete EFPD 105.8  
-[STATE]            ; tinlet 558.4 F ; rodbank D 220 ; deplete EFPD 120.9  
-[STATE] power 99.5 ; tinlet 557.9 F ; rodbank D 219 ; deplete EFPD 133.8  
-[STATE] power 98.0 ; tinlet 558.0 F ; rodbank D 214 ; deplete EFPD 148.4  
-[STATE] power 95.1 ; tinlet 557.9 F ; rodbank D 216 ; deplete EFPD 163.3  
-[STATE] power 94.8 ; tinlet 557.9 F ; rodbank D 214 ; deplete EFPD 182.2  
-[STATE] power 99.8 ; tinlet 557.8 F ; rodbank D 220 ; deplete EFPD 194.3  
-[STATE] power 93.9 ; tinlet 557.5 F ; rodbank D 218 ; deplete EFPD 207.7  
-[STATE] power 100.1; tinlet 558.0 F ; rodbank D 222 ; deplete EFPD 221.1  
-[STATE] power 99.7 ; tinlet 557.7 F ; rodbank D 220 ; deplete EFPD 238.0  
-[STATE] power 100.2; tinlet 557.6 F ; rodbank D 222 ; deplete EFPD 250.0  
-[STATE] power 95.6 ; tinlet 557.9 F ; rodbank D 211 ; deplete EFPD 269.3  
-[STATE] power 96.4 ; tinlet 558.1 F ; rodbank D 215 ; deplete EFPD 282.3  
-[STATE] power 93.4 ; tinlet 557.4 F ; rodbank D 211 ; deplete EFPD 294.6  
-[STATE] power 99.7 ; tinlet 557.5 F ; rodbank D 217 ; deplete EFPD 312.1  
-[STATE] power 98.0 ; tinlet 557.6 F ; rodbank D 215 ; deplete EFPD 326.8  
-[STATE] power 99.4 ; tinlet 557.7 F ; rodbank D 220 ; deplete EFPD 347.8  
-[STATE] power 99.9 ; tinlet 557.8 F ; rodbank D 219 ; deplete EFPD 373.2  
-[STATE] power 86.9 ; tinlet 556.7 F ; rodbank D 202                       ! step change in power
-[STATE]                                               deplete EFPD 392.3  
-[STATE] power 99.6 ; tinlet 558.0 F ; rodbank D 220                        
-[STATE]                                               deplete EFPD 398.6  
-[STATE] power 89.9 ; tinlet 557.1 F ; rodbank D 224 ; deplete EFPD 410.7  
-[STATE] power 78.8 ; tinlet 556.3 F ; rodbank D 228 ; deplete EFPD 423.6  
-[STATE] power 64.5 ; tinlet 554.9 F ; rodbank D 230 ; deplete EFPD 441.0 ; op_date '9/6/1997'
+[STATE] power 99.7 ; tinlet 558.1 F ; rodbank D 219 ; deplete EFPD 32.0  ; restart_write p9.res 32.0 
+[STATE] power 98.0 ; tinlet 558.2 F ; rodbank D 218 ; deplete EFPD 50.0  ; restart_write p9.res 50.0 
+[STATE] power 100.0; tinlet 558.6 F ; rodbank D 219 ; deplete EFPD 64.0                               
+[STATE] power 99.7 ; tinlet 558.7 F ; rodbank D 215 ; deplete EFPD 78.0  ; restart_write p9.res 78.0 
+[STATE] power 99.7 ; tinlet 558.6 F ; rodbank D 217 ; deplete EFPD 92.7  ; restart_write p9.res 92.7 
+[STATE] power 99.8 ; tinlet 558.8 F ; rodbank D 220 ; deplete EFPD 105.8                              
+[STATE]            ; tinlet 558.4 F ; rodbank D 220 ; deplete EFPD 120.9 ; restart_write p9.res 120.9
+[STATE] power 99.5 ; tinlet 557.9 F ; rodbank D 219 ; deplete EFPD 133.8                              
+[STATE] power 98.0 ; tinlet 558.0 F ; rodbank D 214 ; deplete EFPD 148.4 ; restart_write p9.res 148.4
+[STATE] power 95.1 ; tinlet 557.9 F ; rodbank D 216 ; deplete EFPD 163.3 ; restart_write p9.res 163.3
+[STATE] power 94.8 ; tinlet 557.9 F ; rodbank D 214 ; deplete EFPD 182.2 ; restart_write p9.res 182.2
+[STATE] power 99.8 ; tinlet 557.8 F ; rodbank D 220 ; deplete EFPD 194.3 ; restart_write p9.res 194.3
+[STATE] power 93.9 ; tinlet 557.5 F ; rodbank D 218 ; deplete EFPD 207.7                              
+[STATE] power 100.1; tinlet 558.0 F ; rodbank D 222 ; deplete EFPD 221.1 ; restart_write p9.res 221.1
+[STATE] power 99.7 ; tinlet 557.7 F ; rodbank D 220 ; deplete EFPD 238.0 ; restart_write p9.res 238.0
+[STATE] power 100.2; tinlet 557.6 F ; rodbank D 222 ; deplete EFPD 250.0                               
+[STATE] power 95.6 ; tinlet 557.9 F ; rodbank D 211 ; deplete EFPD 269.3 ; restart_write p9.res 269.3
+[STATE] power 96.4 ; tinlet 558.1 F ; rodbank D 215 ; deplete EFPD 282.3 ; restart_write p9.res 282.3
+[STATE] power 93.4 ; tinlet 557.4 F ; rodbank D 211 ; deplete EFPD 294.6 ; restart_write p9.res 294.6
+[STATE] power 99.7 ; tinlet 557.5 F ; rodbank D 217 ; deplete EFPD 312.1 ; restart_write p9.res 312.1
+[STATE] power 98.0 ; tinlet 557.6 F ; rodbank D 215 ; deplete EFPD 326.8 ; restart_write p9.res 326.8
+[STATE] power 99.4 ; tinlet 557.7 F ; rodbank D 220 ; deplete EFPD 347.8 ; restart_write p9.res 347.8
+[STATE] power 99.9 ; tinlet 557.8 F ; rodbank D 219 ; deplete EFPD 373.2                               
+[STATE] power 86.9 ; tinlet 556.7 F ; rodbank D 202                                                     ! step change in power
+[STATE]                                               deplete EFPD 392.3 ; restart_write p9.res 392.3
+[STATE] power 99.6 ; tinlet 558.0 F ; rodbank D 220                                                      
+[STATE]                                               deplete EFPD 398.6 ; restart_write p9.res 398.6
+[STATE] power 89.9 ; tinlet 557.1 F ; rodbank D 224 ; deplete EFPD 410.7 ; restart_write p9.res 410.7
+[STATE] power 78.8 ; tinlet 556.3 F ; rodbank D 228 ; deplete EFPD 423.6 ; restart_write p9.res 423.6
+[STATE] power 64.5 ; tinlet 554.9 F ; rodbank D 230 ; deplete EFPD 441.0 ; restart_write p9.res EOC   
+        op_date '9/6/1997'
 
 [CORE]
+  name   WBN
+  unit   1
   size   15              ! assemblies across core
   apitch 21.5
   rated  3411 131.68     ! MW, Mlbs/hr 
@@ -119,32 +116,33 @@
     C  -  B  - SA  - 
     -  -  -  -
 
-  det_map
-            - - 1 - - 1 - 
-        1 - - 1 - 1 - - - - - 
-      - - - - - - 1 - 1 - 1 - 1
-      1 1 - - - - 1 - - - - - -
-    - - - - 1 - - - 1 - 1 - 1 - -
-    1 - 1 - - 1 - 1 - - - - - 1 -
-    - - - 1 - - 1 - - 1 - - 1 - -
-    1 - 1 - 1 - 1 - - 1 - 1 1 1 -
-    - 1 - - - - - - 1 - 1 - - - 1
-    - - - - 1 - 1 - - - - 1 - - -
-    1 - - - 1 - - 1 - - 1 - - - 1
-      - - - - 1 - - 1 - - 1 - - 
-      - 1 - 1 - - 1 - - - - - 1 
-        1 - - - 1 - - 1 - 1 - 
-            1 - - 1 - - - 
+  det_map 193*2
+! det_map
+!           - - 1 - - 1 - 
+!       1 - - 1 - 1 - - - - - 
+!     - - - - - - 1 - 1 - 1 - 1
+!     1 1 - - - - 1 - - - - - -
+!   - - - - 1 - - - 1 - 1 - 1 - -
+!   1 - 1 - - 1 - 1 - - - - - 1 -
+!   - - - 1 - - 1 - - 1 - - 1 - -
+!   1 - 1 - 1 - 1 - - 1 - 1 1 1 -
+!   - 1 - - - - - - 1 - 1 - - - 1
+!   - - - - 1 - 1 - - - - 1 - - -
+!   1 - - - 1 - - 1 - - 1 - - - 1
+!     - - - - 1 - - 1 - - 1 - - 
+!     - 1 - 1 - - 1 - - - - - 1 
+!       1 - - - 1 - - 1 - 1 - 
+!           1 - - 1 - - - 
 
   baffle ss 0.19 2.85 
 
-  vessel  mod 187.96        ! barrel IR (cm) 
+  vessel  mod 187.96        ! barrel IR (cm)
            ss 193.68        ! barrel OR (cm)
-          mod 194.64        ! neutron pad IR (cm)
-           ss 200.4715      ! neutron pad effective OR (cm) (modelled as 90 by conserving volume (32/90) and reducing actual OR
           mod 219.15        ! vessel liner IR (cm)
            ss 219.71        ! vessel liner OR / vessel IR (cm)
            cs 241.70        ! vessel OR (cm)
+
+  pad ss  194.64 201.63 32 45 135 225 315 ! neutron pad ID,OD arc lenth (degrees), and angular positions (degrees)
 
   lower_plate ss  5.0 0.5   ! mat, thickness, vol frac
   upper_plate ss  7.6 0.5   ! mat, thickness, vol frac
@@ -160,9 +158,9 @@
   npin 17 
   ppitch 1.260
   
-  fuel U21 10.257 94.5 / 2.110 u-234 0.017364
-  fuel U26 10.257 94.5 / 2.619 u-234 0.021947
-  fuel U31 10.257 94.5 / 3.100 u-234 0.026347 
+  fuel U21 10.257 94.5 / 2.110 u-234=0.017364
+  fuel U26 10.257 94.5 / 2.619 u-234=0.021947
+  fuel U31 10.257 94.5 / 3.100 u-234=0.026347 
 
   cell 1     0.4096 0.418 0.475 / U21 he zirc4
   cell 2     0.4096 0.418 0.475 / U26 he zirc4
@@ -561,8 +559,9 @@
   npin 17
 
   cell 1  0.258 0.382 / he ss
+  cell 2        0.382 /   mod
 
-  rodmap  LAT  
+  rodmap  LAT1
      1
      - -
      - - -
@@ -573,7 +572,19 @@
      - - - - - - - -
      - - - - - - - - -
 
-  axial 1  0.0 LAT 397.51 
+  rodmap  LAT2
+     2
+     - -
+     - - -
+     - - - -
+     - - - - -
+     - - - - - -
+     - - - - - - -
+     - - - - - - - -
+     - - - - - - - - -
+
+  axial 1  0.0 LAT1 397.51 
+  axial 2  0.0 LAT2 397.51 
 
 [EDITS]
   axial_edit_bounds 
@@ -629,30 +640,10 @@
       377.711
 
 [MPACT]
-  scattering        TCP0
-  ray_spacing       0.1
-  azimuthals_octant 12
-  k_tolerance       1e-5
-  flux_tolerance    1e-4
-  coupling_method   simplified
-
-  num_space       4234
-  num_angle       1
-  num_threads     1
-  par_method      EXPLICITFILE
-  par_file        part_p5_73r_58z.txt
-
-[COBRATF]
-  beta_sp   0.005
-  parallel       1
+  num_space   464
+  include     w4loop_8r_qtr.txt
 
 [SHIFT]
-  transport             ce       
   num_cycles            2000
   num_inactive_cycles   500
   Np                    500000000
-
-[INSILICO]
-  max_delta_z    2.54
-  num_blocks_i   26
-  num_blocks_j   26

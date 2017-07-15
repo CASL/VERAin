@@ -20,10 +20,6 @@
            C 50  
            D 0   
 
-  boron    1300         ! ppm
-  tfuel    565 K 
-  modden   0.743        ! g/cc
-
 [STATE] power 5.0  ; rodbank B 198 C 70       ; deplete hours 1.0  
 [STATE] power 10.0 ; rodbank B 208 C 80       ; deplete hours 2.0 
 [STATE] power 15.0 ; rodbank B 218 C 90       ; deplete hours 3.0 
@@ -74,6 +70,8 @@
 [STATE] power 100.0; rodbank             D 215; deplete hours 48.0; title 'Full Power Test Plateau'
 
 [CORE]
+  name   WBN
+  unit   1
   size   15              ! assemblies across core
   apitch 21.5
   rated  3411 131.68     ! MW, Mlbs/hr 
@@ -136,32 +134,32 @@
     C  -  B  - SA  - 
     -  -  -  -
 
-  det_map
-            - - 1 - - 1 - 
-        1 - - 1 - 1 - - - - - 
-      - - - - - - 1 - 1 - 1 - 1
-      1 1 - - - - 1 - - - - - -
-    - - - - 1 - - - 1 - 1 - 1 - -
-    1 - 1 - - 1 - 1 - - - - - 1 -
-    - - - 1 - - 1 - - 1 - - 1 - -
-    1 - 1 - 1 - 1 - - 1 - 1 1 1 -
-    - 1 - - - - - - 1 - 1 - - - 1
-    - - - - 1 - 1 - - - - 1 - - -
-    1 - - - 1 - - 1 - - 1 - - - 1
-      - - - - 1 - - 1 - - 1 - - 
-      - 1 - 1 - - 1 - - - - - 1 
-        1 - - - 1 - - 1 - 1 - 
-            1 - - 1 - - - 
+! det_map
+!           - - 1 - - 1 - 
+!       1 - - 1 - 1 - - - - - 
+!     - - - - - - 1 - 1 - 1 - 1
+!     1 1 - - - - 1 - - - - - -
+!   - - - - 1 - - - 1 - 1 - 1 - -
+!   1 - 1 - - 1 - 1 - - - - - 1 -
+!   - - - 1 - - 1 - - 1 - - 1 - -
+!   1 - 1 - 1 - 1 - - 1 - 1 1 1 -
+!   - 1 - - - - - - 1 - 1 - - - 1
+!   - - - - 1 - 1 - - - - 1 - - -
+!   1 - - - 1 - - 1 - - 1 - - - 1
+!     - - - - 1 - - 1 - - 1 - - 
+!     - 1 - 1 - - 1 - - - - - 1 
+!       1 - - - 1 - - 1 - 1 - 
+!           1 - - 1 - - - 
 
   baffle ss 0.19 2.85 
 
-  vessel  mod 187.96        ! barrel IR (cm) 
+  vessel  mod 187.96        ! barrel IR (cm)
            ss 193.68        ! barrel OR (cm)
-          mod 194.64        ! neutron pad IR (cm)
-           ss 200.4715      ! neutron pad effective OR (cm) (modelled as 90 by conserving volume (32/90) and reducing actual OR
           mod 219.15        ! vessel liner IR (cm)
            ss 219.71        ! vessel liner OR / vessel IR (cm)
            cs 241.70        ! vessel OR (cm)
+
+  pad ss  194.64 201.63 32 45 135 225 315 ! neutron pad ID,OD arc lenth (degrees), and angular positions (degrees)
 
   lower_plate ss  5.0 0.5   ! mat, thickness, vol frac
   upper_plate ss  7.6 0.5   ! mat, thickness, vol frac
@@ -646,30 +644,10 @@
       377.711
 
 [MPACT]
-  scattering        TCP0
-  ray_spacing       0.1
-  azimuthals_octant 12
-  k_tolerance       1e-5
-  flux_tolerance    1e-4
-  coupling_method   simplified
-
-  num_space       4234
-  num_angle       1
-  num_threads     1
-  par_method      EXPLICITFILE
-  par_file        part_p5_73r_58z.txt
-
-[COBRATF]
-  beta_sp   0.005
-  parallel       1
+  num_space   464
+  include     w4loop_8r_qtr.txt
 
 [SHIFT]
-  transport             ce       
   num_cycles            2000
   num_inactive_cycles   500
   Np                    500000000
-
-[INSILICO]
-  max_delta_z    2.54
-  num_blocks_i   26
-  num_blocks_j   26

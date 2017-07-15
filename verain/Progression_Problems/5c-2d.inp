@@ -15,7 +15,7 @@
 [CORE]
   size   15               ! assemblies across core
   apitch 21.5
-  rated  3411 131.68      ! MW, Mlbs/hr 
+  rated  9.325 131.68     ! MW, Mlbs/hr 
   height 1.0 
 
   core_shape
@@ -77,14 +77,13 @@
 
   baffle ss 0.19 2.85
 
-  vessel  mod 187.96        ! barrel IR (cm) 
+  vessel  mod 187.96        ! barrel IR (cm)
            ss 193.68        ! barrel OR (cm)
-          mod 194.64        ! neutron pad IR (cm)
-           ss 200.4715      ! neutron pad effective OR (cm) (modelled as 90 by conserving volume (32/90) and reducing actual OR
           mod 219.15        ! vessel liner IR (cm)
            ss 219.71        ! vessel liner OR / vessel IR (cm)
            cs 241.70        ! vessel OR (cm)
 
+  pad ss  194.64 201.63 32 45 135 225 315 ! neutron pad ID,OD arc lenth (degrees), and angular positions (degrees)
 
   xlabel  R P N M L K J H G  F  E  D  C  B  A
   ylabel  1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 
@@ -97,9 +96,9 @@
   npin 17 
   ppitch 1.26
   
-  fuel U21 10.257 94.5 / 2.110 u-234 0.017364
-  fuel U26 10.257 94.5 / 2.619 u-234 0.021947
-  fuel U31 10.257 94.5 / 3.100 u-234 0.026347   
+  fuel U21 10.257 94.5 / 2.110 u-234=0.017364
+  fuel U26 10.257 94.5 / 2.619 u-234=0.021947
+  fuel U31 10.257 94.5 / 3.100 u-234=0.026347   
 
   cell 1     0.4096 0.418 0.475 / U21 he zirc4
   cell 2     0.4096 0.418 0.475 / U26 he zirc4
@@ -244,18 +243,10 @@
   axial  B  0.0  B4C 1.0
 
 [MPACT]
-  num_space      73
-  num_angle      8
-  num_threads    1
-  par_method     EXPLICITFILE
-  par_file       part_p5-2d_73r_1z.txt
+  num_space  8
+  include    w4loop_8r_qtr.txt
 
-[SHIFT]
-  transport            ce       
+[SHIFT]      
   num_cycles           2000
   num_inactive_cycles  250
   Np                   50000000 
-
-[INSILICO]
-  num_blocks_i  8  
-  num_blocks_j  8  

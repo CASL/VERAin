@@ -4,23 +4,25 @@
 [STATE]
   title 'WBN1C1 Initial Criticality - Bank D @ 167 steps'
   power    0.0          ! %
-  tinlet   565 K 
-  tfuel    565 K 
+  tinlet   565 K
+  tfuel    565 K
   boron    1285.2       ! ppmB 1293*19.78/19.9
   modden   0.743        ! g/cc
-  sym      qtr  
+  sym      qtr
   feedback off
 
   rodbank SA 230
           SB 230
           SC 230
           SD 230
-           A 230 
+           A 230
            B 230
-           C 230 
-           D 167 
+           C 230
+           D 167
 
 [CORE]
+  name   WBN
+  unit   1
   size   15              ! assemblies across core
   apitch 21.5
   rated  3411 131.68     ! MW, Mlbs/hr 
@@ -102,13 +104,13 @@
 
   baffle ss 0.19 2.85 
 
-  vessel  mod 187.96        ! barrel IR (cm) 
+  vessel  mod 187.96        ! barrel IR (cm)
            ss 193.68        ! barrel OR (cm)
-          mod 194.64        ! neutron pad IR (cm)
-           ss 200.4715      ! neutron pad effective OR (cm) (modelled as 90 by conserving volume (32/90) and reducing actual OR
           mod 219.15        ! vessel liner IR (cm)
            ss 219.71        ! vessel liner OR / vessel IR (cm)
            cs 241.70        ! vessel OR (cm)
+
+  pad ss  194.64 201.63 32 45 135 225 315 ! neutron pad ID,OD arc lenth (degrees), and angular positions (degrees)
 
   lower_plate ss  5.0 0.5   ! mat, thickness, vol frac
   upper_plate ss  7.6 0.5   ! mat, thickness, vol frac
@@ -121,12 +123,12 @@
 
 [ASSEMBLY]
   title "Westinghouse 17x17"
-  npin 17 
+  npin   17 
   ppitch 1.260
   
-  fuel U21 10.257 94.5 / 2.110 u-234 0.017364
-  fuel U26 10.257 94.5 / 2.619 u-234 0.021947
-  fuel U31 10.257 94.5 / 3.100 u-234 0.026347 
+  fuel U21 10.257 94.5 / 2.110 u-234=0.017364
+  fuel U26 10.257 94.5 / 2.619 u-234=0.021947
+  fuel U31 10.257 94.5 / 3.100 u-234=0.026347 
 
   cell 1     0.4096 0.418 0.475 / U21 he zirc4
   cell 2     0.4096 0.418 0.475 / U26 he zirc4
@@ -593,19 +595,10 @@
       377.711
 
 [MPACT]
-  num_space      4234
-  num_angle      1
-  num_threads    1
-  par_method     EXPLICITFILE
-  par_file       part_p5_73r_58z.txt
+  num_space   464
+  include     w4loop_8r_qtr.txt
 
 [SHIFT]
-  transport             ce       
   num_cycles            2000
   num_inactive_cycles   500
   Np                    500000000
-
-[INSILICO]
-  max_delta_z    2.54
-  num_blocks_i   26
-  num_blocks_j   26

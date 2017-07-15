@@ -1,0 +1,605 @@
+[CASEID]
+  title 'CASL AMA Problem 5 - Watts Bar Unit 1 Cycle 1 - Public'
+
+[STATE]
+  title 'WBN1C1 Control Banks Worth'
+  power    0.0          ! %
+  tinlet   565 K 
+  tfuel    565 K 
+  modden   0.743        ! g/cc
+  sym      qtr  
+  feedback off
+  boron    1169.9
+
+        rodbank A 230 B 230 C 230 D 230 SA 230 SB 230 SC 230 SD 230
+[STATE] rodbank A 0                                               
+[STATE] rodbank A 230 B 0                
+[STATE] rodbank       B 230 C 0          
+[STATE] rodbank             C 230 D 0  
+[STATE] rodbank                   D 230 SA 0 
+[STATE] rodbank                         SA 230 SB 0
+[STATE] rodbank                                SB 230 SC 0
+[STATE] rodbank                                       SC 230 SD 0
+
+[CORE]
+  name   WBN
+  unit   1
+  size   15              ! assemblies across core
+  apitch 21.5
+  rated  3411 131.68     ! MW, Mlbs/hr 
+  height 406.337
+
+  core_shape
+    0 0 0 0 1 1 1 1 1 1 1 0 0 0 0
+    0 0 1 1 1 1 1 1 1 1 1 1 1 0 0
+    0 1 1 1 1 1 1 1 1 1 1 1 1 1 0
+    0 1 1 1 1 1 1 1 1 1 1 1 1 1 0
+    1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+    1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+    1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+    1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+    1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+    1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+    1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+    0 1 1 1 1 1 1 1 1 1 1 1 1 1 0
+    0 1 1 1 1 1 1 1 1 1 1 1 1 1 0
+    0 0 1 1 1 1 1 1 1 1 1 1 1 0 0
+    0 0 0 0 1 1 1 1 1 1 1 0 0 0 0
+
+  assm_map
+    1
+    2 1
+    1 2 1
+    2 1 2 1
+    1 2 1 2 2
+    2 1 2 1 2 3
+    1 3 1 3 3 3 
+    3 3 3 3 
+
+  insert_map
+     -     
+    20 TP    
+     - 24  -   
+    20 TP 20  -  
+     - 20 TP 20  - 
+    20  - 16  - 24 12
+     - 24  - 16  - TP
+    12 TP  8 TP
+
+  crd_map
+    1 
+    - - 
+    1 - 1 
+    - - - 1 
+    1 - - - 1 
+    - 1 - 1 - - 
+    1 - 1 - 1 - 
+    - - - - 
+ 
+  crd_bank
+    D  -  A  -  D  -  C  -
+    -  -  -  -  - SB  -  -
+    A  -  C  -  -  -  B  -
+    -  -  -  A  - SC  -  -
+    D  -  -  -  D  - SA 
+    - SB  - SD  -  -  - 
+    C  -  B  - SA  - 
+    -  -  -  -
+
+  det_map
+            - - 1 - - 1 - 
+        1 - - 1 - 1 - - - - - 
+      - - - - - - 1 - 1 - 1 - 1
+      1 1 - - - - 1 - - - - - -
+    - - - - 1 - - - 1 - 1 - 1 - -
+    1 - 1 - - 1 - 1 - - - - - 1 -
+    - - - 1 - - 1 - - 1 - - 1 - -
+    1 - 1 - 1 - 1 - - 1 - 1 1 1 -
+    - 1 - - - - - - 1 - 1 - - - 1
+    - - - - 1 - 1 - - - - 1 - - -
+    1 - - - 1 - - 1 - - 1 - - - 1
+      - - - - 1 - - 1 - - 1 - - 
+      - 1 - 1 - - 1 - - - - - 1 
+        1 - - - 1 - - 1 - 1 - 
+            1 - - 1 - - - 
+
+  baffle ss 0.19 2.85 
+
+  vessel  mod 187.96        ! barrel IR (cm)
+           ss 193.68        ! barrel OR (cm)
+          mod 219.15        ! vessel liner IR (cm)
+           ss 219.71        ! vessel liner OR / vessel IR (cm)
+           cs 241.70        ! vessel OR (cm)
+
+  pad ss  194.64 201.63 32 45 135 225 315 ! neutron pad ID,OD arc lenth (degrees), and angular positions (degrees)
+
+  lower_plate ss  5.0 0.5   ! mat, thickness, vol frac
+  upper_plate ss  7.6 0.5   ! mat, thickness, vol frac
+
+! lower_ref  mod 20.0 1.0   ! not needed
+! upper_ref  mod 20.0 1.0   !
+
+  xlabel  R P N M L K J H G  F  E  D  C  B  A
+  ylabel  1 2 3 4 5 6 7 8 9 10 11 12 13 14 15
+
+[ASSEMBLY]
+  title "Westinghouse 17x17"
+  npin   17 
+  ppitch 1.260
+  
+  fuel U21 10.257 94.5 / 2.110 u-234=0.017364
+  fuel U26 10.257 94.5 / 2.619 u-234=0.021947
+  fuel U31 10.257 94.5 / 3.100 u-234=0.026347 
+
+  cell 1     0.4096 0.418 0.475 / U21 he zirc4
+  cell 2     0.4096 0.418 0.475 / U26 he zirc4
+  cell 3     0.4096 0.418 0.475 / U31 he zirc4
+  cell 4            0.561 0.602 / mod    zirc4      ! guide/instrument tube
+  cell 5            0.418 0.475 /     he zirc4      ! plenum
+  cell 6                  0.475 /        zirc4      ! plug
+  cell 7                  0.475 /        mod        ! empty
+
+  lattice LAT21 
+       4
+       1 1
+       1 1 1
+       4 1 1 4
+       1 1 1 1 1
+       1 1 1 1 1 4
+       4 1 1 4 1 1 1
+       1 1 1 1 1 1 1 1
+       1 1 1 1 1 1 1 1 1
+
+  lattice LAT26  
+       4
+       2 2
+       2 2 2
+       4 2 2 4
+       2 2 2 2 2
+       2 2 2 2 2 4
+       4 2 2 4 2 2 2
+       2 2 2 2 2 2 2 2
+       2 2 2 2 2 2 2 2 2
+
+  lattice LAT31 
+       4
+       3 3
+       3 3 3
+       4 3 3 4
+       3 3 3 3 3
+       3 3 3 3 3 4
+       4 3 3 4 3 3 3
+       3 3 3 3 3 3 3 3
+       3 3 3 3 3 3 3 3 3
+
+  lattice PLEN
+       4
+       5 5
+       5 5 5
+       4 5 5 4
+       5 5 5 5 5
+       5 5 5 5 5 4
+       4 5 5 4 5 5 5
+       5 5 5 5 5 5 5 5
+       5 5 5 5 5 5 5 5 5
+
+  lattice PLUG
+       4
+       6 6
+       6 6 6
+       4 6 6 4
+       6 6 6 6 6
+       6 6 6 6 6 4
+       4 6 6 4 6 6 6
+       6 6 6 6 6 6 6 6
+       6 6 6 6 6 6 6 6 6
+
+  lattice GAP 
+       4
+       7 7
+       7 7 7
+       4 7 7 4
+       7 7 7 7 7
+       7 7 7 7 7 4
+       4 7 7 4 7 7 7
+       7 7 7 7 7 7 7 7
+       7 7 7 7 7 7 7 7 7
+
+  axial  1  6.053 GAP 10.281 PLUG 11.951 LAT21 377.711 PLEN 393.711 PLUG 395.381 GAP 397.51
+  axial  2  6.053 GAP 10.281 PLUG 11.951 LAT26 377.711 PLEN 393.711 PLUG 395.381 GAP 397.51
+  axial  3  6.053 GAP 10.281 PLUG 11.951 LAT31 377.711 PLEN 393.711 PLUG 395.381 GAP 397.51
+
+  grid END inc    3.866 1017 0.9070 ! grid height (cm), mass (g), loss coef
+  grid MID zirc4  3.810 875  0.9065 ! grid height (cm), mass (g), loss coef
+
+  grid_axial
+      END  13.884
+      MID  75.2
+      MID 127.4
+      MID 179.6
+      MID 231.8
+      MID 284.0
+      MID 336.2
+      END 388.2
+
+  lower_nozzle  ss 6.053 6250.0  ! mat, height, mass (g)
+  upper_nozzle  ss 8.827 6250.0  ! mat, height, mass (g)
+
+[INSERT]
+  title "Pyrex"
+  npin 17
+
+  cell X  0.214 0.231 0.241 0.427 0.437 0.484 / he ss he pyrex-vera he ss ! pyrex
+  cell P                          0.437 0.484 /                     he ss ! plenum
+  cell G                                0.484 /                        ss ! plug/cap
+  cell T                                0.538 /                        ss ! thimble plug
+ 
+  rodmap  PY8 
+     -
+     - -
+     - - -
+     X - - -
+     - - - - -
+     - - - - - X
+     - - - - - - -
+     - - - - - - - -
+     - - - - - - - - -
+
+  rodmap  PY12 
+     -
+     - -
+     - - -
+     X - - -
+     - - - - -
+     - - - - - -
+     - - - X - - -
+     - - - - - - - -
+     - - - - - - - - -
+
+  rodmap  PY16
+     -
+     - -
+     - - -
+     X - - -
+     - - - - -
+     - - - - - X
+     - - - X - - -
+     - - - - - - - -
+     - - - - - - - - -
+
+  rodmap  PY20
+     -
+     - -
+     - - -
+     X - - -
+     - - - - -
+     - - - - - X
+     X - - X - - -
+     - - - - - - - -
+     - - - - - - - - -
+
+  rodmap  PY24  
+     -
+     - -
+     - - -
+     X - - X
+     - - - - -
+     - - - - - X
+     X - - X - - -
+     - - - - - - - -
+     - - - - - - - - -
+
+  rodmap  PL8 
+     -
+     - -
+     - - -
+     P - - -
+     - - - - -
+     - - - - - P
+     - - - - - - -
+     - - - - - - - -
+     - - - - - - - - -
+
+  rodmap  PL12 
+     -
+     - -
+     - - -
+     P - - -
+     - - - - -
+     - - - - - -
+     - - - P - - -
+     - - - - - - - -
+     - - - - - - - - -
+
+  rodmap  PL16
+     -
+     - -
+     - - -
+     P - - -
+     - - - - -
+     - - - - - P
+     - - - P - - -
+     - - - - - - - -
+     - - - - - - - - -
+
+  rodmap  PL20
+     -
+     - -
+     - - -
+     P - - -
+     - - - - -
+     - - - - - P
+     P - - P - - -
+     - - - - - - - -
+     - - - - - - - - -
+
+  rodmap  PL24  
+     -
+     - -
+     - - -
+     P - - P
+     - - - - -
+     - - - - - P
+     P - - P - - -
+     - - - - - - - -
+     - - - - - - - - -
+
+  rodmap  PG8 
+     -
+     - -
+     - - -
+     G - - -
+     - - - - -
+     - - - - - G
+     - - - - - - -
+     - - - - - - - -
+     - - - - - - - - -
+
+  rodmap  PG12 
+     -
+     - -
+     - - -
+     G - - -
+     - - - - -
+     - - - - - -
+     - - - G - - -
+     - - - - - - - -
+     - - - - - - - - -
+
+  rodmap  PG16
+     -
+     - -
+     - - -
+     G - - -
+     - - - - -
+     - - - - - G
+     - - - G - - -
+     - - - - - - - -
+     - - - - - - - - -
+
+  rodmap  PG20
+     -
+     - -
+     - - -
+     G - - -
+     - - - - -
+     - - - - - G
+     G - - G - - -
+     - - - - - - - -
+     - - - - - - - - -
+
+  rodmap  PG24  
+     -
+     - -
+     - - -
+     G - - G
+     - - - - -
+     - - - - - G
+     G - - G - - -
+     - - - - - - - -
+     - - - - - - - - -
+
+  rodmap  TP8 
+     -
+     - -
+     - - -
+     P - - T
+     - - - - -
+     - - - - - P
+     T - - T - - -
+     - - - - - - - -
+     - - - - - - - - -
+
+  rodmap  TP12 
+     -
+     - -
+     - - -
+     P - - T
+     - - - - -
+     - - - - - T
+     T - - P - - -
+     - - - - - - - -
+     - - - - - - - - -
+
+  rodmap  TP16
+     -
+     - -
+     - - -
+     P - - T
+     - - - - -
+     - - - - - P
+     T - - P - - -
+     - - - - - - - -
+     - - - - - - - - -
+
+  rodmap  TP20
+     -
+     - -
+     - - -
+     P - - T
+     - - - - -
+     - - - - - P
+     P - - P - - -
+     - - - - - - - -
+     - - - - - - - - -
+
+  rodmap  TP24  
+     -
+     - -
+     - - -
+     T - - T
+     - - - - -
+     - - - - - T
+     T - - T - - -
+     - - - - - - - -
+     - - - - - - - - -
+
+
+  axial   8  13.221 PG8  15.761 PY8  376.441 PL8  383.31 TP8  398.641
+  axial  12  13.221 PG12 15.761 PY12 376.441 PL12 383.31 TP12 398.641
+  axial  16  13.221 PG16 15.761 PY16 376.441 PL16 383.31 TP16 398.641
+  axial  20  13.221 PG20 15.761 PY20 376.441 PL20 383.31 TP20 398.641
+  axial  24  13.221 PG24 15.761 PY24 376.441 PL24             398.641
+  axial  TP                                       383.31 TP24 394.31
+
+[CONTROL]
+  title "B4C with AIC tips"
+  npin 17
+  stroke  365.125 230     ! approx for 1.5875 step sizes and 230 max stroke
+
+  cell A  0.382 0.386 0.484 / aic he ss
+  cell B  0.373 0.386 0.484 / b4c he ss
+  cell P        0.386 0.484 /     he ss ! plenum
+  cell G              0.484 /        ss ! plug   
+
+  rodmap AIC
+     -
+     - -
+     - - -
+     A - - A
+     - - - - -
+     - - - - - A
+     A - - A - - -
+     - - - - - - - -
+     - - - - - - - - -
+
+  rodmap B4C
+     -
+     - -
+     - - -
+     B - - B
+     - - - - -
+     - - - - - B
+     B - - B - - -
+     - - - - - - - -
+     - - - - - - - - -
+
+  rodmap PLEN
+     -
+     - -
+     - - -
+     P - - P
+     - - - - -
+     - - - - - P
+     P - - P - - -
+     - - - - - - - -
+     - - - - - - - - -
+
+  rodmap PLUG
+     -
+     - -
+     - - -
+     G - - G
+     - - - - -
+     - - - - - G
+     G - - G - - -
+     - - - - - - - -
+     - - - - - - - - -
+
+  axial  1    15.131
+        PLUG  17.031 
+         AIC 118.631 
+         B4C 377.711 
+        PLEN 388.411
+        PLUG 390.311
+
+[DETECTOR]
+  title "Incore instrument thimble"
+  npin 17
+
+  cell 1  0.258 0.382 / he ss
+
+  rodmap  LAT  
+     1
+     - -
+     - - -
+     - - - -
+     - - - - -
+     - - - - - -
+     - - - - - - -
+     - - - - - - - -
+     - - - - - - - - -
+
+  axial 1  0.0 LAT 397.51 
+
+[EDITS]
+  axial_edit_bounds 
+      11.951
+      15.817 
+      24.028 
+      32.239 
+      40.45 
+      48.662 
+      56.873 
+      65.084 
+      73.295 
+      77.105 
+      85.17 
+      93.235 
+      101.3 
+      109.365 
+      117.43 
+      125.495 
+      129.305 
+      137.37 
+      145.435 
+      153.5 
+      161.565 
+      169.63 
+      177.695 
+      181.505 
+      189.57 
+      197.635 
+      205.7 
+      213.765 
+      221.83 
+      229.895 
+      233.705 
+      241.77 
+      249.835 
+      257.9 
+      265.965 
+      274.03 
+      282.095 
+      285.905 
+      293.97 
+      302.035 
+      310.1 
+      318.165 
+      326.23 
+      334.295 
+      338.105 
+      346.0262 
+      353.9474 
+      361.8686 
+      369.7898 
+      377.711
+
+[MPACT]
+  num_space   464
+  include     w4loop_8r_qtr.txt
+
+[SHIFT]
+  num_cycles            2000
+  num_inactive_cycles   500
+  Np                    500000000

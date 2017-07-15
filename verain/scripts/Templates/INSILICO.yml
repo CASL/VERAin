@@ -73,6 +73,13 @@ INSILICO:
         - copy INSILICO/$do_output
       _content:
 
+    geometry_output:
+      _pltype: parameter
+      _type: bool
+      _do:
+        - copy INSILICO/$geometry_output
+      _content:
+
     num_blocks_i:
       _pltype: parameter
       _type: int
