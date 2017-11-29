@@ -76,7 +76,7 @@ my @BLOCKS;
 $SCHEMA="${directory}Templates/Directory.yml";
 @BLOCKS=('CASEID','STATES','CORE','ASSEMBLIES',
 	 'CONTROLS','DETECTORS','INSERTS',
-	 'INSILICO','SHIFT','EDITS','COBRATF','COUPLING',
+	 'SHIFT','EDITS','COBRATF','COUPLING',
 	 'MPACT','MAMBA1D','BISON','TIAMAT');
 
 $SCH_PL{ 'CASEID' } = (
@@ -99,9 +99,6 @@ $SCH_PL{ 'DETECTORS' } = (
 )[0];
 $SCH_PL{ 'INSERTS' } = (
 #include pyml/INSERTS.pyml
-)[0];
-$SCH_PL{ 'INSILICO' } = (
-#include pyml/INSILICO.pyml
 )[0];
 $SCH_PL{ 'SHIFT' } = (
 #include pyml/SHIFT.pyml

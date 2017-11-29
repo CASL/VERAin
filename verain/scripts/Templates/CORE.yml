@@ -123,6 +123,13 @@ CORE:
         - copyarray CORE/@pad,start=>4
       _content:
 
+    pad_nonuniform_arc:
+      _pltype: array
+      _type: double
+      _do:
+        - copyarray CORE/@pad_nonuniform_arc,start=>0
+      _content:
+
     vessel_mats:
       _pltype: array
       _type: string

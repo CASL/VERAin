@@ -51,3 +51,11 @@ TIAMAT:
       _do:
         - copy TIAMAT/$num_subcycle_iterations_before_tiamat_ramping
       _content:
+
+    coupling_approach:
+      _pltype: parameter
+      _type: string
+      _do:
+        - copy TIAMAT/$coupling_approach
+      _content:
+

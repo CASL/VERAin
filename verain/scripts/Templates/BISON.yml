@@ -340,6 +340,13 @@ BISON:
         - copy BISON/$pellet_clad_mechanical_system
       _content:
 
+    outputs_console_execute_on:
+      _pltype: parameter
+      _type: string
+      _do:
+        - copy BISON/$outputs_console_execute_on
+      _content:
+
     coolantchannel_convective_clad_surface_inlet_temperature:
       _pltype: parameter
       _type: double

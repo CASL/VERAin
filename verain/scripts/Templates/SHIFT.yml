@@ -31,13 +31,6 @@ SHIFT:
         - copy SHIFT/$celib_file
       _content:
 
-    temp_correction:
-      _pltype: parameter
-      _type: string
-      _do:
-        - copy SHIFT/$temp_correction
-      _content:
-
     transfer:
       _pltype: parameter
       _type: string
@@ -59,6 +52,13 @@ SHIFT:
         - copy SHIFT/$global_log
       _content:
 
+    local_log:
+      _pltype: parameter
+      _type: string
+      _do:
+        - copy SHIFT/$local_log
+      _content:
+
     mesh:
       _pltype: parameter
       _type: int
@@ -66,11 +66,25 @@ SHIFT:
         - copy SHIFT/$mesh
       _content:
 
+    do_micro_tally:
+      _pltype: parameter
+      _type: bool
+      _do:
+        - copy SHIFT/$do_micro_tally
+      _content:
+
     do_transport:
       _pltype: parameter
       _type: bool
       _do:
         - copy SHIFT/$do_transport
+      _content:
+
+    do_output:
+      _pltype: parameter
+      _type: bool
+      _do:
+        - copy SHIFT/$do_output
       _content:
 
     output_geometry:
@@ -129,6 +143,13 @@ SHIFT:
         - copy SHIFT/$create_unique_pins
       _content:
 
+    track_isotopes:
+      _pltype: parameter
+      _type: string
+      _do:
+        - copy SHIFT/$track_isotopes
+      _content:
+
     kcode_db:
       _pltype: list
       _content:
@@ -152,6 +173,52 @@ SHIFT:
           _type: int
           _do:
             - copy SHIFT/$num_inactive_cycles
+          _content:
+
+    dbrc:
+      _pltype: parameter
+      _type: bool
+      _do:
+        - copy SHIFT/$dbrc
+      _content:
+
+    broaden_xs:
+      _pltype: parameter
+      _type: bool
+      _do:
+        - copy SHIFT/$broaden_xs
+      _content:
+
+    broaden_db:
+      _pltype: list
+      _content:
+
+        temperature_tol:
+          _pltype: parameter
+          _type: double
+          _do:
+            - copy SHIFT/$temperature_tol
+          _content:
+
+        union_energy:
+          _pltype: parameter
+          _type: bool
+          _do:
+            - copy SHIFT/$union_energy
+          _content:
+
+        delta_t:
+          _pltype: parameter
+          _type: double
+          _do:
+            - copy SHIFT/$delta_t
+          _content:
+
+        energy_tol:
+          _pltype: parameter
+          _type: double
+          _do:
+            - copy SHIFT/$energy_tol
           _content:
 
     tally_db:
@@ -244,4 +311,321 @@ SHIFT:
           _type: double
           _do:
             - copy SHIFT/$z_bnd_mesh
+          _content:
+
+    hybrid_db:
+      _pltype: list
+      _content:
+
+        problem_name:
+          _pltype: parameter
+          _type: string
+          _do:
+            - copy SHIFT/$problem_name
+          _content:
+
+        xs_library:
+          _pltype: parameter
+          _type: string
+          _do:
+            - copy SHIFT/$xs_library
+          _content:
+
+        mesh:
+          _pltype: parameter
+          _type: int
+          _do:
+            - copy SHIFT/$mesh
+          _content:
+
+        dimension:
+          _pltype: parameter
+          _type: int
+          _do:
+            - copy SHIFT/$dimension
+          _content:
+
+        do_transport:
+          _pltype: parameter
+          _type: bool
+          _do:
+            - copy SHIFT/$do_transport
+          _content:
+
+        do_output:
+          _pltype: parameter
+          _type: bool
+          _do:
+            - copy SHIFT/$do_output
+          _content:
+
+        output_adjoint:
+          _pltype: parameter
+          _type: bool
+          _do:
+            - copy SHIFT/$output_adjoint
+          _content:
+
+        adjoint:
+          _pltype: parameter
+          _type: bool
+          _do:
+            - copy SHIFT/$adjoint
+          _content:
+
+        num_blocks_i:
+          _pltype: parameter
+          _type: int
+          _do:
+            - copy SHIFT/$num_blocks_i
+          _content:
+
+        num_blocks_j:
+          _pltype: parameter
+          _type: int
+          _do:
+            - copy SHIFT/$num_blocks_j
+          _content:
+
+        num_z_blocks:
+          _pltype: parameter
+          _type: int
+          _do:
+            - copy SHIFT/$num_z_blocks
+          _content:
+
+        num_sets:
+          _pltype: parameter
+          _type: int
+          _do:
+            - copy SHIFT/$num_sets
+          _content:
+
+        num_groups:
+          _pltype: parameter
+          _type: int
+          _do:
+            - copy SHIFT/$num_groups
+          _content:
+
+        max_delta_z:
+          _pltype: parameter
+          _type: double
+          _do:
+            - copy SHIFT/$max_delta_z
+          _content:
+
+        store_fulcrum_string:
+          _pltype: parameter
+          _type: bool
+          _do:
+            - copy SHIFT/$store_fulcrum_string
+          _content:
+
+        downscatter:
+          _pltype: parameter
+          _type: bool
+          _do:
+            - copy SHIFT/$downscatter
+          _content:
+
+        Pn_order:
+          _pltype: parameter
+          _type: int
+          _do:
+            - copy SHIFT/$Pn_order
+          _content:
+
+        eq_set:
+          _pltype: parameter
+          _type: string
+          _do:
+            - copy SHIFT/$eq_set
+          _content:
+
+        new_grp_bounds:
+          _pltype: array
+          _type: double
+          _do:
+            - copyarray SHIFT/$new_grp_bounds
+          _content:
+
+        grp_collapse_src:
+          _pltype: array
+          _type: double
+          _do:
+            - copyarray SHIFT/$grp_collapse_src
+          _content:
+
+        cell_homogenize:
+          _pltype: parameter
+          _type: bool
+          _do:
+            - copy SHIFT/$cell_homogenize
+          _content:
+
+        spn_matrix_type:
+          _pltype: parameter
+          _type: string
+          _do:
+            - copy SHIFT/$SPN_matrix_type
+          _content:
+
+        SPN_order:
+          _pltype: parameter
+          _type: int
+          _do:
+            - copy SHIFT/$SPN_order
+          _content:
+
+        quadrature_db:
+          _pltype: list
+          _content:
+
+            quad_type:
+              _pltype: parameter
+              _type: string
+              _do:
+                - copy SHIFT/$quad_type
+              _content:
+
+            polars_octant:
+              _pltype: parameter
+              _type: int
+              _do:
+                - copy SHIFT/$polars_octant
+              _content:
+
+            azimuthals_octant:
+              _pltype: parameter
+              _type: int
+              _do:
+                - copy SHIFT/$azimuthals_octant
+              _content:
+
+            Sn_order:
+              _pltype: parameter
+              _type: int
+              _do:
+                - copy SHIFT/$Sn_order
+              _content:
+
+        solver_db:
+          _pltype: list
+          _content:
+
+            solver:
+              _pltype: parameter
+              _type: string
+              _do:
+                - copy SHIFT/$solver
+              _content:
+
+            tolerance:
+              _pltype: parameter
+              _type: double
+              _do:
+                - copy SHIFT/$tolerance
+              _content:
+
+            k_tolerance:
+              _pltype: parameter
+              _type: double
+              _do:
+                - copy SHIFT/$k_tolerance
+              _content:
+
+            subspace_size:
+              _pltype: parameter
+              _type: int
+              _do:
+                - copy SHIFT/$subspace_size
+              _content:
+
+            max_itr:
+              _pltype: parameter
+              _type: int
+              _do:
+                - copy SHIFT/$max_itr
+              _content:
+
+            verbosity:
+              _pltype: parameter
+              _type: string
+              _do:
+                - copy SHIFT/$verbosity
+              _content:
+
+            energy_dep_ev:
+              _pltype: parameter
+              _type: bool
+              _do:
+                - copy SHIFT/$energy_dep_ev
+              _content:
+
+            partition_upscatter:
+              _pltype: parameter
+              _type: bool
+              _do:
+                - copy SHIFT/$partition_upscatter
+              _content:
+
+            upscatter_db:
+              _pltype: list
+              _content:
+
+                tolerance:
+                  _pltype: parameter
+                  _type: double
+                  _do:
+                    - copy SHIFT/$upscatter_tolerance
+                  _content:
+
+                solver:
+                  _pltype: parameter
+                  _type: string
+                  _do:
+                    - copy SHIFT/$upscatter_solver
+                  _content:
+
+                max_itr:
+                  _pltype: parameter
+                  _type: int
+                  _do:
+                    - copy SHIFT/$upscatter_max_itr
+                  _content:
+
+                subspace_size:
+                  _pltype: parameter
+                  _type: int
+                  _do:
+                    - copy SHIFT/$upscatter_subspace_size
+                  _content:
+
+                verbosity:
+                  _pltype: parameter
+                  _type: string
+                  _do:
+                    - copy SHIFT/$upscatter_verbosity
+                  _content:
+
+                iterate_downscatter:
+                  _pltype: parameter
+                  _type: bool
+                  _do:
+                    - copy SHIFT/$iterate_downscatter
+                  _content:
+
+        Pn_correction:
+          _pltype: parameter
+          _type: bool
+          _do:
+            - copy SHIFT/$Pn_correction
+          _content:
+
+        pin_partitioning:
+          _pltype: parameter
+          _type: bool
+          _do:
+            - copy SHIFT/$pin_partitioning
           _content:

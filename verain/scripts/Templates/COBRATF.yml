@@ -10,6 +10,13 @@ COBRATF:
         - copy COBRATF/$nfuel
       _content:
 
+    imox:
+      _pltype: parameter
+      _type: int
+      _do:
+        - copy COBRATF/$imox
+      _content:
+
     nc:
       _pltype: parameter
       _type: int
@@ -43,6 +50,13 @@ COBRATF:
       _type: double
       _do:
         - copy COBRATF/$dhfrac
+      _content:
+
+    beta_htc:
+      _pltype: parameter
+      _type: double
+      _do:
+        - copy COBRATF/$beta_htc
       _content:
 
     hgap:
@@ -358,6 +372,13 @@ COBRATF:
       _type: int
       _do:
         - copy COBRATF/$proc_per_assem
+      _content:
+
+    gap_model:
+      _pltype: parameter
+      _type: string
+      _do:
+        - copy COBRATF/$gap_model
       _content:
 
     boil_ht_cor:

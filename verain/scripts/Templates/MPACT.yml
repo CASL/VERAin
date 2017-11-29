@@ -25,6 +25,13 @@ MPACT:
         - copy MPACT/$refl_no_added_modules
       _content:
 
+    refl_highres:
+      _pltype: parameter
+      _type: string
+      _do:
+        - copy MPACT/$refl_highres
+      _content:
+
     moc_kernel:
       _pltype: parameter
       _type: string
@@ -109,6 +116,13 @@ MPACT:
         - copy MPACT/$rr_edits
       _content:
 
+    rr_edits_opt:
+      _pltype: array
+      _type: string
+      _do:
+        - copy MPACT/$rr_edits_opt
+      _content:
+
     rod_treatment:
       _pltype: parameter
       _type: string
@@ -142,6 +156,13 @@ MPACT:
       _type: double
       _do:
         - copy MPACT/$axial_buckling
+      _content:
+
+    mat_emit_src:
+      _pltype: parameter
+      _type: bool
+      _do:
+        - copy MPACT/$mat_emit_src
       _content:
 
     uniform_crud:
@@ -288,25 +309,18 @@ MPACT:
             - copy MPACT/@crud_mesh:1
           _content:
 
-        moderator_mesh_radii:
-          _pltype: parameter
-          _type: double
-          _do:
-            - copy MPACT/@pin_cell_mod_mesh:0
-          _content:
-
         moderator_mesh_ndiv:
           _pltype: parameter
           _type: int
           _do:
-            - copy MPACT/@pin_cell_mod_mesh:1
+            - copy MPACT/@pin_cell_mod_mesh:0
           _content:
 
         moderator_mesh_pins:
           _pltype: parameter
           _type: string
           _do:
-            - copy MPACT/@pin_cell_mod_mesh:2
+            - copy MPACT/@pin_cell_mod_mesh:1
           _content:
 
     parallel_env:
@@ -375,6 +389,31 @@ MPACT:
           _do:
             - copyarray MPACT/@par_map
           _content:
+
+        graph:
+          _pltype: list
+          _content:
+
+            decomposition:
+              _pltype: array
+              _type: string
+              _do:
+                - copyarray MPACT/@graph_part_method
+              _content:
+
+            refinement:
+              _pltype: array
+              _type: string
+              _do:
+                - copyarray MPACT/@graph_refn_method
+              _content:
+
+            conditions:
+              _pltype: array
+              _type: int
+              _do:
+                - copyarray MPACT/@graph_cond
+              _content:
 
     iteration_control:
       _pltype: list
@@ -1055,6 +1094,13 @@ MPACT:
           _type: bool
           _do:
             - copy MPACT/$accel
+          _content:
+          
+        delayenergy:
+          _pltype: parameter
+          _type: bool
+          _do:
+            - copy MPACT/$delayenergy
           _content:
 
         transmethod:
