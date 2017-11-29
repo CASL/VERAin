@@ -19,11 +19,17 @@
   * power Operating power (percent of rated power)
   flow
   * flow  Operating flow  (percent of rated flow)
+  flow_dist
+  * flow_dist 2-D array that must match the shape of assm_map in [CORE].  Gives a multiplier that will be applied to nominal flow in each assembly.
   bypass
   * bypass Bypass flow (percent of rated flow)
   tinlet
   * tinlet Inlet temperature
   * units ("F", "K", or "C")
+  tinlet_dist
+  * tinlet_dist 2-D array that much match the shape of assm_map in [CORE].  Gives a positive or negative number that will be added to the nominal inlet temperature of each assembly.
+  void
+  * void Assembly-wise radial void distribution in percent. BWR only.
   tfuel
   * tfuel Fixed fuel temperatures - Only used if feedback is turned OFF
   * units ("F", "K", or "C")
@@ -33,6 +39,8 @@
   * xenopt Xenon option ("zero", "dep", or "equil")
   samar
   * samopt Samarium option ("zero", "dep", "equil", or "peak")
+  rlx_xesm
+  * rlx_xesm Xenon-samarium equilibrium relaxation factor.  Recommend 1.0.
   boron
   * boron Soluble boron concentration (ppm)
   b10
@@ -42,16 +50,30 @@
   * kcrit Critical eigenvalue used in boron search
   search
   * search Search option ("keff" or "boron")
+  search_bank
+  * TBD
   pressure
   * pressure Core exit pressure (psia)
   deplete
   * deplete_units Depletion units ("EFPD", "GWDMT", "hours")
   * deplete List of depletion exposure steps - only used with depletion
+  edit
+  * TBD
+  reset_sol
+  * reset_sol Resets the initial guess of the flux in MPACT (T/F). Default F.
   rodbank
   * bank_pos Steps withdrawn for each bank in list
   * bank_labels List of control rod banks to position.  Labels correspond to crd_map in CORE block.
   feedback
   * feedback Flag to turn on and off T/H feedback ("on" or "off").  Currently not used, feedback is controlled by executable that is run.
+  thexp
+  * thexp Perform thermal expansion on XML with ThermalExpandXML. Default T.
+  thexp_tfuel
+  * thexp_tfuel Temperature to use for thermal expansion of fuel
+  thexp_tclad
+  * thexp_tclad Temperature to use for thermal expansion of clad
+  thexp_tmod
+  * thexp_tmod  Temperature to use for thermal expansion of moderator and structural materials. Default tinlet.
   sym
   * sym Core fraction to run problem in ("full" or "qtr")
   restart_shuffle
@@ -65,6 +87,8 @@
   * restart_write_label User label to use when writing restart file
   shuffle_label
   * shuffle_label Core map showing core shuffle instructions
+  cool_chem
+  * TBD
 
 [CORE]
   name
@@ -88,15 +112,17 @@
   * baffle_mat  Baffle material
   * baffle_gap  Gap between outside assembly (including assembly gap) and baffle (cm)
   * baffle_thick  Thickness of baffle (cm)
+  pad
+  * TBD
   vessel
   * vessel_mats Vessel materials
   * vessel_radii Vessel radii (cm)
   core_shape
   * shape Square map showing the fuel assembly locations.  Enter 1 for fuel assembly locations and 0 for empty locations.
-  rotate_map
-  * rotate_map Core map of assembly rotations (0-3)
   assm_map
   * assm_map Core map of the fuel assembly types.  The assembly types correspond to assembly labels in the ASSEMBLY block.  All fuel assemblies must have a type defined.
+  rotate_map
+  * rotate_map Core map of assembly rotations (0-3)
   insert_map
   * insert_map Core map of the fuel insert types and locations.  The insert types correspond to insert labels in the INSERT block.  Use a dash to specify assemblies with no inserts.
   det_map
@@ -125,10 +151,12 @@
   * xlabel List of 2-character assembly position labels in x-direction.  These values are used in the edit maps.
   ylabel
   * ylabel List of 2-character assembly position labels in y-direction.  These values are used in the edit maps.
+  label_format
+  * label_format Format of label entries in shuffle_label card. Default is xlabel-ylabel.
   height
   * height Total axial distance from bottom core plate to upper core plate (cm).  Distance does not include core plate thicknesses.
   mat
-  * mat See detailed Materials description.
+  * mat Refer to the detailed materials description given in the User's Manual.
   lower_ref
   * lower_refl_mats Lower reflector materials
   * lower_refl_thicks Lower reflector thicknesses (cm)
@@ -137,6 +165,8 @@
   * upper_refl_mats Upper reflector materials
   * upper_refl_thicks Upper reflector thicknesses (cm)
   * upper_refl_vfracs Upper reflector volume fractions
+  reactor_type
+  * reactor_type PWR or BWR. Default is PWR.
 
 [ASSEMBLY]
   title
@@ -147,6 +177,8 @@
   * ppitch Pincell pitch (cm)
   cell
   * cell Refer to the cell description given in the User's Manual.
+  lattice
+  * lattice Obsolete alias for "rodmap".  use "rodmap" instead.
   rodmap
   * axial_label Label for this axial elevation description.
   * cell_map Lattice map for this axial elevation.  Use a dash for an empty location.
@@ -154,8 +186,6 @@
   * label Label for this assembly.  Label corresponds to assm_map in CORE block.
   * axial_labels List of axial labels for this assembly description.  Corrrespond to labels in lattice maps.
   * axial_elevations List of axial elevations for this assembly description (cm).
-  dancoff
-  * dancoff_map Lattice map of Dancoff factors (not currently used).
   grid
   * label Grid label for a single grid type.
   * material Grid material for this grid type.
@@ -173,9 +203,18 @@
   * upper_nozzle_height Upper nozzle height (cm)
   * upper_nozzle_mass Upper nozzle mass (g).  Code will calculate the volume of the nozzle given the nozzle mass, and use coolant for remaining volume.
   fuel
-  * fuel See detailed Materials description.
+  * fuel Refer to the detailed materials description given in the User's Manual.
   mat
-  * mat See detailed Materials description.
+  * mat Refer to the detailed materials description given in the User's Manual.
+  gap
+  * gapw Wide-gap width (cm) (BWR only)
+  * gapn Narrow-gap width (cm) (BWR only)
+  channel_box
+  * chanmat  Channel box material
+  * chanth  Channel box thickness (cm)
+  * chanrad  Channel box inside corner radius (cm)
+  * cornerth  Thickness of channel box corner (cm). Optional. Not yet functional.
+  * cornerlen  Length of thick corners measured from the channel corner (cm). Optional. Not yet functional.
 
 [CONTROL]
   title
@@ -195,7 +234,16 @@
   * axial_labels List of axial labels for this control rod description.  Corrrespond to labels in rod maps.
   * axial_elevations List of axial elevations for this control rod description (cm).
   mat
-  * mat See detailed Materials description.
+  * mat Refer to the detailed materials description given in the User's Manual.
+  blade
+  * ntube Number of rodlets in control blade wing.
+  * tubecell Cell ID for rodlet.
+  * bladespan Control blade span from center to wing tip (cm).
+  * bladeth Control blade wing thickness (cm).
+  * bladerad Radius of control blade tip (cm).
+  * bladesheath Control blade sheath thickness (cm).
+  * bladewing Blade central structure wing length (cm).
+  * blademat Sheath and wing material (cm).
 
 [INSERT]
   title
@@ -212,12 +260,14 @@
   * axial_labels List of axial labels for this assembly insert description.  Corrrespond to labels in rod maps.
   * axial_elevations List of axial elevations for this assembly insert description (cm).
   mat
-  * mat See detailed Materials description.
+  * mat Refer to the detailed materials description given in the User's Manual.
 
 
 [DETECTOR]
   title
   * title Long descriptive title for detector description.
+  type
+  * TBD
   npin
   * num_pins The number of rods along the edge of an assembly.
   cell
@@ -230,19 +280,25 @@
   * axial_labels List of axial labels for this detector description.  Corrrespond to labels in rod maps.
   * axial_elevations List of axial elevations for this detector description (cm).
   mat
-  * mat See detailed Materials description.
+  * mat Refer to the detailed materials description given in the User's Manual.
 
 [EDITS]
   axial_edit_bounds
   * axial_edit_bounds  The boundaries of the axial regions over which axial information should be printed.
   axial_edit_mesh_delta
   * axial_edit_mesh_delta Produces a uniform axial output grid (integrates pin powers over a uniform axial mesh).
+  edit_group
+  * TBD
+
+[SHIFT]
 
 [COBRATF]
   nfuel
   * nfuel Number of radial nodes in fuel pellet.
   nc
   * nc Conduction option (see CTF Manual).
+  chf
+  * chf Used to select the CHF modeling option (0 = Do only post-simulation calculation of CHF using W-3 correlation, 1 = Do CHF check during simulation using W-3, 2 = No CHF model)
   debug
   * debug Option to print additional debug information in xml2ctf processing  (1=on)
   irfc
@@ -251,9 +307,8 @@
   * dhfrac Fraction of power deposited directly in coolant.
   hgap
   * hgap Gap conductance (W/m^2 K)
-  gridloss
-  * gridlabel Spacer grid label (from ASSEMBLY block).
-  * gridloss Spacer grid loss coefficient.
+  gridbloc
+  * gridbloc The ratio between blocked flow area in the grid (axial direction) and open flow area in the non-grid region.  Used for spacer grid enhancement model (larger blockage ratio leads to more grid heat transfer enhancement).  Must enter one value for each grid label specified in 'gridbloclabel'.
   epso
   * epso Inactive option - ignored by code.
   oitmax
@@ -275,7 +330,7 @@
   maps_filename
   * maps_filename  Name of HDF5 and VTK files
   heated_elements_type
-  * heated_elements_type 0=model nuclear fuel rods, 1=model electric heater tubes. If you select electric heater tubes, all heater rods in the model will be electric heater tubes and you must input the inside diameter, outside diameter, and pitch of the tubes. 
+  * heated_elements_type 0=model nuclear fuel rods, 1=model electric heater tubes. If you select electric heater tubes, all heater rods in the model will be electric heater tubes and you must input the inside diameter, outside diameter, and pitch of the tubes.
   heater_tube_id
   * heater_tube_id Heater tube inside diameter (cm)
   heater_tube_od
@@ -296,6 +351,36 @@
   * solid_energy_storage Steady-state convergence criteria for transient storage of energy in solids
   mass_storage
   * mass_storage Steady-state convergence criteria for transient storage of mass in fluid
+  pressure_criteria
+  * pressure_criteria Relative tolerance for L-infinity of pressure.  (default=1e-5)
+  Tcool_criteria
+  * Tcool_criteria Relative tolerance for L-infinity of coolant temperature.  (default=1e-5)
+  Tsolid_criteria
+  * Tsolid_criteria Relative tolerance for L-infinity of solid temperature.  (default=1e-5)
+  void_criteria
+  * void_criteria Absolute tolerance for L-infinity of void.  (default=1e-5)
+  vliq_criteria
+  * vliq_criteria Relative tolerance for L-infinity of axial liquid velocity.  (default=1e-5)
+  vvap_criteria
+  * vvap_criteria Relative tolerance for L-infinity of axial vapor velocity.  (default=1e-5)
+  vdrop_criteria
+  * vdrop_criteria Relative tolerance for L-infinity of axial droplet velocity.  (default=1e-5)
+  pressurea_criteria
+  * pressurea_criteria Absolute tolerance for L-infinity of pressure [bar].  (default=1e-5)
+  Tcoola_criteria
+  * Tcoola_criteria Absolute tolerance for L-infinity of coolant temperature [K].  (default=1e-5)
+  Tsolida_criteria
+  * Tsolida_criteria Absolute tolerance for L-infinity of solid temperature [K].  (default=1e-5)
+  vliqa_criteria
+  * vliqa_criteria Absolute tolerance for L-infinity of axial liquid velocity [m/s].  (default=1e-5)
+  vvapa_criteria
+  * vvapa_criteria Absolute tolerance for L-infinity of axial vapor velocity [m/s].  (default=1e-5)
+  vdropa_criteria
+  * vdropa_criteria Absolute tolerance for L-infinity of axial droplet velocity [m/s].  (default=1e-5)
+  use_sol_stop_crit
+  * use_sol_stop_crit Set to 1 to use the L-infinity based convergence metrics in CTF.  Set to zero to use the original convergence metrics.  Default is original convergence metrics.
+  proc_per_assem
+  * proc_per_assem Number of processors to use for each assembly in the parallel model.  Enter 1 or 4.
   edit_gaps
   * edit_gaps Edit flag to turn on gap output file (1=generate file)
   edit_channels
@@ -308,6 +393,10 @@
   * edit_convergence Edit flag to generate a file displaying convergence parameters each iteration
   edit_hdf5
   * edit_hdf5 Option to generate the HDF5 file (1=generate file)
+  edit_fluid_vtk
+  * edit_fluid_vtk Option to print fluid VTK output file (1=generate file)
+  edit_rod_vtk
+  * edit_rod_vtk Option to rod VTK output file (1=generate file)
   boil_ht_cor
   * boil_ht_cor Boiling heat transfer correlation
   property_evaluations
@@ -316,11 +405,8 @@
   * beta_sp Turbulent mixing coefficient (used for both single-phase and two-phase mixing) (default=0.05)
   k_void_drift
   * k_void_drift  Equilibrium distribution weighting factor (void drift model coefficient) (default=1.4)
-
-
-[INSILICO]
-
-[MPACT]
+  crud
+  * TBD
 
 [COUPLING]
   epsk
@@ -329,6 +415,10 @@
   * epsp Power convergence criteria (L2 norm)
   eps_temp
   * eps_temp Temperature convergence criteria (degrees F)
+  ctf_iters_max
+  * ctf_iters_max Maximum number of CTF time-steps per coupled iteration
+  ctf_iters_growth
+  * ctf_iters_growth Fractional change in ctf_iters_max by coupled iteration (1 is no change)
   eps_boron
   * eps_boron Boron convergence criteria (ppm)
   rlx_power
@@ -341,9 +431,5 @@
   * maxiter Maximum number of coupled iterations.
   read_restart
   * read_restart Name of coupling restart file.  Leave blank for no coupling restart.
-  ctf_iters_max
-  * ctf_iters_max Maximum number of CTF time-steps per coupled iteration
-  ctf_iters_growth
-  * ctf_iters_growth Fractional change in ctf_iters_max by coupled iteration (1 is no change)
 
 
