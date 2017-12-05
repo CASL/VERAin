@@ -1919,6 +1919,12 @@ MPACT:
     _check:
       - is_float()
       - is_gt() 0.0
+  log_message:
+    <<: *dtstring
+    _content:
+    _check:
+      - is_string()
+      - in_dictionary() debug warn basic
   refl_no_added_modules:
     <<: *dtstring
     _content:

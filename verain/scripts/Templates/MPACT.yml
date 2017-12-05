@@ -18,6 +18,13 @@ MPACT:
         - copy MPACT/$shield_ray_spacing
       _content:
 
+    log_message:
+      _pltype: parameter
+      _type: string
+      _do:
+        - copy MPACT/$log_message
+      _content:
+
     refl_no_added_modules:
       _pltype: parameter
       _type: string
