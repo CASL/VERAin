@@ -53,6 +53,7 @@ _DIRECTORY:
   MPACT:
   BISON:
   MAMBA1D:
+  MAMBA:
   TIAMAT:
 
 CASEID:
@@ -269,6 +270,12 @@ STATE:
     _check:
       - is_word()
       - in_dictionary() full qtr
+  kmul_beta:
+    <<: *dtdouble
+    _content:
+    _check:
+      - is_gt() 0
+      - is_leq()  1
 
   restart_shuffle:
     <<: *dtlist
@@ -289,6 +296,13 @@ STATE:
       - fall(sub{is_word(shift)},())
       - arraysize()==2
   shuffle_label:
+    <<: *dtlist
+    _style: multi-line
+    _content:
+    _check:
+      - fall(sub{is_word(shift)},())
+      - fall(sub{not_in_dictionary(shift,'0')},())
+  insert_shuffle_label:
     <<: *dtlist
     _style: multi-line
     _content:
@@ -412,6 +426,15 @@ CORE:
       - fall(sub{not_in_dictionary(shift,'0')},())
       - fall(sub{not_in_dictionary(shift,'_EMPTY_')},())
   rotate_map:
+    <<: *dtlist
+    _style: multi-line
+    _content:
+    _check:
+      - fall(sub{is_int(shift)},())
+      - fall(sub{is_geq(shift,0)},())
+      - fall(sub{is_leq(shift,3)},())
+      - fall(sub{not_in_dictionary(shift,'_EMPTY_')},())
+  insert_rotate_map:
     <<: *dtlist
     _style: multi-line
     _content:
@@ -624,7 +647,7 @@ ASSEMBLY:
     _check:
       - nth(2,())>0
       - nth(2,())<10
-      - nth(3,())>0
+      - arraysize()==4
     _parameters:
       loss:
         <<: *dtdouble
@@ -696,6 +719,21 @@ ASSEMBLY:
       - nth(2,())>=0
       - nth(3,())>=0
       - nth(4,())>=0
+
+  temptable:
+    <<: *dtlistnamed
+    _style: multi-line
+    _check:
+      - arraysize()>1
+      - arraysize()%3==0
+      - is_word(nth(0,()))
+      - is_word(nth(1,()))
+      - nth(1,())eq'temptable_boundary'
+      - is_word(nth(3,()))
+      - nth(3,())eq'temptable_qprime'
+      - is_float(nth(4,()))
+      - nth(5,())eq'temptable_polynomial'
+      - fall(sub{is_float(shift)},stride(6,1,()))
 
 CONTROL:
   <<: *dtblocknamed
@@ -1040,6 +1078,11 @@ SHIFT:
     _content:
     _check:
      - is_word()
+  raytrace_levels:
+    <<: *dtlist
+    _style: multi-line
+    _content:
+    _check:
   radial_mesh:
     <<: *dtlist
     _style: multi-line
@@ -1069,6 +1112,30 @@ SHIFT:
     _content:
     _check:
       - is_strictlydecreasing(stride(1,1,()))
+  homog_type:
+    <<: *dtword
+    _content:
+    _check:
+      - is_word()
+      - in_dictionary() assem rings
+  homog_ring_radii:
+    <<: *dtlist
+    _style: multi-line
+    _content:
+    _check:
+      - is_strictlyincreasing(stride(1,1,()))
+  homog_pin_rings:
+    <<: *dtbool
+    _content:
+    _check:
+      - is_word()
+      - in_dictionary() true false
+  homog_explicit_pins:
+    <<: *dtint
+    _content:
+    _check:
+      - is_int()
+      - is_geq() 0
   bc_bnd_mesh:
     <<: *dtlist
     _style: multi-line
@@ -1205,7 +1272,7 @@ SHIFT:
     _content:
     _check:
       - is_word()
-      - in_dictionary() true false      
+      - in_dictionary() true false
   upscatter_solver:
     <<: *dtword
     _content:
@@ -1373,7 +1440,7 @@ SHIFT:
     _check:
       - is_word()
       - in_dictionary() true false
-      
+
 COBRATF:
 
   nfuel:
@@ -1494,19 +1561,19 @@ COBRATF:
     _check:
       - is_int()
       - is_gt() 0
-  
+
   micro_zaids:
     <<: *dtlist
     _content:
     _check:
       - arraysize()==2
-  
+
   micro_rxns:
     <<: *dtlist
     _content:
     _check:
       - arraysize()==2
-  
+
   courant:
     <<: *dtdouble
     _content:
@@ -1662,6 +1729,84 @@ COBRATF:
       - is_float()
 
   vdropa_criteria:
+    <<: *dtdouble
+    _content:
+    _check:
+      - is_float()
+
+  pressure_criteria_l2:
+    <<: *dtdouble
+    _content:
+    _check:
+      - is_float()
+
+  Tcool_criteria_l2:
+    <<: *dtdouble
+    _content:
+    _check:
+      - is_float()
+
+  Tsolid_criteria_l2:
+    <<: *dtdouble
+    _content:
+    _check:
+      - is_float()
+
+  void_criteria_l2:
+    <<: *dtdouble
+    _content:
+    _check:
+      - is_float()
+
+  vliq_criteria_l2:
+    <<: *dtdouble
+    _content:
+    _check:
+      - is_float()
+
+  vvap_criteria_l2:
+    <<: *dtdouble
+    _content:
+    _check:
+      - is_float()
+
+  vdrop_criteria_l2:
+    <<: *dtdouble
+    _content:
+    _check:
+      - is_float()
+
+  pressurea_criteria_l2:
+    <<: *dtdouble
+    _content:
+    _check:
+      - is_float()
+
+  Tcoola_criteria_l2:
+    <<: *dtdouble
+    _content:
+    _check:
+      - is_float()
+
+  Tsolida_criteria_l2:
+    <<: *dtdouble
+    _content:
+    _check:
+      - is_float()
+
+  vliqa_criteria_l2:
+    <<: *dtdouble
+    _content:
+    _check:
+      - is_float()
+
+  vvapa_criteria_l2:
+    <<: *dtdouble
+    _content:
+    _check:
+      - is_float()
+
+  vdropa_criteria_l2:
     <<: *dtdouble
     _content:
     _check:
@@ -1905,6 +2050,13 @@ TIAMAT:
       - is_string()
       - in_dictionary() coupled inline
 
+  overlap_procs:
+    <<: *dtbool
+    _content:
+    _check:
+      - is_word()
+      - in_dictionary() true false
+
 MPACT:
 
   ray_spacing:
@@ -1967,12 +2119,24 @@ MPACT:
     _check:
       - is_string()
       - in_dictionary() decart two three cactus ratfrac DECART TWO THREE CACTUS RATFRAC
+  radial_src_order:
+    <<: *dtint
+    _content:
+    _check:
+      - is_int()
+      - is_geq() 0
+  axial_src_order:
+    <<: *dtint
+    _content:
+    _check:
+      - is_int()
+      - is_geq() 0
   power_edit:
     <<: *dtstring
     _content:
     _check:
       - is_string()
-      - in_dictionary() fission FISSION kappa-fission KAPPA-FISSION gamma-smeared GAMMA-SMEARED 
+      - in_dictionary() fission FISSION kappa-fission KAPPA-FISSION gamma-smeared GAMMA-SMEARED
   jagged:
     <<: *dtbool
     _content:
@@ -2013,6 +2177,12 @@ MPACT:
     _content:
     _check:
       - is_word()
+  rst_compress:
+    <<: *dtword
+    _content:
+    _check:
+      - is_word()
+      - in_dictionary() none 0 1 2 3 4 5 6 7 8 9
   vis_edits:
     <<: *dtword
     _content:
@@ -2031,6 +2201,18 @@ MPACT:
     _content:
     _check:
       - fall(sub{is_word(shift)},())
+  xe135m_opt:
+    <<: *dtword
+    _content:
+    _check:
+      - is_word()
+      - in_dictionary() ignore combine explicit
+  nodal_edits:
+    <<: *dtbool
+    _content:
+    _check:
+      - is_word()
+      - in_dictionary() true false
   grid_treatment:
     <<: *dtword
     _content:
@@ -2274,7 +2456,12 @@ MPACT:
     _check:
       - is_word()
       - in_dictionary() p-c semip-c postcorrector
-
+  depl_origen_solver:
+    <<: *dtword
+    _content:
+    _check:
+      - is_word()
+      - in_dictionary() matrex cram
   num_space:
     <<: *dtint
     _content:
@@ -2687,21 +2874,42 @@ MPACT:
     _check:
       - is_word()
       - in_dictionary() true false
-  
+
   delayenergy:
     <<: *dtbool
     _content:
     _check:
       - is_word()
       - in_dictionary() true false
-  
+
+  rx_components:
+    <<: *dtbool
+    _content:
+    _check:
+      - is_word()
+      - in_dictionary() true false
+
+  sep_flux_comp:
+    <<: *dtbool
+    _content:
+    _check:
+      - is_word()
+      - in_dictionary() true false
+
+  summary_edits:
+    <<: *dtbool
+    _content:
+    _check:
+      - is_word()
+      - in_dictionary() true false
+
   tml:
     <<: *dtbool
     _content:
     _check:
       - is_word()
       - in_dictionary() true false
- 
+
   transmethod:
     <<: *dtlist
     _content:
@@ -2789,6 +2997,128 @@ MAMBA1D:
     _check:
       - is_geq() 0
       - is_int()
+
+MAMBA:
+  A_NiFe2O4_out:
+    <<: *dtdouble
+    _content:
+    _check:
+      - is_float()
+      - is_gt() 0
+  E_NiFe2O4_out:
+    <<: *dtdouble
+    _content:
+    _check:
+      - is_float()
+      - is_gt() 0
+  A_NiFe2O4_in:
+    <<: *dtdouble
+    _content:
+    _check:
+      - is_float()
+      - is_gt() 0
+  E_NiFe2O4_in:
+    <<: *dtdouble
+    _content:
+    _check:
+      - is_float()
+      - is_gt() 0
+  ksnb_Fe2O4:
+    <<: *dtdouble
+    _content:
+    _check:
+      - is_float()
+      - is_gt() 0
+  D_Ni:
+    <<: *dtdouble
+    _content:
+    _check:
+      - is_float()
+      - is_gt() 0
+  D_Fe:
+    <<: *dtdouble
+    _content:
+    _check:
+      - is_float()
+      - is_gt() 0
+  D_BOH3:
+    <<: *dtdouble
+    _content:
+    _check:
+      - is_float()
+      - is_gt() 0
+  D_Li:
+    <<: *dtdouble
+    _content:
+    _check:
+      - is_float()
+      - is_gt() 0
+  D_H2:
+    <<: *dtdouble
+    _content:
+    _check:
+      - is_float()
+      - is_gt() 0
+  CRUD_porosity:
+    <<: *dtdouble
+    _content:
+    _check:
+      - is_float()
+      - is_gt() 0
+  CRUD_solid_dens:
+    <<: *dtdouble
+    _content:
+    _check:
+      - is_float()
+      - is_gt() 0
+  chimney_htc:
+    <<: *dtdouble
+    _content:
+    _check:
+      - is_float()
+      - is_gt() 0
+  chimney_dens:
+    <<: *dtdouble
+    _content:
+    _check:
+      - is_float()
+      - is_gt() 0
+  chimney_rad:
+    <<: *dtdouble
+    _content:
+    _check:
+      - is_float()
+      - is_gt() 0
+  CRUD_therm_cond:
+    <<: *dtdouble
+    _content:
+    _check:
+      - is_float()
+      - is_gt() 0
+  CRUD_heat_capacity:
+    <<: *dtdouble
+    _content:
+    _check:
+      - is_float()
+      - is_gt() 0y
+  tke_scale:
+    <<: *dtdouble
+    _content:
+    _check:
+      - is_float()
+      - is_gt() 0
+  src_mult_A:
+    <<: *dtdouble
+    _content:
+    _check:
+      - is_float()
+      - is_gt() 0
+  src_mult_E:
+    <<: *dtdouble
+    _content:
+    _check:
+      - is_float()
+      - is_gt() 0
 
 BISON:
 
@@ -3667,6 +3997,12 @@ BISON:
     _check:
       - is_int()
       - is_gt() 0
+  only_assemblies:
+    <<: *dtlist
+    _style: multi-line
+    _content:
+    _check:
+      - fall(sub{is_string(shift)},())
   ramping_time:
     <<: *dtlist
     _style: multi-line

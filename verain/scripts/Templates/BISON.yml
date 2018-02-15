@@ -1117,6 +1117,13 @@ BISON:
         - copy BISON/$only_cycle
       _content:
 
+    only_assemblies:
+      _pltype: array
+      _type: string
+      _do:
+        - copy BISON/$only_assemblies
+      _content:
+
     ramping_time:
       _pltype: array
       _type: double

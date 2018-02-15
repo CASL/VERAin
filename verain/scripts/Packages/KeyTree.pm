@@ -240,7 +240,7 @@ sub value_eq_at{
 sub parse_path{
     my ($path)=@_;
 
-    my $valid_name=qr/[\w]+[\w-]*/;
+    my $valid_name=qr/[\w]+[\w-.]*/;
     $path=~s/\%($valid_name)/$1\/_key/g;
 
     $path=~s/\@($valid_name)\^/$1\/_parameters/g;

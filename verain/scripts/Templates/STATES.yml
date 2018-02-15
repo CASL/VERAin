@@ -222,6 +222,13 @@ STATES:
             - copy %STATE/$(_loop)/$sym
           _content:
 
+        kmul_beta:
+          _pltype: parameter
+          _type: double
+          _do:
+            - copy %STATE/$(_loop)/$kmul_beta
+          _content:
+
         reset_sol:
           _pltype: parameter
           _type: bool
@@ -283,6 +290,13 @@ STATES:
           _type: string
           _do:
             - coremapmap CORE/$size,CORE/@core_shape,%STATE/$(_loop)/@shuffle_label,CORE/$bc_sym,expand=>0,ignore=>'-'
+          _content:
+
+        insert_shuffle_label:
+          _pltype: array
+          _type: string
+          _do:
+            - coremapmap CORE/$size,CORE/@core_shape,%STATE/$(_loop)/@insert_shuffle_label,CORE/$bc_sym,expand=>0,ignore=>'-'
           _content:
 
         tinlet_dist:

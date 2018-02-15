@@ -1870,39 +1870,44 @@ sub cellsmaps{
 	    $CELL_radii{$_}=\@part1;
 	    my @cmats=@part2;
 
-	    # start mod
-	    # have to search for available materials and fuels
-	    # bomb if mat and fuel are at the same level
-	    # if exists mat cell_type=other, if exists fuel =fuel
-
-	    $CELL_TYPE{$_}='other';
-	    if(@part3){
-		die "cellmaps: invalid cell type for cell $_ @a\n" unless exists( $CELL_TYPES_POSSIBLE{$part3[0]} );
-		$CELL_TYPE{$_}=$part3[0];
-	    }
-
-	    if(defined $OPTIONS{ matsearch }){
-		foreach my $imat (@cmats){
-		    print  "    CELL mat $imat\n" if get_verbose();
-		    next if in_dictionary($imat, @MATS_RESERVED);
-		    if(exists($MATS_DB{ $imat })){
-			if($MATS_DB{ $imat } eq 'fuel'){
-			    die "rodmap: cell $_ @a type is $CELL_TYPE{$_} but it has fuel $imat\n"
-				if exists( $CELL_TYPES_POSSIBLE{ $CELL_TYPE{$_} } );
-			    $CELL_TYPE{$_}='fuel';
-			    print  "    \tCELL mat $imat is fuel\n" if get_verbose();
-			}
-		    }
-		    else{
-			die "rodmap: cell $_ @a has material $imat which is not defined\n";
-		    }
-		}
-	    }
-
+        # start mod
+        # have to search for available materials and fuels
+        # bomb if mat and fuel are at the same level
+        # if exists mat cell_type=other, if exists fuel=fuel
+        $CELL_TYPE{$_}='other';
+        $CELL_TABLE{$_}='';
+        if(@part3){
+          if(exists $CELL_TYPES_POSSIBLE{$part3[0]} ){
+            $CELL_TYPE{$_}=$part3[0];
+          }
+          else {
+            $CELL_TABLE{$_}=$part3[0];
+          }
+        }
+        
+        if(defined $OPTIONS{ matsearch }){
+          foreach my $imat (@cmats){
+            print  "    CELL mat $imat\n" if get_verbose();
+            next if in_dictionary($imat, @MATS_RESERVED);
+            if(exists($MATS_DB{ $imat })){
+            if($MATS_DB{ $imat } eq 'fuel'){
+              die "rodmap: cell $_ @a type is $CELL_TYPE{$_} but it has fuel $imat\n"
+              if exists( $CELL_TYPES_POSSIBLE{ $CELL_TYPE{$_} } );
+                $CELL_TYPE{$_}='fuel';
+                print  "    \tCELL mat $imat is fuel\n" if get_verbose();
+              }
+            }
+            else{
+              die "rodmap: cell $_ @a has material $imat which is not defined\n";
+            }
+          }
+        }
+        
 	    $CELL_mats{$_} =[@cmats];
 	    print  "    CELL radii @{ $CELL_radii{$_} }\n" if get_verbose();
 	    print  "    CELL mats  @{ $CELL_mats{$_} }\n" if get_verbose();
 	    print  "    CELL type  $CELL_TYPE{$_}\n" if get_verbose();
+	    print  "    CELL table  $CELL_TABLE{$_}\n" if get_verbose();
 	}
     }
 
@@ -1946,6 +1951,9 @@ sub cellsmaps{
 
 	&key_on_parameter($iref,'label','string',$j);
 	&key_on_parameter($iref,'type','string',$CELL_TYPE{$j});
+	unless( $CELL_TABLE{$j} eq '' ) {
+	  &key_on_parameter($iref,'table_label','string',$CELL_TABLE{$j});
+	}
 	$k=@{ $CELL_radii{$j} };
 	&key_on_parameter($iref,'num_rings','int',$k);
 	&key_on_array($iref,'mats','string',@{ $CELL_mats{$j} });

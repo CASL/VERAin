@@ -126,6 +126,54 @@ ASSEMBLIES:
             - copyarray %ASSEMBLY/$(_path)/@grid_axial,select=>even
           _content:
 
+        Temperature_Tables:
+          _pltype: list
+
+          _tr:
+            _name: _lttabs
+            _content: %ASSEMBLY/$(_path)/%temptable
+
+          _content:
+
+            (_lttabs):
+              _pltype: list
+              _content:
+            
+                qprime:
+                  _pltype: parameter
+                  _type: double
+                  _do:
+                    - copy %ASSEMBLY/$(_path)/%temptable/@(_lttabs):3
+                  _content:
+
+                burnup:
+                  _pltype: array
+                  _type: double
+                  _do:
+                    - copyarray %ASSEMBLY/$(_path)/%temptable/@(_lttabs),start=>5,stride=>3
+                  _content:
+
+                a_linear:
+                  _pltype: array
+                  _type: double
+                  _do:
+                    - copyarray %ASSEMBLY/$(_path)/%temptable/@(_lttabs),start=>6,stride=>3
+                  _content:
+
+                b_quadratic:
+                  _pltype: array
+                  _type: double
+                  _do:
+                    - copyarray %ASSEMBLY/$(_path)/%temptable/@(_lttabs),start=>7,stride=>3
+                  _content:
+
+                boundary:
+                  _pltype: parameter
+                  _type: string
+                  _do:
+                    - copy %ASSEMBLY/$(_path)/%temptable/@(_lttabs):1
+                  _content:
+
         SpacerGrids:
           _pltype: list
 
@@ -167,14 +215,6 @@ ASSEMBLIES:
                     - copy %ASSEMBLY/$(_path)/%grid/@(_lgrid):1
                   _content:
 
-                # The old way of specifying gridloss.  Still read in for backwards compatibility, but this will be removed
-                # in the future.
-                gridloss_old:
-                  _pltype: parameter
-                  _type: double
-                  _do:
-                    - copy %ASSEMBLY/$(_path)/%grid/@(_lgrid):3
-                  _content:
 
                 gridloss:
                   _pltype: parameter

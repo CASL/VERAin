@@ -304,6 +304,97 @@ COBRATF:
         - copy COBRATF/$vdropa_criteria
       _content:
 
+    Tcool_criteria_l2:
+      _pltype: parameter
+      _type: double
+      _do:
+        - copy COBRATF/$Tcool_criteria_l2
+      _content:
+
+    Tsolid_criteria_l2:
+      _pltype: parameter
+      _type: double
+      _do:
+        - copy COBRATF/$Tsolid_criteria_l2
+      _content:
+
+    void_criteria_l2:
+      _pltype: parameter
+      _type: double
+      _do:
+        - copy COBRATF/$void_criteria_l2
+      _content:
+
+    pressure_criteria_l2:
+      _pltype: parameter
+      _type: double
+      _do:
+        - copy COBRATF/$pressure_criteria_l2
+      _content:
+
+    vliq_criteria_l2:
+      _pltype: parameter
+      _type: double
+      _do:
+        - copy COBRATF/$vliq_criteria_l2
+      _content:
+
+    vvap_criteria_l2:
+      _pltype: parameter
+      _type: double
+      _do:
+        - copy COBRATF/$vvap_criteria_l2
+      _content:
+
+    vdrop_criteria_l2:
+      _pltype: parameter
+      _type: double
+      _do:
+        - copy COBRATF/$vdrop_criteria_l2
+      _content:
+
+    Tcoola_criteria_l2:
+      _pltype: parameter
+      _type: double
+      _do:
+        - copy COBRATF/$Tcoola_criteria_l2
+      _content:
+
+    Tsolida_criteria_l2:
+      _pltype: parameter
+      _type: double
+      _do:
+        - copy COBRATF/$Tsolida_criteria_l2
+      _content:
+
+    pressurea_criteria_l2:
+      _pltype: parameter
+      _type: double
+      _do:
+        - copy COBRATF/$pressurea_criteria_l2
+      _content:
+
+    vliqa_criteria_l2:
+      _pltype: parameter
+      _type: double
+      _do:
+        - copy COBRATF/$vliqa_criteria_l2
+      _content:
+
+    vvapa_criteria_l2:
+      _pltype: parameter
+      _type: double
+      _do:
+        - copy COBRATF/$vvapa_criteria_l2
+      _content:
+
+    vdropa_criteria_l2:
+      _pltype: parameter
+      _type: double
+      _do:
+        - copy COBRATF/$vdropa_criteria_l2
+      _content:
+
     use_sol_stop_crit:
       _pltype: parameter
       _type: int

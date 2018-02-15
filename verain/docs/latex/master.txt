@@ -86,7 +86,9 @@
   * restart_write_file Name of restart file to write/create
   * restart_write_label User label to use when writing restart file
   shuffle_label
-  * shuffle_label Core map showing core shuffle instructions
+  * shuffle_label Core map showing core shuffle instructions for assemblies
+  insert_shuffle_label
+  * insert_shuffle_label Core map showing core shuffle instructions for assembly inserts
   cool_chem
   * TBD
 
@@ -125,6 +127,8 @@
   * rotate_map Core map of assembly rotations (0-3)
   insert_map
   * insert_map Core map of the fuel insert types and locations.  The insert types correspond to insert labels in the INSERT block.  Use a dash to specify assemblies with no inserts.
+  insert_rotate_map
+  * insert_rotate_map Core map of assembly insert rotations (0-3)
   det_map
   * det_map Core map of the detector types and locations.  The detector types correspond to detector labels in the DETECTOR block.  Use a dash to specify assemblies with no detectors.
   crd_map

@@ -120,8 +120,8 @@
   axial A21 6.053 GAP 10.281 PLUG 11.951 LAT21 377.711 PLEN 393.711 PLUG 395.381 GAP 397.51
   axial A26 6.053 GAP 10.281 PLUG 11.951 LAT26 377.711 PLEN 393.711 PLUG 395.381 GAP 397.51
 
-  grid END inc    3.866 1017 0.9070 ! grid height (cm), mass (g), loss coef
-  grid MID zirc4  3.810 875  0.9065 ! grid height (cm), mass (g), loss coef
+  grid END inc    3.866 1017 / loss=0.9070 ! grid height (cm), mass (g), loss coef
+  grid MID zirc4  3.810 875 / loss=0.9065 ! grid height (cm), mass (g), loss coef
 
   grid_axial
       END  13.884

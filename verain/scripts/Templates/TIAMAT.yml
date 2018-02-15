@@ -59,3 +59,10 @@ TIAMAT:
         - copy TIAMAT/$coupling_approach
       _content:
 
+    overlap_procs:
+      _pltype: parameter
+      _type: bool
+      _do:
+        - copy TIAMAT/$overlap_procs
+      _content:
+

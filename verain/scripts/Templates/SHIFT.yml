@@ -129,6 +129,13 @@ SHIFT:
         - copy SHIFT/$excore_filename
       _content:
 
+    raytrace_levels:
+      _pltype: array
+      _type: double
+      _do:
+        - copyarray SHIFT/$raytrace_levels
+      _content:
+
     core_translate:
       _pltype: array
       _type: double
@@ -148,6 +155,13 @@ SHIFT:
       _type: string
       _do:
         - copy SHIFT/$track_isotopes
+      _content:
+
+    verbosity:
+      _pltype: parameter
+      _type: string
+      _do:
+        - copy SHIFT/$verbosity
       _content:
 
     kcode_db:
@@ -279,6 +293,38 @@ SHIFT:
           _type: bool
           _do:
             - copy SHIFT/$gamma_flux
+          _content:
+    
+    homog_db:
+      _pltype: list
+      _content:
+
+        homog_ring_radii:
+          _pltype: array
+          _type: double
+          _do:
+            - copyarray SHIFT/$homog_ring_radii
+          _content:
+        
+        homog_type:
+          _pltype: parameter
+          _type: string
+          _do:
+            - copy SHIFT/$homog_type
+          _content:
+
+        homog_pin_rings:
+          _pltype: parameter
+          _type: bool
+          _do:
+            - copy SHIFT/$homog_pin_rings
+          _content:
+
+        homog_explicit_pins:
+          _pltype: parameter
+          _type: int
+          _do:
+            - copy SHIFT/$homog_explicit_pins
           _content:
 
     boundary_mesh_db:

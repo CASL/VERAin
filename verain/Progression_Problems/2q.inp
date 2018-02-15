@@ -48,7 +48,7 @@
 
   axial ASSY 0.0 LAT 1.0 
 
-  grid       MID zirc4 1.0 229.66 0.9  ! ID, mat, height, mass(g), loss coeff
+  grid       MID zirc4 1.0 229.66 / loss=0.9  ! ID, mat, height, mass(g), loss coeff
   grid_axial MID 0.5 
      
 [MPACT]

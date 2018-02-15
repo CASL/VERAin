@@ -1,0 +1,144 @@
+MAMBA1D:
+  _pltype: list
+  _do:
+    - setdb MAIN_DB
+  _content:
+    A_NiFe2O4_out:
+      _pltype: parameter
+      _type: double
+      _do:
+        - copy MAMBA/$A_NiFe2O4_out
+      _content:
+
+    E_NiFe2O4_out:
+      _pltype: parameter
+      _type: double
+      _do:
+        - copy MAMBA/$E_NiFe2O4_out
+      _content:
+
+    A_NiFe2O4_in:
+      _pltype: parameter
+      _type: double
+      _do:
+        - copy MAMBA/$A_NiFe2O4_in
+      _content:
+
+    E_NiFe2O4_in:
+      _pltype: parameter
+      _type: double
+      _do:
+        - copy MAMBA/$E_NiFe2O4_in
+      _content:
+
+    ksnb_Fe2O4:
+      _pltype: parameter
+      _type: double
+      _do:
+        - copy MAMBA/$ksnb_Fe2O4
+      _content:
+
+    D_Ni:
+      _pltype: parameter
+      _type: double
+      _do:
+        - copy MAMBA/$D_Ni
+      _content:
+
+    D_Fe:
+      _pltype: parameter
+      _type: double
+      _do:
+        - copy MAMBA/$D_Fe
+      _content:
+
+    D_BOH3:
+      _pltype: parameter
+      _type: double
+      _do:
+        - copy MAMBA/$D_BOH3
+      _content:
+
+    D_Li:
+      _pltype: parameter
+      _type: double
+      _do:
+        - copy MAMBA/$D_Li
+      _content:
+
+    D_H2:
+      _pltype: parameter
+      _type: double
+      _do:
+        - copy MAMBA/$D_H2
+      _content:
+
+    CRUD_porosity:
+      _pltype: parameter
+      _type: double
+      _do:
+        - copy MAMBA/$CRUD_porosity
+      _content:
+
+    CRUD_solid_dens:
+      _pltype: parameter
+      _type: double
+      _do:
+        - copy MAMBA/$CRUD_solid_dens
+      _content:
+
+    chimney_htc:
+      _pltype: parameter
+      _type: double
+      _do:
+        - copy MAMBA/$chimney_htc
+      _content:
+
+    chimney_dens:
+      _pltype: parameter
+      _type: double
+      _do:
+        - copy MAMBA/$chimney_dens
+      _content:
+
+    chimney_rad:
+      _pltype: parameter
+      _type: double
+      _do:
+        - copy MAMBA/$chimney_rad
+      _content:
+
+    CRUD_therm_cond:
+      _pltype: parameter
+      _type: double
+      _do:
+        - copy MAMBA/$CRUD_therm_cond
+      _content:
+
+    CRUD_heat_capacity:
+      _pltype: parameter
+      _type: double
+      _do:
+        - copy MAMBA/$CRUD_heat_capacity
+      _content:
+
+    tke_scale:
+      _pltype: parameter
+      _type: double
+      _do:
+        - copy MAMBA/$tke_scale
+      _content:
+
+    src_mult_A:
+      _pltype: parameter
+      _type: double
+      _do:
+        - copy MAMBA/$src_mult_A
+      _content:
+
+    src_mult_E:
+      _pltype: parameter
+      _type: double
+      _do:
+        - copy MAMBA/$src_mult_E
+      _content:

@@ -179,6 +179,13 @@ CORE:
         - coremapmap CORE/$size,CORE/@core_shape,CORE/@rotate_map,CORE/$bc_sym,expand=>0,ignore=>0
       _content:
 
+    insert_rotate_map:
+      _pltype: array
+      _type: int
+      _do:
+        - coremapmap CORE/$size,CORE/@core_shape,CORE/@insert_rotate_map,CORE/$bc_sym,expand=>0,ignore=>0
+      _content:
+
     insert_map:
       _pltype: array
       _type: string
