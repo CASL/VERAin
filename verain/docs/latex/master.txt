@@ -65,7 +65,13 @@
   * bank_pos Steps withdrawn for each bank in list
   * bank_labels List of control rod banks to position.  Labels correspond to crd_map in CORE block.
   feedback
-  * feedback Flag to turn on and off T/H feedback ("on" or "off").  Currently not used, feedback is controlled by executable that is run.
+  * feedback Flag to turn on and off T/H feedback ("on" or "off").
+  fuel_performance
+  * fuel_performance Flag to turn on and off Bison fuel performance coupling ("on", "off", "inline").  'on' is used for fully-coupled Tiamat simulations and 'inline' for one-way Tiamat.  
+  crud
+  * crud Flag to turn on and off MAMBA CRUD deposition coupling ("on" or "off").
+  excore_transport
+  * excore_transport Flag to turn on and off Shift excore transport coupling ("on" or "off").
   thexp
   * thexp Perform thermal expansion on XML with ThermalExpandXML. Default T.
   thexp_tfuel

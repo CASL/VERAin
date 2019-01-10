@@ -35,6 +35,7 @@ sub new
 	keyword => $arg{keyword} || croak("missing keyword"),
 	keytree => $arg{keytree} || croak("missing keytree"),
 	out_db  => $arg{out_db}  || croak("missing out_db"),
+	block   => $arg{block}   || croak("missing block"),
 
 	ctext   => exists($arg{ctext})   ? $arg{ctext}  : undef,
 	tlist   => exists($arg{tlist})   ? $arg{tlist}  : undef,
@@ -97,6 +98,7 @@ sub defaults
     my $dtx =$self->ctext();
 
     if($defpath){ # TODO: logic for defval
+
 	my $keyword=$self->keyword();
 	my $id=$self->id();
 
@@ -106,8 +108,23 @@ sub defaults
 	$self->defval($defval) if(defined($defval));
 
 	my @path=parse_path($defpath);
+	my $blk=$self->block();
+	my $blk_name=$blk->name();
+	
 	my $SOURCE_DB=$self->out_db();
+	if($path[0] eq $blk_name){
+	    shift @path;
+	    $SOURCE_DB=$blk->keytree();
+	}
+	else{
+	    $SOURCE_DB=$self->out_db();
+	}
+
 	my $t=key_defined($SOURCE_DB,@path);
+
+	$rr=ref($t);
+	$rb=ref($SOURCE_DB);
+#	print "Found defpath: $defpath (@path) $keyword $id: $defpath, rb: $rb, rr: $rr\n";
 
 	# TODO: hardwired for array
 	return undef if ref $t ne 'ARRAY';
@@ -119,11 +136,16 @@ sub defaults
 	my $done;
 	my @opta;
 	my @optb;
+
+#	print "Passed check\n";
+	
 	for ($keyword) {
+
 	    if (/^mat$/) { # Andrew's logic for mats, will need to be
 			   # moved to separate sub if other commands
 			   # are to have have options
 
+		
 		if($self->argexists('_options')){
 		    @opta=extract_options(\@a); # save options of a, remove them from a
 		    @optb=extract_options(\@b); # save options of b, remove them from b
@@ -298,6 +320,17 @@ sub out_db
     return $self->{out_db};
 }
 
+sub block
+{
+    my ($self, $newval) = @_;
+    my $myfun=(caller(0))[3];
+
+    croak "Too many arguments to $myfun" if @_ > 2;
+    $self->{block}= $newval if @_ > 1;
+    croak "$myfun undefined" unless defined($self->{block});
+    return $self->{block};
+}
+
 sub defpath
 {
     my ($self, $newval) = @_;
@@ -399,6 +432,7 @@ sub keyin{
 
 #   Run checks and keyon data
     $result=0;
+#    print "parse: $parse\n";
     if($parse eq 'scalar'){
 	# Also works with named scalar string that is not allowed yet
 	if($type eq 'string'){
@@ -412,10 +446,12 @@ sub keyin{
 	}
 	$result=&apply_evals(\$dtxs,\@sr,\$errmsg,$self);
 	key_on($templ,$CONTENT_LABEL,$dtxs) if $result;
+#	print "keyon scalar $CONTENT_LABEL,$dtxs\n";
     }
     elsif($parse eq 'list'){
 	$result=&apply_evals(\@a0,\@sr,\$errmsg,$self);
 	key_on($templ,$CONTENT_LABEL,[@a]) if $result;
+#	print "keyon list $CONTENT_LABEL, [$#a]: @a\n";
     }
     else{
 	croak "$myfun invalid parse type";
@@ -451,7 +487,7 @@ sub apply_evals {
 
     my $keyword=$command->keyword();
     my $id=$command->id();
-    my $out_db=$command->out_db();
+#    my $out_db=$command->out_db();
 
     foreach $ieval (@{$eval_ref}){
 	$$errmsg_ref="$ieval";
@@ -481,7 +517,7 @@ sub apply_evals {
 	}
 	@cargs=map { "\"$_\"" } @cargs;
 	my $exa=join(',',@cargs);
-	print STDERR "--------- check $dtype: [$ieval]\n" if get_verbose();;
+	print "--------- check $dtype: [$ieval]\n" if get_verbose();;
 	$cmdc =~ s/\(\)/\($exa\)/g;
 	$cmdc =~ s/\[\]/\[$exa\]/g;
 
@@ -489,12 +525,12 @@ sub apply_evals {
 	$cmdc =~ s/\(_id\)/$id/g if defined($id);
 
 	my $expr="$cmdc";
-	print STDERR "--------------- $expr\n" if get_verbose();;
+	print "--------------- $expr\n" if get_verbose();;
 	my $result=eval $expr || 0;
-	print STDERR "--------------- result $result\n" if get_verbose();;
+	print  "--------------- result $result\n" if get_verbose();;
 
 	if(!$result){
-	    print STDERR "------------------- error: $$errmsg_ref\n" if get_verbose();;
+	    print "------------------- error: $$errmsg_ref\n" if get_verbose();;
 	    return 0;
 	}
 

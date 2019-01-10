@@ -230,6 +230,12 @@ ASSEMBLIES:
                     - copy %ASSEMBLY/$(_path)/%grid/$(_lgrid)^/$blockage
                   _content:
 
+                gridmap:
+                  _pltype: parameter
+                  _type: string
+                  _do:
+                    - copy %ASSEMBLY/$(_path)/%grid/$(_lgrid)^/$gridmap
+                  _content:
 
                 
         gapw:

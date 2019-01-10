@@ -21,6 +21,9 @@ use Text::Balanced qw (
                        );
 use List::Maker 'range';
 use Text::ParseWords;
+use Cwd 'abs_path';
+use File::Basename;
+use File::Spec::Functions qw(:ALL);
 
 use Exporter;
 @ISA = ('Exporter');
@@ -122,30 +125,48 @@ sub read_ascii {
     my ($cname,$ctext);
     my ($name,$res);
 
-    my $incl = 0;
+    my $incl   = 0;
+    my $follow = undef;
+    my $ispath = undef;
+    my $fname  = undef;
+    my $fdir   = undef;
     while ( my ($key, $value) = each %userparam )        # to avoid perl bug of $$
     {
-	$key eq 'incl'   && do {$incl=$value;};     # include flag
+	$key eq 'incl'   && do {$incl  =$value;};     # include flag
+	$key eq 'follow' && do {$follow=$value;};     # follow path
+	$key eq 'ispath' && do {$ispath=$value;};     # path defined in include command
+    }
+
+    ($fvolume, $fdir, $fname) = splitpath($filename);
+    $fdir = canonpath( $fdir );   # clean up path
+
+    if($follow){
+	unless(file_name_is_absolute( $fdir )){
+	    $fdir = catdir( ($follow, $fdir) );
+	}
+	$filename = catfile( ( $fdir ), $fname );
     }
 
     my($IFILE); 
     if (-f $filename){
-      print STDERR "Opennng file with name: $filename\n" if get_verbose();
+      print "Opening file with name: $filename\n" if get_verbose();
       open $IFILE, $filename or ( &print_input_log() &&  die "Cannot open file $filename\n");
     }
-    else{
-      use Cwd 'abs_path';
-      use File::Basename;
-      my $pscript=abs_path($0);
+    elsif($ispath){  # path is defined in the include command
+	die "Cannot open file $filename\n";
+    }
+    else{  # try init if path not defined
+      my $pscript   = abs_path($0);
       my $directory = dirname($pscript);
-      my $filename2="$directory/Init/$filename";
+      my $filename2 = catfile(("$directory/Init"), $fname);
       if (-f $filename2){
-        print STDERR "Opennng file with path: $filename2\n" if get_verbose();
-        open $IFILE, $filename2 or ( &print_input_log() && die "Cannot open file $filename2\n" );
+	  print "Opening file with path: $filename2\n" if get_verbose();
+	  open $IFILE, $filename2 or ( &print_input_log() && die "Cannot open file $filename2\n" );
+	  $filename=$filename2;
       }
       else{
-        &print_input_log();
-        die "$filename2 does not exist\n";
+	  &print_input_log();
+	  die "$filename2 does not exist\n";
       }
     }
 
@@ -174,9 +195,30 @@ sub read_ascii {
 	      else{
 		  &print_input_log() && die "Invalid include syntax.\n";
 	      }
-	      print STDERR "[$filename:$.] Include file: $ifile\n" if get_verbose();
-	      read_ascii($ifile,$INPUT_DB, $MAIN_DB, 
-			 'incl'=>1);
+	      print "[$filename:$.] Include file: $ifile\n" if get_verbose();
+
+	      my @INCOPT=('incl' => 1);
+	      if($follow){
+		  ($fvolume, $fdir, $ifile) = splitpath($ifile);
+		  if($fdir){
+		      print "$ifile has path.\n" if get_verbose();
+		      push @INCOPT, ('ispath' => 1);
+		  }
+		  else{
+		      print "$ifile has no path.\n" if get_verbose();
+		  }
+
+		  $fdir = canonpath( $fdir );   # clean up path
+		  if(file_name_is_absolute( $fdir )){
+		      $followinc = $fdir;
+		  }
+		  else{
+		      $followinc = catdir( ($follow, $fdir) );
+		  }
+		  push @INCOPT, ('follow' => $followinc);
+	      }
+
+	      read_ascii($ifile,$INPUT_DB, $MAIN_DB, @INCOPT);
 	      next;
 	  };
 
@@ -187,21 +229,21 @@ sub read_ascii {
 		  die "Error on block definition: $_.\n" if $rest;
 		  if($block){        # old block that needs to be put into the main tree
 		      if($command){  # old command to complete
-			  print STDERR "[$filename:$.] End command on new block: ", $command->keyword(), ": ", $command->ctext(), "\n"  if get_verbose();
+			  print "[$filename:$.] End command on new block: ", $command->keyword(), ": ", $command->ctext(), "\n"  if get_verbose();
 			  $command->keyin();
 			  $command=undef;
 		      }
-		      print STDERR "[$filename:$.] End block: ", $block->name(), "\n"  if get_verbose();
+		      print "[$filename:$.] End block: ", $block->name(), "\n"  if get_verbose();
 		      $block->keyon();
 		      $block=undef;
 		  }
-		  print STDERR "[$filename:$.] New block: $name\n"  if get_verbose();
+		  print "[$filename:$.] New block: $name\n"  if get_verbose();
 		  die "[$filename:$.] Bad block name.\n" unless key_exists($INPUT_DB,$name);
 		  $block=REACTORBlock->new( name=>$name, out_db=>$MAIN_DB );
 		  $block->inp_db($INPUT_DB);  # INPUT_DB is root of Directory.yml
 
 		  if(exists($REACTOR::BLOCKINIT{$name})){
-		      print STDERR "Initialize block $name with file $BLOCKINIT{$name}\n" if get_verbose();
+		      print  "Initialize block $name with file $BLOCKINIT{$name}\n" if get_verbose();
 		      read_ascii($REACTOR::BLOCKINIT{$name}, $INPUT_DB, $MAIN_DB, 'incl'=>1);
 		  }
 
@@ -214,12 +256,15 @@ sub read_ascii {
 		  $ctext=($+[2]-$-[2]) ? $2 : '';
 		  $res=$block->is_command($cname) || 0;
 		  die "[$filename:$.] invalid keyword $cname in block ", $block->name(), "\n" unless $res;
-		  print STDERR "[$filename:$.] New command: $cname $ctext\n"  if get_verbose();
+		  print  "[$filename:$.] New command: $cname $ctext\n"  if get_verbose();
 		  $cname=$block->command_name($cname);
-		  $command=REACTORCommand->new(keyword=>$cname,keytree=>$res,out_db=>$MAIN_DB,
+		  $command=REACTORCommand->new(keyword=>$cname,
+					       keytree=>$res,
+					       out_db=>$MAIN_DB,
+					       block=>$block,
 					       ctext=>$ctext,file=>$filename,line=>$.);
 		  unless($command->is_multiline()){
-		      print STDERR "[$filename:$.] End command on single line: ", $command->keyword(), ": ", $command->ctext(), "\n"  if get_verbose();
+		      print  "[$filename:$.] End command on single line: ", $command->keyword(), ": ", $command->ctext(), "\n"  if get_verbose();
 		      $command->keyin();
 		      $command=undef;
 		  }
@@ -233,16 +278,19 @@ sub read_ascii {
 		  $res=$block->is_command($cname) || 0;
 
 		  if($res){   # complete old command
-		      print STDERR "[$filename:$.] End command on new command: ", $command->keyword(), ": ", $command->ctext(), "\n"  if get_verbose();
+		      print  "[$filename:$.] End command on new command: ", $command->keyword(), ": ", $command->ctext(), "\n"  if get_verbose();
 		      $command->keyin();
 		      $command=undef;
 
-		      print STDERR "[$filename:$.] New command: $cname $ctext\n"  if get_verbose();
+		      print  "[$filename:$.] New command: $cname $ctext\n"  if get_verbose();
 		      $cname=$block->command_name($cname);
-		      $command=REACTORCommand->new(keyword=>$cname,keytree=>$res,out_db=>$MAIN_DB,
+		      $command=REACTORCommand->new(keyword=>$cname,
+						   keytree=>$res,
+						   out_db=>$MAIN_DB,
+						   block=>$block,
 						   ctext=>$ctext,file=>$filename,line=>$.);
 		      unless($command->is_multiline()){
-			  print STDERR "[$filename:$.] End command: ", $command->keyword(), ": ", $command->ctext(), "\n"  if get_verbose();
+			  print  "[$filename:$.] End command: ", $command->keyword(), ": ", $command->ctext(), "\n"  if get_verbose();
 			  $command->keyin();
 			  $command=undef;
 		      }
@@ -255,14 +303,14 @@ sub read_ascii {
   }
     # file ended, check for uncompleted commands
     if($command){
-	print STDERR "[$filename:$.] End command on file exit: ", $command->keyword(), ": ", $command->ctext(), "\n"  if get_verbose();
+	print  "[$filename:$.] End command on file exit: ", $command->keyword(), ": ", $command->ctext(), "\n"  if get_verbose();
 	$command->keyin();
 	$command=undef;
     }
 
     # file ended, close last block if main file
     if($block && $incl == 0){
-	print STDERR "[$filename:$.] End block on end of input: ", $block->name(), "\n"  if get_verbose();
+	print  "[$filename:$.] End block on end of input: ", $block->name(), "\n"  if get_verbose();
 	$block->keyon();
 	$block=undef;
     }
@@ -270,5 +318,6 @@ sub read_ascii {
     return 1;
 }
     
+ 
 
 1;

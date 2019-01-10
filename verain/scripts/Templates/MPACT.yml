@@ -4,6 +4,20 @@ MPACT:
     - setdb MAIN_DB
   _content:
 
+    transport_method:
+      _pltype: parameter
+      _type: string
+      _do:
+        - copy MPACT/$transport_method
+      _content:
+
+    sn_numcart:
+      _pltype: parameter
+      _type: int
+      _do:
+        - copy MPACT/$sn_numcart
+      _content:
+
     ray_spacing:
       _pltype: parameter
       _type: double
@@ -549,6 +563,20 @@ MPACT:
             - copy MPACT/$dep_substep
           _content:
 
+        dep_substep_pred:
+          _pltype: parameter
+          _type: int
+          _do:
+            - copy MPACT/$dep_substep_pred
+          _content:
+
+        dep_substep_corr:
+          _pltype: parameter
+          _type: int
+          _do:
+            - copy MPACT/$dep_substep_corr
+          _content:
+
         dep_kernel:
           _pltype: parameter
           _type: string
@@ -763,6 +791,13 @@ MPACT:
             - copy MPACT/$cmfd
           _content:
 
+        multilevel:
+          _pltype: parameter
+          _type: string
+          _do:
+            - copy MPACT/$multilevel
+          _content:
+
         prolongation:
           _pltype: parameter
           _type: string
@@ -789,6 +824,13 @@ MPACT:
           _type: string
           _do:
             - copy MPACT/$petsc_linear_solver_method
+          _content:
+
+        petsc_linear_solver_method_1G:
+          _pltype: parameter
+          _type: string
+          _do:
+            - copy MPACT/$petsc_linear_solver_method_1G
           _content:
 
         preconditioner:
@@ -847,18 +889,39 @@ MPACT:
             - copy MPACT/$cmfd_relaxation
           _content:
 
-        ktol_1G:
+        cmfd_dhat_relaxation:
           _pltype: parameter
-          _type: int
+          _type: double
           _do:
-            - copy MPACT/$ktol_1G
+            - copy MPACT/$cmfd_dhat_relaxation
           _content:
 
-        flxtol_1G:
+        cmfd_ktol:
           _pltype: parameter
-          _type: int
+          _type: double
           _do:
-            - copy MPACT/$flxtol_1G
+            - copy MPACT/$cmfd_ktol
+          _content:
+
+        cmfd_rtol:
+          _pltype: parameter
+          _type: double
+          _do:
+            - copy MPACT/$cmfd_rtol
+          _content:
+
+        cmfd_ktol_1G:
+          _pltype: parameter
+          _type: double
+          _do:
+            - copy MPACT/$cmfd_ktol_1G
+          _content:
+
+        cmfd_flxtol_1G:
+          _pltype: parameter
+          _type: double
+          _do:
+            - copy MPACT/$cmfd_flxtol_1G
           _content:
 
         max_1G_eig_its:
@@ -887,6 +950,20 @@ MPACT:
           _type: int
           _do:
             - copy MPACT/$cmfd_num_inners_1G
+          _content:
+
+        linear_solver_tol:
+          _pltype: parameter
+          _type: double
+          _do:
+            - copy MPACT/$linear_solver_tol
+          _content:
+
+        linear_solver_tol_1G:
+          _pltype: parameter
+          _type: double
+          _do:
+            - copy MPACT/$linear_solver_tol_1G
           _content:
 
         up_scatter:
@@ -924,12 +1001,125 @@ MPACT:
             - copy MPACT/$subplane_max
           _content:
 
+        subgrid_spacers:
+          _pltype: parameter
+          _type: bool 
+          _do:
+            - copy MPACT/$subgrid_spacers
+          _content:
+
         num_subplanes:
           _pltype: parameter
           _type: int
           _do:
             - copy MPACT/$num_subplanes
           _content:
+
+        multigrid:
+          _pltype: list
+          _content:
+
+            cg_solver:
+              _pltype: parameter
+              _type: string
+              _do:
+                - copy MPACT/$multigrid_cg_solver
+              _content:
+
+            cg_solver_its:
+              _pltype: parameter
+              _type: int
+              _do:
+                - copy MPACT/$multigrid_cg_solver_its
+              _content:
+
+            cg_tol:
+              _pltype: parameter
+              _type: double
+              _do:
+                - copy MPACT/$multigrid_cg_tol
+              _content:
+
+            smoother:
+              _pltype: parameter
+              _type: string
+              _do:
+                - copy MPACT/$multigrid_smoother
+              _content:
+
+            num_smooth:
+              _pltype: parameter
+              _type: int
+              _do:
+                - copy MPACT/$multigrid_num_smooth
+              _content:
+
+            log_flag:
+              _pltype: parameter
+              _type: string
+              _do:
+                - copy MPACT/$multigrid_log_flag
+              _content:
+
+            precond_flag:
+              _pltype: parameter
+              _type: string
+              _do:
+                - copy MPACT/$multigrid_precond_flag
+              _content:
+
+        multigrid_1G:
+          _pltype: list
+          _content:
+
+            cg_solver:
+              _pltype: parameter
+              _type: string
+              _do:
+                - copy MPACT/$multigrid_cg_solver_1G
+              _content:
+
+            cg_solver_its:
+              _pltype: parameter
+              _type: int
+              _do:
+                - copy MPACT/$multigrid_cg_solver_its_1G
+              _content:
+
+            cg_tol:
+              _pltype: parameter
+              _type: double
+              _do:
+                - copy MPACT/$multigrid_cg_tol_1G
+              _content:
+
+            smoother:
+              _pltype: parameter
+              _type: string
+              _do:
+                - copy MPACT/$multigrid_smoother_1G
+              _content:
+
+            num_smooth:
+              _pltype: parameter
+              _type: int
+              _do:
+                - copy MPACT/$multigrid_num_smooth_1G
+              _content:
+
+            log_flag:
+              _pltype: parameter
+              _type: string
+              _do:
+                - copy MPACT/$multigrid_log_flag_1G
+              _content:
+
+            precond_flag:
+              _pltype: parameter
+              _type: string
+              _do:
+                - copy MPACT/$multigrid_precond_flag_1G
+              _content:
 
     2d1d:
       _pltype: list
@@ -954,6 +1144,41 @@ MPACT:
           _type: string
           _do:
             - copy MPACT/$nodal_method
+          _content:
+
+        sntype:
+          _pltype: parameter
+          _type: string
+          _do:
+            - copy MPACT/$sntype
+          _content:
+
+        rtltype:
+          _pltype: parameter
+          _type: string
+          _do:
+            - copy MPACT/$rtltype
+          _content:
+
+        atltype:
+          _pltype: parameter
+          _type: string
+          _do:
+            - copy MPACT/$atltype
+          _content:
+
+        homtype:
+          _pltype: parameter
+          _type: string
+          _do:
+            - copy MPACT/$homtype
+          _content:
+
+        rtlmom:
+          _pltype: parameter
+          _type: int
+          _do:
+            - copy MPACT/$rtlmom
           _content:
 
         under_relax:
@@ -1009,6 +1234,13 @@ MPACT:
             - copy MPACT/$xs_shielder
           _content:
 
+        spatial_essm:
+          _pltype: parameter
+          _type: string
+          _do:
+            - copy MPACT/$spatial_essm
+          _content:
+
         quasi_1D:
           _pltype: parameter
           _type: string
@@ -1021,6 +1253,13 @@ MPACT:
           _type: string
           _do:
             - copy MPACT/$res_up_scatter
+          _content:
+
+        subgr_temp_average:
+          _pltype: parameter
+          _type: string
+          _do:
+            - copy MPACT/$subgr_temp_average
           _content:
 
         mats_file:
@@ -1131,6 +1370,12 @@ MPACT:
             - copy MPACT/$tml
           _content:
 
+        tmllevel:
+          _pltype: array
+          _type: int
+          _do:
+            - copy MPACT/$tmllevel
+
         prompt:
           _pltype: parameter
           _type: bool
@@ -1145,11 +1390,53 @@ MPACT:
             - copy MPACT/$accel
           _content:
 
+        1gaccel:
+          _pltype: parameter
+          _type: bool
+          _do:
+            - copy MPACT/$1gaccel
+          _content:
+
+        1gacceltr:
+          _pltype: parameter
+          _type: bool
+          _do:
+            - copy MPACT/$1gacceltr
+          _content:
+
+        tml1gmg:
+          _pltype: parameter
+          _type: bool
+          _do:
+            - copy MPACT/$tml1gmg
+          _content:
+
         delayenergy:
           _pltype: parameter
           _type: bool
           _do:
             - copy MPACT/$delayenergy
+          _content:
+
+        kinetics_data:
+          _pltype: parameter
+          _type: string
+          _do:
+            - copy MPACT/$kinetics_data
+          _content:
+
+        kinetics_lambda:
+          _pltype: parameter
+          _type: string
+          _do:
+            - copy MPACT/$kinetics_lambda
+          _content:
+
+        kinetics_otfbeta:
+          _pltype: parameter
+          _type: bool
+          _do:
+            - copy MPACT/$kinetics_otfbeta
           _content:
 
         rx_components:

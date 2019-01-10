@@ -1,0 +1,32 @@
+RUN:
+  _pltype: list
+  _do:
+    - setdb MAIN_DB
+  _content:
+    email:
+      _pltype: parameter
+      _type: string
+      _do:
+        - copy RUN/$email
+      _content:
+
+    pmem:
+      _pltype: parameter
+      _type: double
+      _do:
+        - copy RUN/$pmem
+      _content:
+
+    ppn:
+      _pltype: parameter
+      _type: int
+      _do:
+        - copy RUN/$ppn
+      _content:
+
+    walltime:
+      _pltype: parameter
+      _type: double
+      _do:
+        - copy RUN/$walltime
+      _content:

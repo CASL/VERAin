@@ -75,6 +75,20 @@ STATES:
             - copy %STATE/$(_loop)/$rlx_xesm
           _content:
 
+        pred_order:
+          _pltype: parameter
+          _type: int
+          _do:
+            - copy %STATE/$(_loop)/$pred_order
+          _content:
+
+        corr_order:
+          _pltype: parameter
+          _type: int
+          _do:
+            - copy %STATE/$(_loop)/$corr_order
+          _content:
+
         bank_labels:
           _pltype: array
           _type: string
@@ -84,7 +98,7 @@ STATES:
 
         bank_pos:
           _pltype: array
-          _type: int
+          _type: double
           _do:
             - copyarray %STATE/$(_loop)/@rodbank,select=>odd
           _content:
@@ -187,6 +201,27 @@ STATES:
             - copy %STATE/$(_loop)/$feedback
           _content:
 
+        fuel_performance:
+          _pltype: parameter
+          _type: string
+          _do:
+            - copy %STATE/$(_loop)/$fuel_performance
+          _content:
+
+        crud:
+          _pltype: parameter
+          _type: string
+          _do:
+            - copy %STATE/$(_loop)/$crud
+          _content:
+
+        excore_transport:
+          _pltype: parameter
+          _type: string
+          _do:
+            - copy %STATE/$(_loop)/$excore_transport
+          _content:
+
         thexp:
           _pltype: parameter
           _type: string
@@ -215,6 +250,41 @@ STATES:
             - tocelsius %STATE/$(_loop)/@thexp_tmod,apply=>($_[0]+273.15)
           _content:
 
+        expand3D:
+          _pltype: parameter
+          _type: bool
+          _do:
+            - copy %STATE/$(_loop)/$expand3D
+          _content:
+
+        thexp_outfile:
+          _pltype: parameter
+          _type: string
+          _do:
+            - copy %STATE/$(_loop)/$thexp_outfile
+          _content:
+
+        thexp_info:
+          _pltype: parameter
+          _type: bool
+          _do:
+            - copy %STATE/$(_loop)/$thexp_info
+          _content:
+
+        apitch_tec:
+          _pltype: parameter
+          _type: double
+          _do:
+            - copy %STATE/$(_loop)/$apitch_tec
+          _content:
+
+        ppitch_tec:
+          _pltype: parameter
+          _type: double
+          _do:
+            - copy %STATE/$(_loop)/$ppitch_tec
+          _content:
+
         sym:
           _pltype: parameter
           _type: string
@@ -227,6 +297,139 @@ STATES:
           _type: double
           _do:
             - copy %STATE/$(_loop)/$kmul_beta
+          _content:
+
+        kmul_doppler:
+          _pltype: parameter
+          _type: double
+          _do:
+            - copy %STATE/$(_loop)/$kmul_doppler
+          _content:
+
+        kmul_modtemp:
+          _pltype: parameter
+          _type: double
+          _do:
+            - copy %STATE/$(_loop)/$kmul_modtemp
+          _content:
+
+        kmul_crw:
+          _pltype: parameter
+          _type: double
+          _do:
+            - copy %STATE/$(_loop)/$kmul_crw
+          _content:
+
+        bank_wd_name:
+          _pltype: parameter
+          _type: string
+          _do:
+            - copy %STATE/$(_loop)/@bank_wd:0
+          _content:
+
+        bank_wd_times:
+          _pltype: array
+          _type: double
+          _do:
+            - copyarray %STATE/$(_loop)/@bank_wd,start=>1,stride=>2
+          _content:
+
+        bank_wd_steps:
+          _pltype: array
+          _type: int
+          _do:
+            - copyarray %STATE/$(_loop)/@bank_wd,start=>2,stride=>2
+          _content:
+
+        scram_type:
+          _pltype: parameter
+          _type: string
+          _do:
+            - copy %STATE/$(_loop)/@scram_type:0
+          _content:
+
+        scram_rates:
+          _pltype: array
+          _type: double
+          _do:
+            - copyarray %STATE/$(_loop)/@scram_type,start=>1,stride=>2
+          _content:
+
+        scram_times:
+          _pltype: array
+          _type: double
+          _do:
+            - copyarray %STATE/$(_loop)/@scram_type,start=>2,stride=>2
+          _content:
+
+        scram_lock:
+          _pltype: array
+          _type: string
+          _do:
+            - copyarray %STATE/$(_loop)/@scram_lock
+          _content:
+
+        trip_time:
+          _pltype: parameter
+          _type: double
+          _do:
+            - copy %STATE/$(_loop)/@trip_time
+          _content:
+
+        trip_power_high:
+          _pltype: parameter
+          _type: double
+          _do:
+            - copy %STATE/$(_loop)/@trip_power:0
+          _content:
+
+        trip_power_low:
+          _pltype: parameter
+          _type: double
+          _do:
+            - copy %STATE/$(_loop)/@trip_power:1
+          _content:
+
+        trip_power_delay:
+          _pltype: parameter
+          _type: double
+          _do:
+            - copy %STATE/$(_loop)/@trip_power:2
+          _content:
+
+        trip_power_detectors:
+          _pltype: parameter
+          _type: double
+          _do:
+            - copy %STATE/$(_loop)/@trip_power:3
+          _content:
+
+        trip_rate_high:
+          _pltype: parameter
+          _type: double
+          _do:
+            - copy %STATE/$(_loop)/@trip_rate:0
+          _content:
+
+        trip_rate_low:
+          _pltype: parameter
+          _type: double
+          _do:
+            - copy %STATE/$(_loop)/@trip_rate:1
+          _content:
+
+        trip_rate_delay:
+          _pltype: parameter
+          _type: double
+          _do:
+            - copy %STATE/$(_loop)/@trip_rate:2
+          _content:
+
+        trip_rate_detectors:
+          _pltype: parameter
+          _type: double
+          _do:
+            - copy %STATE/$(_loop)/@trip_rate:3
           _content:
 
         reset_sol:
@@ -299,6 +502,27 @@ STATES:
             - coremapmap CORE/$size,CORE/@core_shape,%STATE/$(_loop)/@insert_shuffle_label,CORE/$bc_sym,expand=>0,ignore=>'-'
           _content:
 
+        shuffle_homog:
+          _pltype: parameter
+          _type: string
+          _do:
+            - copy %STATE/$(_loop)/$shuffle_homog
+          _content:
+
+        crud_cleaning:
+          _pltype: array
+          _type: string
+          _do:
+            - coremapmap CORE/$size,CORE/@core_shape,%STATE/$(_loop)/@crud_cleaning,CORE/$bc_sym,expand=>0,ignore=>'-'
+          _content:
+
+        crud_removal:
+          _pltype: parameter
+          _type: double
+          _do:
+            - copy %STATE/$(_loop)/$crud_removal
+          _content:
+
         tinlet_dist:
           _pltype: array
           _type: double
@@ -355,3 +579,44 @@ STATES:
             - copy %STATE/$(_loop)/$cool_chem:4
           _content:
 
+        vh2:
+          _pltype: parameter
+          _type: double
+          _do:
+            - copy %STATE/$(_loop)/$vh2
+          _content:
+
+        ni_s:
+          _pltype: parameter
+          _type: double
+          _do:
+            - copy %STATE/$(_loop)/$ni_s
+          _content:
+
+        ni_p:
+          _pltype: parameter
+          _type: double
+          _do:
+            - copy %STATE/$(_loop)/$ni_p
+          _content:
+
+        cleanup_flow:
+          _pltype: parameter
+          _type: double
+          _do:
+            - copy %STATE/$(_loop)/$cleanup_flow
+          _content:
+
+        temp_mult:
+          _pltype: parameter
+          _type: double
+          _do:
+            - copy %STATE/$(_loop)/@temp_pert:0
+          _content:
+
+        temp_adder:
+          _pltype: parameter
+          _type: double
+          _do:
+            - copy %STATE/$(_loop)/@temp_pert:1
+          _content:

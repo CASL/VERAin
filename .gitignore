@@ -1,0 +1,16 @@
+# Mac garbage
+.DS_Store
+*.dSYM
+
+# vim garbage
+*~
+.*.swp
+.*.swo
+
+
+.libs
+*.la
+*.lo
+*.d
+*.o
+*.a

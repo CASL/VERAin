@@ -1,0 +1,123 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Command to abstract the creation of card/parameter description tables in
+% computer code user manuals.
+%
+% Arguments are as follows:
+%
+%   name             = Input identifier (e.g., card or parameter name)
+%   type             = Input datum/data format (e.g., integer, floating point real number)
+%   need             = Required or optional
+%   unitsdefault     = Default unit (leave blank if N/A)
+%   unitsother       = Other available units (leave blank if none)
+%   valuedefault     = Default value (leave blank if N/A)
+%   valuesapplicable = Applicable values (leave blank if none)
+%   limitations      = Limitations on usage
+%   description      = Technical description of input
+%   notes            = Notes on usage, best practices, recommendations
+%
+% If an argument is not specified, it will default to the highlighted text "NONE
+% SPECIFIED".  Therefore, all arguments need to be passed in and specified (even
+% if that means assigning them to {}).
+%
+% This is needed for encapsulating the change of the catcode of @ so it can be
+% used freely.
+
+% Create a conditional to check for whether fragile, unexpanded, arguments are
+% indeed null.
+\newcommand{\ifnotext}[3]{%
+  \setbox0=\vbox{#1}%
+  \ifdim\wd0=0pt %
+    {#2}% if #1 is empty
+  \else%
+    \ifdim0pt=\dimexpr\ht0+\dp0\relax
+      {#2}% if #1 is empty
+    \else
+      {#3}% if #1 is not empty
+    \fi
+  \fi%
+}
+
+\makeatletter
+
+% Define arguments.
+\define@cmdkey [DOC] {vals} {name}             {}
+\define@cmdkey [DOC] {vals} {type}             {}
+\define@cmdkey [DOC] {vals} {need}             {}
+\define@cmdkey [DOC] {vals} {unitsdefault}     {}
+\define@cmdkey [DOC] {vals} {unitsother}       {}
+\define@cmdkey [DOC] {vals} {valuedefault}     {}
+\define@cmdkey [DOC] {vals} {valuesapplicable} {}
+\define@cmdkey [DOC] {vals} {limitations}      {}
+\define@cmdkey [DOC] {vals} {description}      {}
+\define@cmdkey [DOC] {vals} {notes}            {}
+
+% Set default argument values.
+\presetkeys    [DOC] {vals} {name             ={\hl{NONE SPECIFIED}},
+                             type             ={\hl{NONE SPECIFIED}},
+                             need             ={\hl{NONE SPECIFIED}},
+                             unitsdefault     ={\hl{NONE SPECIFIED}},
+                             unitsother       ={\hl{NONE SPECIFIED}},
+                             valuedefault     ={\hl{NONE SPECIFIED}},
+                             valuesapplicable ={\hl{NONE SPECIFIED}},
+                             limitations      ={\hl{NONE SPECIFIED}},
+                             description      ={\hl{NONE SPECIFIED}},
+                             notes            ={\hl{NONE SPECIFIED}},}{}
+
+% Define table command.
+\newcommand{\VERAInputTable}[1]{
+  % Set the keys from the single parameter input.
+  \setkeys[DOC]{vals}{#1}
+
+  % Actual table code.
+  \tabulinesep=2pt
+  \begin{longtabu} to 1.000\linewidth {|X[3,l]|X[6,c]|X[1,r]|}
+% \caption{}\\
+    \hline
+      \texttt{\cmdDOC@vals@name} & \cmdDOC@vals@type & \cmdDOC@vals@need \\
+    \endfirsthead
+
+      \multicolumn{3}{l}{\texttt{\cmdDOC@vals@name}, continued...} \\
+    \endhead
+
+      \multicolumn{3}{r}{continued on next page...} \\
+    \endfoot
+
+    \hline
+    \endlastfoot
+
+    \hline
+      \multicolumn{3}{|p{\dimexpr\linewidth-2\tabcolsep\relax}|}{Units: %
+         \ifthenelse{\equal{\cmdDOC@vals@unitsdefault}{}}%
+           {N/A}%
+           {\cmdDOC@vals@unitsdefault\ (default)}%
+         \ifnotext{\unexpanded{\cmdDOC@vals@unitsother}}%
+           {\cmdDOC@vals@unitsother}%
+           {, \cmdDOC@vals@unitsother}} \\
+    \hline
+      \multicolumn{3}{|p{\dimexpr\linewidth-2\tabcolsep\relax}|}{Applicable Value(s): %
+         \ifthenelse{\equal{\cmdDOC@vals@valuedefault}{}}%
+           {}%
+           {\cmdDOC@vals@valuedefault\ (default)}%
+         \ifnotext{\unexpanded{\cmdDOC@vals@valuesapplicable}}%
+           {\cmdDOC@vals@valuesapplicable}%
+           {, \cmdDOC@vals@valuesapplicable}} \\
+    \hline
+      \multicolumn{3}{|p{\dimexpr\linewidth-2\tabcolsep\relax}|}{Limitation(s): %
+         \ifnotext{\unexpanded{\cmdDOC@vals@limitations}}%
+           {None}%
+           {\cmdDOC@vals@limitations}} \\
+    \hline
+      \multicolumn{3}{|p{\dimexpr\linewidth-2\tabcolsep\relax}|}{Description: \cmdDOC@vals@description} \\
+    \hline
+      \multicolumn{3}{|p{\dimexpr\linewidth-2\tabcolsep\relax}|}{Notes: %
+         \ifnotext{\unexpanded{\cmdDOC@vals@notes}}%
+           {None}%
+           {\cmdDOC@vals@notes}} \\
+  \end{longtabu}
+}
+
+% Change again the @ catcode to normal.
+\makeatother
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ 

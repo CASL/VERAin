@@ -24,11 +24,11 @@ SHIFT:
         - copy SHIFT/$mode
       _content:
 
-    celib_file:
+    ce_lib_path:
       _pltype: parameter
       _type: string
       _do:
-        - copy SHIFT/$celib_file
+        - copy SHIFT/$ce_lib_path
       _content:
 
     transfer:
@@ -108,6 +108,13 @@ SHIFT:
         - copy SHIFT/$output_fission_source
       _content:
 
+    output_ww:
+      _pltype: parameter
+      _type: bool
+      _do:
+        - copy SHIFT/$output_ww
+      _content:
+
     thermal_energy_cutoff:
       _pltype: parameter
       _type: double
@@ -136,11 +143,46 @@ SHIFT:
         - copyarray SHIFT/$raytrace_levels
       _content:
 
+    raytrace_resolution:
+      _pltype: parameter
+      _type: int
+      _do:
+        - copy SHIFT/$raytrace_resolution
+      _content:
+
+    vera_pressure_vessel:
+      _pltype: parameter
+      _type: bool
+      _do:
+        - copy SHIFT/$vera_pressure_vessel
+      _content:
+    
+    use_mpact_spectrum:
+      _pltype: parameter
+      _type: bool
+      _do:
+        - copy SHIFT/$use_mpact_spectrum
+      _content:
+
     core_translate:
       _pltype: array
       _type: double
       _do:
         - copyarray SHIFT/$core_translate
+      _content:
+
+    hybrid_tally_names:
+      _pltype: array
+      _type: string
+      _do:
+        - copyarray SHIFT/$hybrid_tally_names
+      _content:
+
+    hybrid_multiplier_names:
+      _pltype: array
+      _type: string
+      _do:
+        - copyarray SHIFT/$hybrid_multiplier_names
       _content:
 
     create_unique_pins:
@@ -162,6 +204,34 @@ SHIFT:
       _type: string
       _do:
         - copy SHIFT/$verbosity
+      _content:
+
+    error_tolerance:
+      _pltype: parameter
+      _type: double
+      _do:
+        - copy SHIFT/$lost_particle_error_tol
+      _content:
+
+    src_disc_l2_error:
+      _pltype: parameter
+      _type: double
+      _do:
+        - copy SHIFT/$src_disc_l2_error
+      _content:
+
+    src_disc_samples_per_batch:
+      _pltype: parameter
+      _type: int
+      _do:
+        - copy SHIFT/$src_disc_samples_per_batch
+      _content:
+
+    src_disc_max_samples:
+      _pltype: parameter
+      _type: int
+      _do:
+        - copy SHIFT/$src_disc_max_samples
       _content:
 
     kcode_db:
@@ -320,11 +390,11 @@ SHIFT:
             - copy SHIFT/$homog_pin_rings
           _content:
 
-        homog_explicit_pins:
+        homog_explicit_ring:
           _pltype: parameter
-          _type: int
+          _type: double
           _do:
-            - copy SHIFT/$homog_explicit_pins
+            - copy SHIFT/$homog_explicit_ring
           _content:
 
     boundary_mesh_db:
@@ -382,6 +452,20 @@ SHIFT:
           _type: int
           _do:
             - copy SHIFT/$mesh
+          _content:
+
+        refl_mesh_size:
+          _pltype: parameter
+          _type: double
+          _do:
+            - copy SHIFT/$refl_mesh_size
+          _content:
+
+        extend_axial_mesh_size:
+          _pltype: parameter
+          _type: double
+          _do:
+            - copy SHIFT/$extend_axial_mesh_size
           _content:
 
         dimension:
@@ -524,6 +608,13 @@ SHIFT:
             - copy SHIFT/$SPN_order
           _content:
 
+        flux_decomposition:
+          _pltype: parameter
+          _type: string
+          _do:
+            - copy SHIFT/$ww_decomp
+          _content:
+
         quadrature_db:
           _pltype: list
           _content:
@@ -560,61 +651,51 @@ SHIFT:
           _pltype: list
           _content:
 
-            solver:
-              _pltype: parameter
-              _type: string
-              _do:
-                - copy SHIFT/$solver
-              _content:
-
-            tolerance:
-              _pltype: parameter
-              _type: double
-              _do:
-                - copy SHIFT/$tolerance
-              _content:
-
-            k_tolerance:
-              _pltype: parameter
-              _type: double
-              _do:
-                - copy SHIFT/$k_tolerance
-              _content:
-
-            subspace_size:
-              _pltype: parameter
-              _type: int
-              _do:
-                - copy SHIFT/$subspace_size
-              _content:
-
-            max_itr:
-              _pltype: parameter
-              _type: int
-              _do:
-                - copy SHIFT/$max_itr
-              _content:
-
-            verbosity:
-              _pltype: parameter
-              _type: string
-              _do:
-                - copy SHIFT/$verbosity
-              _content:
-
-            energy_dep_ev:
-              _pltype: parameter
-              _type: bool
-              _do:
-                - copy SHIFT/$energy_dep_ev
-              _content:
-
             partition_upscatter:
               _pltype: parameter
               _type: bool
               _do:
                 - copy SHIFT/$partition_upscatter
               _content:
+
+            within_group_db:
+              _pltype: list
+              _content:
+
+                tolerance:
+                  _pltype: parameter
+                  _type: double
+                  _do:
+                    - copy SHIFT/$within_group_tolerance
+                  _content:
+
+                solver:
+                  _pltype: parameter
+                  _type: string
+                  _do:
+                    - copy SHIFT/$within_group_solver
+                  _content:
+
+                max_itr:
+                  _pltype: parameter
+                  _type: int
+                  _do:
+                    - copy SHIFT/$within_group_max_itr
+                  _content:
+
+                subspace_size:
+                  _pltype: parameter
+                  _type: int
+                  _do:
+                    - copy SHIFT/$within_group_subspace_size
+                  _content:
+
+                verbosity:
+                  _pltype: parameter
+                  _type: string
+                  _do:
+                    - copy SHIFT/$within_group_verbosity
+                  _content:
 
             upscatter_db:
               _pltype: list

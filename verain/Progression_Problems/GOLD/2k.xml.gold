@@ -352,7 +352,6 @@
     </ParameterList>
   </ParameterList>
   <ParameterList name="SHIFT">
-    <Parameter name="celib_file" type="string" value="ce_v7.0_endf.xml"/>
     <Parameter name="do_transport" type="bool" value="true"/>
     <ParameterList name="kcode_db">
       <Parameter name="Np" type="int" value="1000000"/>
@@ -386,7 +385,7 @@
       <Parameter name="dep_edit" type="string" value="false"/>
       <Parameter name="dep_filename" type="string" value="origen_data_paths_casl2.0.txt"/>
       <Parameter name="dep_kernel" type="string" value="origen"/>
-      <Parameter name="dep_substep" type="int" value="3"/>
+      <Parameter name="dep_substep" type="int" value="1"/>
     </ParameterList>
     <Parameter name="grid_treatment" type="string" value="equal_mass"/>
     <ParameterList name="iteration_control">

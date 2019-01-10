@@ -33,7 +33,9 @@ sub GetPaths()
 use warnings ;
 use Data::Dumper ;
 use Getopt::Long;
+use Cwd 'abs_path';
 use File::Basename;
+use File::Spec::Functions;
 
 #
 # Data structure with reactor file input commands
@@ -77,7 +79,7 @@ $SCHEMA="${directory}Templates/Directory.yml";
 @BLOCKS=('CASEID','STATES','CORE','ASSEMBLIES',
 	 'CONTROLS','DETECTORS','INSERTS',
 	 'SHIFT','EDITS','COBRATF','COUPLING',
-	 'MPACT','MAMBA1D','BISON','TIAMAT');
+	 'MPACT','MAMBA','BISON','TIAMAT','RUN');
 
 $SCH_PL{ 'CASEID' } = (
 #include pyml/CASEID.pyml
@@ -115,14 +117,17 @@ $SCH_PL{ 'COUPLING' } = (
 $SCH_PL{ 'MPACT' } = (
 #include pyml/MPACT.pyml
 )[0];
-$SCH_PL{ 'MAMBA1D' } = (
-#include pyml/MAMBA1D.pyml
+$SCH_PL{ 'MAMBA' } = (
+#include pyml/MAMBA.pyml
 )[0];
 $SCH_PL{ 'BISON' } = (
 #include pyml/BISON.pyml
 )[0];
 $SCH_PL{ 'TIAMAT' } = (
 #include pyml/TIAMAT.pyml
+)[0];
+$SCH_PL{ 'RUN' } = (
+#include pyml/RUN.pyml
 )[0];
 #
 # END REGULAR DEVELOPER SECTION
@@ -143,6 +148,7 @@ my $XSLT='on';
 my $NOTRIM;
 my $INIT;
 my $XINIT;
+my $FOLLOW;
 { # process options
     GetOptions(
 	"xml=s"     => \$XML,
@@ -153,8 +159,9 @@ my $XINIT;
 	"help"      => \$HELP,
 	"notrim"    => \$NOTRIM,
 	"init"      => \$INIT,
-	"xinit"     => \$XINIT
+	"xinit"     => \$XINIT,
 
+	"fpath"     => \$FOLLOW          # hidden option for path following
 #	"update=s"  => \$_UPDATE         # hidden updates
 	);
 }
@@ -167,7 +174,6 @@ if($VERSION){
 # if($_UPDATE eq '007'){        # hidden updates
 #    $SCHEMA_PL{ASSEMBLIES} = "${directory}Templates/ASSEMBLIES007.yml";
 #}
-
 
 # For formatted display of XML file in a browser.
 my $XSLT_FILE='PL9.xsl';
@@ -224,6 +230,13 @@ if(-e $ofile){
 	if filesame($ifile, $ofile);
 }
 
+# Follow file paths for include commands
+if($FOLLOW){
+    $fpath = abs_path($ifile);
+    ($ifile, $FOLLOW) = fileparse($fpath);
+    $FOLLOW = canonpath( $FOLLOW );
+}
+
 #
 # Initiate configuration template for data structures
 #
@@ -265,7 +278,7 @@ $block->keyon();
 #
 # Read input file into main_db
 #
-read_ascii($ifile,$INPUT_DB,$MAIN_DB);
+read_ascii($ifile,$INPUT_DB,$MAIN_DB, 'follow'=>$FOLLOW);
 
 print STDERR "\nFile $ifile read.\n\n"    if $VERBOSE;
 YAML::DumpFile("$ifile.dbg.yml",$MAIN_DB) if $DEBUG;

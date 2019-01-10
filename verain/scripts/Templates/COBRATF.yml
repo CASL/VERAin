@@ -10,6 +10,13 @@ COBRATF:
         - copy COBRATF/$nfuel
       _content:
 
+    min_steps:
+      _pltype: parameter
+      _type: int
+      _do:
+        - copy COBRATF/$min_steps
+      _content:
+
     imox:
       _pltype: parameter
       _type: int
@@ -52,6 +59,13 @@ COBRATF:
         - copy COBRATF/$dhfrac
       _content:
 
+    guide_tube_coefficient:
+      _pltype: parameter
+      _type: double
+      _do:
+        - copy COBRATF/$guide_tube_coefficient
+      _content:
+
     beta_htc:
       _pltype: parameter
       _type: double
@@ -66,18 +80,18 @@ COBRATF:
         - copy COBRATF/$hgap
       _content:
 
+    clad_material:
+      _pltype: parameter
+      _type: string
+      _do:
+        - copy COBRATF/$clad_material
+      _content:
+
     epso:
       _pltype: parameter
       _type: double
       _do:
         - copy COBRATF/$epso
-      _content:
-
-    oitmax:
-      _pltype: parameter
-      _type: int
-      _do:
-        - copy COBRATF/$oitmax
       _content:
 
     iitmax:
@@ -101,13 +115,6 @@ COBRATF:
         - copy COBRATF/$dtmax
       _content:
 
-    tend:
-      _pltype: parameter
-      _type: double
-      _do:
-        - copy COBRATF/$tend
-      _content:
-
     rtwfp:
       _pltype: parameter
       _type: double
@@ -127,41 +134,6 @@ COBRATF:
       _type: double
       _do:
         - copy COBRATF/$courant
-      _content:
-
-    maps_filename:
-      _pltype: parameter
-      _type: string
-      _do:
-        - copy COBRATF/$maps_filename
-      _content:
-
-    heated_elements_type:
-      _pltype: parameter
-      _type: int
-      _do:
-        - copy COBRATF/$heated_elements_type
-      _content:
-
-    heater_tube_id:
-      _pltype: parameter
-      _type: double
-      _do:
-        - copy COBRATF/$heater_tube_id
-      _content:
-
-    heater_tube_od:
-      _pltype: parameter
-      _type: double
-      _do:
-        - copy COBRATF/$heater_tube_od
-      _content:
-
-    heater_tube_pitch:
-      _pltype: parameter
-      _type: double
-      _do:
-        - copy COBRATF/$heater_tube_pitch
       _content:
 
     solver:
@@ -409,6 +381,13 @@ COBRATF:
         - copy COBRATF/$edit_gaps
       _content:
 
+    edit_main_text_output:
+      _pltype: parameter
+      _type: int
+      _do:
+        - copy COBRATF/$edit_main_text_output
+      _content:
+
     edit_channels:
       _pltype: parameter
       _type: int
@@ -430,6 +409,13 @@ COBRATF:
         - copy COBRATF/$edit_dnb
       _content:
 
+    edit_dnb_text_file:
+      _pltype: parameter
+      _type: int
+      _do:
+        - copy COBRATF/$edit_dnb_text_file
+      _content:
+
     edit_convergence:
       _pltype: parameter
       _type: int
@@ -442,6 +428,13 @@ COBRATF:
       _type: int
       _do:
         - copy COBRATF/$edit_hdf5
+      _content:
+
+    edit_native_hdf5:
+      _pltype: parameter
+      _type: int
+      _do:
+        - copy COBRATF/$edit_native_hdf5
       _content:
 
     edit_fluid_vtk:
@@ -463,6 +456,27 @@ COBRATF:
       _type: int
       _do:
         - copy COBRATF/$proc_per_assem
+      _content:
+
+    hi2lo_sub_axial:
+      _pltype: parameter
+      _type: int
+      _do:
+        - copy COBRATF/$hi2lo_sub_axial
+      _content:
+
+    hi2lo_sub_theta:
+      _pltype: parameter
+      _type: int
+      _do:
+        - copy COBRATF/$hi2lo_sub_theta
+      _content:
+
+    model_corrosion:
+      _pltype: parameter
+      _type: int
+      _do:
+        - copy COBRATF/$model_corrosion
       _content:
 
     gap_model:
@@ -507,3 +521,94 @@ COBRATF:
         - copy COBRATF/$crud
       _content:
 
+    crud_dT_feedback:
+      _pltype: parameter
+      _type: int
+      _do:
+        - copy COBRATF/$crud_dT_feedback
+      _content:
+
+    max_crud_step_size:
+      _pltype: parameter
+      _type: double
+      _do:
+        - copy COBRATF/$max_crud_step_size
+      _content:
+
+    cicada_outer_radial_zone_num_cells_r:
+      _pltype: parameter
+      _type: int
+      _do:
+        - copy COBRATF/$cicada_outer_radial_zone_num_cells_r
+      _content:
+
+    cicada_inner_radial_zone_num_cells_r:
+      _pltype: parameter
+      _type: int
+      _do:
+        - copy COBRATF/$cicada_inner_radial_zone_num_cells_r
+      _content:
+
+    cicada_outer_radial_zone_thickness:
+      _pltype: parameter
+      _type: double
+      _do:
+        - copy COBRATF/$cicada_outer_radial_zone_thickness
+      _content:
+
+    cicada_dimensions:
+      _pltype: parameter
+      _type: int
+      _do:
+        - copy COBRATF/$cicada_dimensions
+      _content:
+
+    enable_corrosion_lithium:
+      _pltype: parameter
+      _type: int
+      _do:
+        - copy COBRATF/$enable_corrosion_lithium
+      _content:
+
+    crud_details:
+      _pltype: parameter
+      _type: int
+      _do:
+        - copy COBRATF/$crud_details
+      _content:
+
+    rod_details:
+      _pltype: parameter
+      _type: int
+      _do:
+        - copy COBRATF/$rod_details
+      _content:
+
+    oxide_thermal_conductivity:
+      _pltype: parameter
+      _type: double
+      _do:
+        - copy COBRATF/$oxide_thermal_conductivity
+      _content:
+
+
+    clad_corrosion_model:
+      _pltype: parameter
+      _type: int
+      _do:
+        - copy COBRATF/$clad_corrosion_model
+      _content:
+
+    trans_dnb:
+      _pltype: parameter
+      _type: int
+      _do:
+        - copy COBRATF/$trans_dnb
+      _content:
+
+    cross_flow:
+      _pltype: parameter
+      _type: int
+      _do:
+        - copy COBRATF/$cross_flow
+      _content:

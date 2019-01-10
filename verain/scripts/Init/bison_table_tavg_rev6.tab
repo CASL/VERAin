@@ -11,7 +11,7 @@
 !  The header is followed by a list of a and b for each burnup point (in GWD/MT) 
 ! 
 !                    LHR (W/cm) 
-  temptable_qprime     0.974
+  temptable_qprime     1.000
 !  list of temperature coefficients 
 !  Bu (GWD/MT)    a (K)        b (K)
   temptable_polynomial

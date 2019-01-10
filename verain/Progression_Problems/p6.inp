@@ -168,6 +168,7 @@
 
 [COBRATF]
   parallel 0
+  iitmax 100
 
 [SHIFT]  
   num_cycles            5000

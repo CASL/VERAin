@@ -1,4 +1,4 @@
-MAMBA1D:
+MAMBA:
   _pltype: list
   _do:
     - setdb MAIN_DB
@@ -87,6 +87,13 @@ MAMBA1D:
         - copy MAMBA/$CRUD_solid_dens
       _content:
 
+    CRUD_dep_frac:
+      _pltype: parameter
+      _type: double
+      _do:
+        - copy MAMBA/$CRUD_dep_frac
+      _content:
+
     chimney_htc:
       _pltype: parameter
       _type: double
@@ -106,6 +113,13 @@ MAMBA1D:
       _type: double
       _do:
         - copy MAMBA/$chimney_rad
+      _content:
+
+    chimney_vf:
+      _pltype: parameter
+      _type: double
+      _do:
+        - copy MAMBA/$chimney_vf
       _content:
 
     CRUD_therm_cond:
@@ -141,4 +155,46 @@ MAMBA1D:
       _type: double
       _do:
         - copy MAMBA/$src_mult_E
+      _content:
+
+    sg_age:
+      _pltype: parameter
+      _type: double
+      _do:
+        - copy MAMBA/$steam_generator_age
+      _content:
+
+    piping_age:
+      _pltype: parameter
+      _type: double
+      _do:
+        - copy MAMBA/$piping_age
+      _content:
+
+    chem_mass_bal:
+      _pltype: parameter
+      _type: int
+      _do:
+        - copy MAMBA/$chem_mass_bal
+      _content:
+
+    model_erosion:
+      _pltype: parameter
+      _type: int
+      _do:
+        - copy MAMBA/$model_erosion
+      _content:
+
+    b_conc:
+      _pltype: array
+      _type: double
+      _do:
+        - copyarray MAMBA/@li_table,start=>0,stride=>2
+      _content:
+
+    li_conc:
+      _pltype: array
+      _type: double
+      _do:
+        - copyarray MAMBA/@li_table,start=>1,stride=>2
       _content:

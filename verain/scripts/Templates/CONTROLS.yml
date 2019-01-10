@@ -70,7 +70,7 @@ CONTROLS:
           _content:
         maxstep:
           _pltype: parameter
-          _type: int
+          _type: double
           _do:
             - copy %CONTROL/$(_path)/@stroke:1
           _content:

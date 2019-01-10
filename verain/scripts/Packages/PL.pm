@@ -1036,7 +1036,6 @@ sub fuelmap{
 	    die "fuelmap: invalid material type: @keypath\n";
 	}
 
-#	my $depletable= 'false';
 	my $thdensity=0;
 	my @mat_names=();
 	my @mat_fracs=();
@@ -1045,36 +1044,43 @@ sub fuelmap{
 	my $use_gad=0;
 
 	my @content=@{ key_defined($SOURCE_DB,@keypath,'_content') };
-
-# Per Scott's three commands in one
+        my @rpath=@keypath[0..$#keypath-2];  # path to find options
+        my %opk=%{ key_defined($SOURCE_DB,@rpath,'_options') };
 	my @slshs=indexes { $_ eq '/' } @content;
-	if(@slshs < 1 && @slshs > 2){
+        my $nslshs=scalar @slshs;
+
+	if($nslshs < 1 || $nslshs > 3){
 	    die "fuelmap: invalid number of slashes in command fuel @content\n";
 	}
 
 	my @part1=before {$_ eq '/'} @content;
 	my @part2=after  {$_ eq '/'} @content;
 	my @part3=();
-	if(@slshs == 2){
-	    @part3=after  {$_ eq '/'} @part2;
-	    @part2=before {$_ eq '/'} @part2;
-	}
-	
+        my @opmat=();
+        if($nslshs > 1){
+            @part3=after  {$_ eq '/'} @part2;
+            @part2=before {$_ eq '/'} @part2;
+            if($nslshs > 2){
+                @opmat=after  {$_ eq '/'} @part3; #options
+                @part3=before {$_ eq '/'} @part3;
+            }
+        }
+        my %opths=@opmat if @opmat; #get option data types
+
 # until the 1st slash
 	my $density=shift @part1;
 	$thdensity=shift @part1 || 0;
 
-# after the 1st slash until 2nd slash
-
+# after the 1st slash until 2nd slash or end
+# Enrichment or number density composition
 	if(is_float($part2[0])){
 	    unshift @part2, 'u-235';
 	}
 	@mat_names  =even(\@part2);
 	@mat_fracs  =odd(\@part2);
-#	push @mat_names, $mattype;
-#	push @mat_fracs, 1.0;
 
-# 2nd slash to the end
+# 2nd slash to the 3rd slash or end
+# For gadolinium or other dopants
 	if(@part3){
 	    $use_gad=1;
 	    $gad_mat=shift  @part3;
@@ -1084,7 +1090,6 @@ sub fuelmap{
 	my $mat_ref=&key_on_list($home,$basename.$keyname);
 	&key_on_parameter($mat_ref,'density','double',$density);
 	&key_on_parameter($mat_ref,'thden','double',$thdensity) if $thdensity;
-#	&key_on_parameter($mat_ref,'depletable','bool',$depletable)   if ($depletable eq 'true');
 	&key_on_parameter($mat_ref,'key_name','string',$keyname);
 
 	if($use_gad){
@@ -1095,6 +1100,15 @@ sub fuelmap{
 	&key_on_array($mat_ref,'fuel_names','string', @mat_names);
 	&key_on_array($mat_ref,'enrichments','double',@mat_fracs);
 
+        #Write options
+        foreach my $iop (keys(%opths)){
+            if(exists($opk{$iop})){
+                &key_on_parameter($mat_ref,$iop,$opk{$iop}, $opths{$iop});
+            }
+            else{
+                die "fuelmap: Invalid fuel option $iop in @content / @opmat\n";
+            }
+        }
     }
 }
 
@@ -1391,22 +1405,48 @@ sub sourcemap{
         my $mat_ref=&key_on_list($home,$basename.$keyname);
 
         my @slshs=indexes { $_ eq '/' } @content;
-        if(!(@slshs==1)){
+        if((@slshs<1) || !(@slshs<3)){
             die "sourcemap: invalid number of slashes in command source @content\n";
         }
 
-        my @part1=before {$_ eq '/'} @content;
-        my @part2=after  {$_ eq '/'} @content;
+        &key_on_parameter($mat_ref,'key_name','string',$keyname);
 
-        if(($#part1+1)==2){
-            $stt_str=$part1[0];
-            $src_mult=$part1[1];
+        my @part1= @content;
+        my @part2=();
+        my @part3=();
+        if(@slshs >= 1){
+           @part2=after  {$_ eq '/'} @part1;
+           @part1=before {$_ eq '/'} @part1;
+           @part3=();
+        }
+        if(@slshs == 2){
+            @part3=after  {$_ eq '/'} @part2;
+            @part2=before {$_ eq '/'} @part2;
+        }
+
+        if(@part1){
+          if(($#part1+1)==2){           
+            $iso_id=$part1[0];
+            &key_on_parameter($mat_ref,'iso_id','string',$iso_id);
+            $iso_scal=$part1[1];
+            &key_on_parameter($mat_ref,'iso_scaling_factor','double',$iso_scal);
+            &key_on_array($mat_ref,'fractional_spectrum','double',@part2);
+          }
+          else{
+            die "sourcemap: number of entries in first part exceeds 2 in command source @content\n";
+          }
+        }
+
+        if(!(@part1)){
+          &key_on_array($mat_ref,'absolute_spectrum','double',@part2);
+        } 
+
+        if(($#part3+1)==2){
+            $stt_str=$part3[0];
+            $src_mult=$part3[1];
             &key_on_parameter($mat_ref,'init_strength','double',$stt_str);
             &key_on_parameter($mat_ref,'strength_mult','double',$src_mult);
         } 
-
-        &key_on_parameter($mat_ref,'key_name','string',$keyname);
-        &key_on_array($mat_ref,'spectrum','double',@part2);
     }
 }
 
@@ -1508,22 +1548,36 @@ sub mpact_mesh{
 
 # count slashes
 	my @slshs=indexes { $_ eq '/' } @content;
-	if(@slshs != 1){
-	    die "mpact_mesh: invalid number of slashes in MPACT command mesh @content\n";
-	}
+  if(@slshs == 1){
+      my @part1=before {$_ eq '/'} @content;
+      my @part2=after {$_ eq '/'} @content;
 
-	my @part1=before {$_ eq '/'} @content;
-	my @part2=after  {$_ eq '/'} @content;
-	
-# template
-	my @num_rad = @part1;
-	my @num_theta = @part2;
+      # template
+      my @num_rad = @part1;
+      my @num_theta = @part2;
 
-	my $mat_ref=&key_on_list($home,$basename.$keyname);
-	&key_on_parameter($mat_ref,'label','string',$keyname);
-	&key_on_array($mat_ref,'num_rad','int', @num_rad);
-	&key_on_array($mat_ref,'num_theta','int', @num_theta);
+      my $mat_ref=&key_on_list($home,$basename.$keyname);
+      &key_on_parameter($mat_ref,'label','string',$keyname);
+      &key_on_array($mat_ref,'num_rad','int', @num_rad);
+      &key_on_array($mat_ref,'num_theta','int', @num_theta);
+  }elsif(@slshs == 0){
+      my @part1=@content;
+      my $np1=@part1;
+      if($np1 != 2){
+        die "mpact_mesh: must specify nx and ny for rectangular mesh! @content\n";
+      }
 
+      # template
+      my $nx=@content[0];
+      my $ny=@content[1];
+
+      my $mat_ref=&key_on_list($home,$basename.$keyname);
+      &key_on_parameter($mat_ref,'label','string',$keyname);
+      &key_on_parameter($mat_ref,'nx','int', $nx);
+      &key_on_parameter($mat_ref,'ny','int', $ny);
+  }else{
+    die "mpact_mesh: invalid number of slashes in MPACT command mesh @content\n";
+  }
     }
 }
 

@@ -14,6 +14,17 @@
 \usepackage{fancyhdr}
 \usepackage{amssymb,amsmath}
 
+% These packages are copied in from this directory.  Tabu may not have been
+% included with the standard LaTeX distribution and InputTable was created
+% specifically for this manual.
+\usepackage[margin=1in]{geometry}
+\usepackage{ifthen}
+\usepackage{longtable}
+\usepackage{soul}
+\usepackage{xkeyval}
+\usepackage{tabu}
+\usepackage{VERAInputTable}
+
 \numberwithin{equation}{section}
 
 \usepackage[pdftex,
@@ -336,6 +347,7 @@ An example of an input card is:
 
 
 \include{cards}
+%\include{cards_new}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \chapter{Examples}

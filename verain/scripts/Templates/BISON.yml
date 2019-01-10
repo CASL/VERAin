@@ -984,6 +984,13 @@ BISON:
         - copy BISON/$mesh_elem_type
       _content:
 
+    mesh_bx_p:
+      _pltype: parameter
+      _type: double
+      _do:
+        - copy BISON/$mesh_bx_p
+      _content:
+
     variables_temp_initial_condition:
       _pltype: parameter
       _type: double

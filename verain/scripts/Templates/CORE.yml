@@ -150,7 +150,7 @@ CORE:
       _do:
         - copyarray CORE/@hole,start=>0,stride=>3
       _content:
-      
+
     hole_y:
       _pltype: array
       _type: double
@@ -380,3 +380,65 @@ CORE:
         - sourcemap Source_,CORE/%source/*
       _content:
 
+    sg_type:
+      _pltype: parameter
+      _type: string
+      _do:
+        - copy CORE/@steam_generator:0
+      _content:
+
+    sg_alloy:
+      _pltype: parameter
+      _type: int
+      _do:
+        - copy CORE/@steam_generator:1
+      _content:
+
+    sg_area:
+      _pltype: parameter
+      _type: double
+      _do:
+        - copy CORE/@steam_generator:2
+      _content:
+
+    sg_plug_frac:
+      _pltype: parameter
+      _type: double
+      _do:
+        - copy CORE/@steam_generator:3
+      _content:
+
+    hot_leg_alloy:
+      _pltype: parameter
+      _type: int
+      _do:
+        - copy CORE/@hot_leg_piping:0
+      _content:
+
+    hot_leg_area:
+      _pltype: parameter
+      _type: double
+      _do:
+        - copy CORE/@hot_leg_piping:1
+      _content:
+
+    cold_leg_alloy:
+      _pltype: parameter
+      _type: int
+      _do:
+        - copy CORE/@cold_leg_piping:0
+      _content:
+
+    cold_leg_area:
+      _pltype: parameter
+      _type: double
+      _do:
+        - copy CORE/@cold_leg_piping:1
+      _content:
+
+    cleanup_rated_flow:
+      _pltype: parameter
+      _type: double
+      _do:
+        - copy CORE/$cleanup_rated_flow
+      _content:
